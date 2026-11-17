@@ -45,7 +45,7 @@
       "unconfirmedObjects": [],
       "setupPrerequisites": [
         "Person Accounts habilitadas (IRREVERSIBLE: requiere decisión del cliente; se habilita desde Setup o con Soporte de Salesforce)",
-        "Activar 'Allow users to relate a contact to multiple accounts' (Contacts to Multiple Accounts) para AccountContactRelation",
+        "Activar 'Permitir a los usuarios relacionar un contacto con cuentas múltiples' (Contacts to Multiple Accounts) DESDE SETUP, no por metadata: la bandera AccountSettings.enableRelateContactToMultipleAccounts se guarda pero no habilita AccountContactRelation",
         "Activar 'Group Membership' en Setup y asignar el permiso Group Membership (habilita AccountAccountRelation, ContactContactRelation y PartyRelationshipGroup)"
       ],
       "licenseHints": [

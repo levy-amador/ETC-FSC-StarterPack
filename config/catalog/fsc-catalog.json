@@ -48,10 +48,9 @@
       "validacionHumana": "Aprobación del arquitecto/admin antes de activar.",
       "estado": "En construcción",
       "componentes": [
-        "Settings:Account",
         "Settings:Industries"
       ],
-      "nota": "Habilita Contacts to Multiple Accounts, Group Membership y Financial Account Management Standard Objects. Desplegado en la org de referencia el 2026-11-17. Person Accounts: paso manual en Setup (irreversible)."
+      "nota": "Por metadata: Group Membership y Financial Account Management Standard Objects (desplegado en la org de referencia el 2026-11-17). Manual en Setup: Person Accounts (irreversible) y Contacts to Multiple Accounts (activarlo por metadata deja la org inconsistente)."
     },
     {
       "id": "COM-003",

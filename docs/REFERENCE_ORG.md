@@ -33,7 +33,7 @@ Desplegado con check-only previo (etapa `00-settings` y record type de la base c
 |---|---|---|
 | Group Membership | `IndustriesSettings.enableGroupMembershipPref` | ✔ `AccountAccountRelation`, `ContactContactRelation` y `PartyRelationshipGroup` disponibles |
 | Financial Account Management Standard Objects | `IndustriesSettings.enableFinancialAccountMgmt` | ✔ `FinancialAccount`, `FinancialAccountParty` y `FinancialSecurity` disponibles. Banca y Patrimonial: **Listo** |
-| Contacts to Multiple Accounts | `AccountSettings.enableRelateContactToMultipleAccounts` | ◐ La bandera quedó en `true` y la casilla aparece marcada en Setup, pero la API todavía no expone `AccountContactRelation`. Hipótesis: activar por metadata no corre la activación completa que hace la interfaz. Se reintenta desde Setup |
+| Contacts to Multiple Accounts | **Manual en Setup** | ✖ Activarlo por metadata (`enableRelateContactToMultipleAccounts`) dejó la casilla marcada sin habilitar la función (Setup respondía: *"You can't disable Contacts to Multiple Accounts unless the feature is enabled"*). Se regresó la bandera a `false` por metadata y se activa desde Setup |
 | Record type `Account.ETC_Empresa` | Metadata + visibilidad en el perfil Admin | ✔ Prerrequisito de Person Accounts |
 | Person Accounts | **Manual en Setup** (no está expuesto en metadata) | ✔ Activado el 2026-11-17 por una persona |
 | Record type `PersonAccount` en el perfil Admin | `Profile.recordTypeVisibilities` (`personAccountDefault`) | ✔ Cuenta personal es la predeterminada para personas y Empresa para negocios |

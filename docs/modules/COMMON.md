@@ -11,7 +11,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 ## Prerrequisitos de Setup
 
 - Person Accounts habilitadas (IRREVERSIBLE: requiere decisión del cliente; se habilita desde Setup o con Soporte de Salesforce)
-- Activar 'Allow users to relate a contact to multiple accounts' (Contacts to Multiple Accounts) para AccountContactRelation
+- Activar 'Permitir a los usuarios relacionar un contacto con cuentas múltiples' (Contacts to Multiple Accounts) DESDE SETUP, no por metadata: la bandera AccountSettings.enableRelateContactToMultipleAccounts se guarda pero no habilita AccountContactRelation
 - Activar 'Group Membership' en Setup y asignar el permiso Group Membership (habilita AccountAccountRelation, ContactContactRelation y PartyRelationshipGroup)
 
 ## Ítems del catálogo
@@ -67,7 +67,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Licencias y permisos administrativos; algunas funciones requieren soporte o aprovisionamiento Salesforce.
 - **Qué puede hacer Claude Code:** El agente puede guiar y, en ciertos casos, configurar opciones vía Setup/API. No debe asumir que puede habilitar cualquier feature.
 - **Validación humana:** Aprobación del arquitecto/admin antes de activar.
-- **Componentes:** `Settings:Account`, `Settings:Industries`
+- **Componentes:** `Settings:Industries`
 
 ### COM-003 · Instalación o actualización de paquetes administrados
 
