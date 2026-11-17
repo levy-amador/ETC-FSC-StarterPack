@@ -185,7 +185,7 @@ function writeObject(file, elements) {
   uniq.sort((a, b) => (a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0));
   fs.writeFileSync(file, `<?xml version="1.0" encoding="UTF-8"?>\n<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">\n${uniq.map((e) => e.xml).join('')}</CustomObject>\n`);
 }
-const MDAPI_DIRS = { flexipages: ['FlexiPage', '.flexipage'], flows: ['Flow', '.flow'], layouts: ['Layout', '.layout'], applications: ['CustomApplication', '.app'], permissionsets: ['PermissionSet', '.permissionset'], permissionsetgroups: ['PermissionSetGroup', '.permissionsetgroup'], profiles: ['Profile', '.profile'], pathAssistants: ['PathAssistant', '.pathAssistant'], duplicateRules: ['DuplicateRule', '.duplicateRule'] };
+const MDAPI_DIRS = { roles: ['Role', '.role'], sharingRules: ['SharingRules', '.sharingRules'], flexipages: ['FlexiPage', '.flexipage'], flows: ['Flow', '.flow'], layouts: ['Layout', '.layout'], applications: ['CustomApplication', '.app'], permissionsets: ['PermissionSet', '.permissionset'], permissionsetgroups: ['PermissionSetGroup', '.permissionsetgroup'], profiles: ['Profile', '.profile'], pathAssistants: ['PathAssistant', '.pathAssistant'], duplicateRules: ['DuplicateRule', '.duplicateRule'] };
 function componentFromMdapi(relPath) {
   const [dir, ...rest] = relPath.split('/');
   if (dir === 'reports' || dir === 'dashboards') {
@@ -219,6 +219,7 @@ function mergePackages(stageIds, outDir, exclude) {
       if (relPath.endsWith('.object')) {
         // En formato Metadata API los campos, validaciones, list views y OWD comparten el archivo .object.
         const obj = path.basename(relPath, '.object');
+        if (exclude(id, 'CustomObject', obj)) continue;
         const parts = objectElements(read(f)).filter((e) => !(e.name && exclude(id, e.type, `${obj}.${e.name}`)));
         const existing = fs.existsSync(dest) ? objectElements(read(dest)) : [];
         writeObject(dest, [...existing, ...parts]);
@@ -241,13 +242,22 @@ function orgCheck(org, stageArg) {
   if (!summary) fail('No existe build/build-summary.json: ejecuta npm run build primero.');
   const ids = stageArg ? String(stageArg).split(',') : STAGES.map((s) => s.id);
   const outDir = path.join(ROOT, 'build', 'mdapi', '_validate');
-  const { count } = mergePackages(ids, outDir, () => false);
+  // Roles y reglas de colaboración se validan contra el OWD vigente: si el build trae un cambio de OWD aún no aplicado,
+  // quedan pendientes (el deploy por etapas aplica el OWD antes y los valida en su propia etapa).
+  const owdPending = (summary.stages.find((s) => s.id === '06-sharing-model')?.components || 0) > 0;
+  const pending = [];
+  const { count } = mergePackages(ids, outDir, (id, type, member) => {
+    const skip = owdPending && (id === '06-sharing-model' || type === 'Role' || /^Sharing(Rules|OwnerRule|CriteriaRule)$/.test(type));
+    if (skip) pending.push(`${type}:${member}`);
+    return skip;
+  });
+  if (pending.length) console.log(c.yellow(`⚠ ${pending.length} componentes (OWD, roles y reglas de colaboración) quedan pendientes: se validan en su etapa durante npm run deploy, después de aplicar el OWD.`));
   console.log(`\nValidación check-only en ${c.bold(org)} · base común + ${labelOf(summary.verticals || [])} (${count} componentes)...`);
   if (!count) return { success: true, components: 0, failures: [], note: 'Sin componentes que validar' };
   const res = sf(['project', 'deploy', 'start', '--dry-run', '--metadata-dir', outDir, '--target-org', org, '--test-level', 'NoTestRun', '--wait', '60'], { allowFail: true });
   const r = res.result || {};
   const failures = [].concat(r.details?.componentFailures || []).map((f) => `${f.componentType} ${f.fullName}: ${f.problem}`);
-  const out = { validatedAt: new Date().toISOString(), org, verticals: summary.verticals, stages: ids, components: count, success: !!r.success, status: r.status || res.message, deployId: r.id, failures };
+  const out = { validatedAt: new Date().toISOString(), org, verticals: summary.verticals, stages: ids, components: count, pendingOwd: pending, success: !!r.success, status: r.status || res.message, deployId: r.id, failures };
   writeJson(path.join(ROOT, 'build', 'validation-result.json'), out);
   fs.mkdirSync(path.join(ROOT, 'build', 'deploy-results'), { recursive: true });
   writeJson(path.join(ROOT, 'build', 'deploy-results', `validate-${timestamp()}.json`), out);

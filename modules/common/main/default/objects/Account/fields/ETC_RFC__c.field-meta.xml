@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_RFC__c</fullName>
+    <description>Identificador fiscal (12 caracteres persona moral, 13 persona física). Base de la detección de duplicados.</description>
+    <inlineHelpText>RFC con homoclave, sin espacios ni guiones.</inlineHelpText>
+    <label>RFC</label>
+    <length>13</length>
+    <required>false</required>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

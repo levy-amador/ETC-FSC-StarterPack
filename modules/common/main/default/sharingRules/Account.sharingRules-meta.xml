@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>ETC_Clientes_Lectura_Servicio</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Servicio necesita consultar al cliente para atender casos.</description>
+        <label>ETC Clientes Lectura Servicio</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ETC_Supervisor_Servicio</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>ETC_Direccion</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ETC_Clientes_Edicion_Cumplimiento</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Cumplimiento actualiza KYC y riesgo; la seguridad de campo limita qué puede editar.</description>
+        <label>ETC Clientes Edicion Cumplimiento</label>
+        <sharedTo>
+            <role>ETC_Cumplimiento</role>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>ETC_Direccion</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -18,15 +18,15 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 |---|---|---|---|---|---|
 | BNK-001 | Modelo de datos | Configuración de clientes individuales y empresariales | Claude Code (con aprobación) | Pendiente | Humano valida modelo y controles. |
 | BNK-002 | Modelo de datos | Configuración de hogares y grupos económicos | Claude Code (con aprobación) | Pendiente | Humano valida relaciones y sharing. |
-| BNK-003 | Modelo de datos | Configuración de cuentas financieras | Humano con apoyo de IA | Pendiente | Humano valida modelo y fuente maestra. |
-| BNK-004 | Modelo de datos | Configuración de productos bancarios | Claude Code (con aprobación) | Pendiente | Humano valida producto y cumplimiento. |
+| BNK-003 | Modelo de datos | Configuración de cuentas financieras | Humano con apoyo de IA | Validado en org | Humano valida modelo y fuente maestra. |
+| BNK-004 | Modelo de datos | Configuración de productos bancarios | Claude Code (con aprobación) | Validado en org | Humano valida producto y cumplimiento. |
 | BNK-005 | Modelo de datos | Configuración de transacciones financieras | Humano | Pendiente | Humano/arquitectura valida fuente e integración. |
 | BNK-006 | Modelo de datos | Configuración de sucursales y equipos | Claude Code (con aprobación) | Pendiente | Humano valida jerarquía. |
 | BNK-007 | Interfaz | Configuración de resumen financiero del cliente | Humano con apoyo de IA | Pendiente | Humano valida cifras y permisos. |
 | BNK-008 | Interfaz | Configuración de Actionable Relationship Center | Humano con apoyo de IA | Pendiente | Humano valida grafo y acceso. |
-| BNK-009 | Procesos | Configuración de onboarding y apertura de cuentas | Humano con apoyo de IA | Pendiente | Humano valida compliance e integración. |
+| BNK-009 | Procesos | Configuración de onboarding y apertura de cuentas | Humano con apoyo de IA | Validado en org | Humano valida compliance e integración. |
 | BNK-010 | Sales | Configuración de oportunidades de productos bancarios | Claude Code (con aprobación) | Pendiente | Humano valida reglas comerciales. |
-| BNK-011 | Servicio | Configuración de casos y aclaraciones bancarias | Claude Code (con aprobación) | Pendiente | Humano valida taxonomía y SLA. |
+| BNK-011 | Servicio | Configuración de casos y aclaraciones bancarias | Claude Code (con aprobación) | Validado en org | Humano valida taxonomía y SLA. |
 | BNK-012 | Servicio | Configuración de enrutamiento por sucursal/producto | Claude Code (con aprobación) | Pendiente | Humano valida operación. |
 | BNK-013 | Reportes | Configuración de indicadores comerciales y de servicio | Claude Code (con aprobación) | Pendiente | Humano valida cifras y definiciones. |
 
@@ -57,7 +57,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** FSC/licencia y definición de cuentas, estados y titulares.
 - **Qué puede hacer Claude Code:** Puede configurar extensiones; integración con core y saldos reales no se resuelve solo con metadata.
 - **Validación humana:** Humano valida modelo y fuente maestra.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:FinancialAccount.ETC_CLABE__c`, `CustomField:FinancialAccount.ETC_Moneda__c`, `ValidationRule:FinancialAccount.ETC_CLABE_Formato`, `ValidationRule:FinancialAccount.ETC_Cierre_Requiere_Fecha`, `ValidationRule:FinancialAccount.ETC_Fechas_Validas`
 
 ### BNK-004 · Configuración de productos bancarios
 
@@ -66,7 +66,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** Catálogo de productos y modelo comercial.
 - **Qué puede hacer Claude Code:** Puede crear catálogo y relaciones; condiciones, tasas y elegibilidad requieren aprobación.
 - **Validación humana:** Humano valida producto y cumplimiento.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:FinancialAccount.ETC_Nivel_Cuenta__c`
 
 ### BNK-005 · Configuración de transacciones financieras
 
@@ -111,7 +111,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** Proceso KYC, documentos, sistemas externos y criterios de aprobación.
 - **Qué puede hacer Claude Code:** Puede automatizar tareas y estados; validación de identidad, screening y decisiones de riesgo requieren sistemas/personas autorizadas.
 - **Validación humana:** Humano valida compliance e integración.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:FinancialAccount.ETC_Canal_Apertura__c`
 
 ### BNK-010 · Configuración de oportunidades de productos bancarios
 
@@ -129,7 +129,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** Taxonomía de motivos, estados y SLA.
 - **Qué puede hacer Claude Code:** Puede configurar objetos, colas, flows y reportes; cumplimiento regulatorio debe validarse.
 - **Validación humana:** Humano valida taxonomía y SLA.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Case.ETC_Cuenta_Financiera__c`, `CustomField:Case.ETC_Monto_Reclamado__c`, `ValidationRule:Case.ETC_Monto_Reclamado_No_Negativo`
 
 ### BNK-012 · Configuración de enrutamiento por sucursal/producto
 

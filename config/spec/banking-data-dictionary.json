@@ -1,0 +1,146 @@
+{
+  "module": "banking",
+  "label": "Banca",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente",
+  "usage": "Complementa los campos estándar de FSC (vigencias, primas, montos, estados), que se reutilizan tal cual. Se usa si el cliente no entrega su definición.",
+  "conventions": {
+    "prefix": "ETC_",
+    "standardFirst": "Se reutilizan los campos estándar de los objetos FSC Core; solo se agregan campos ETC para datos de México o del proceso ETC."
+  },
+  "fields": [
+    {
+      "object": "FinancialAccount",
+      "apiName": "ETC_CLABE__c",
+      "label": "CLABE",
+      "type": "Text",
+      "purpose": "Clave Bancaria Estandarizada de 18 dígitos.",
+      "catalog": "BNK-003",
+      "length": 18,
+      "sensitive": true,
+      "helpText": "18 dígitos, sin espacios."
+    },
+    {
+      "object": "FinancialAccount",
+      "apiName": "ETC_Moneda__c",
+      "label": "Moneda",
+      "type": "Picklist",
+      "purpose": "Moneda de la cuenta.",
+      "catalog": "BNK-003",
+      "values": [
+        "MXN",
+        "USD",
+        "EUR",
+        "UDI"
+      ],
+      "default": "MXN"
+    },
+    {
+      "object": "FinancialAccount",
+      "apiName": "ETC_Nivel_Cuenta__c",
+      "label": "Nivel de cuenta",
+      "type": "Picklist",
+      "purpose": "Nivel de cuenta de depósito (niveles 1 a 4 de la regulación bancaria mexicana).",
+      "catalog": "BNK-004",
+      "values": [
+        "Nivel 1",
+        "Nivel 2",
+        "Nivel 3",
+        "Nivel 4"
+      ],
+      "askClient": "¿Manejan cuentas por niveles? ¿Qué productos corresponden a cada uno?"
+    },
+    {
+      "object": "FinancialAccount",
+      "apiName": "ETC_Canal_Apertura__c",
+      "label": "Canal de apertura",
+      "type": "Picklist",
+      "purpose": "Canal por el que se abrió la cuenta.",
+      "catalog": "BNK-009",
+      "values": [
+        "Sucursal",
+        "Digital",
+        "Ejecutivo",
+        "Alianza"
+      ]
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Cuenta_Financiera__c",
+      "label": "Cuenta financiera",
+      "type": "Lookup",
+      "purpose": "Cuenta relacionada con la consulta, aclaración o queja.",
+      "catalog": "BNK-011",
+      "referenceTo": "FinancialAccount",
+      "relationshipName": "ETC_Casos_Cuenta",
+      "relationshipLabel": "Casos"
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Monto_Reclamado__c",
+      "label": "Monto reclamado",
+      "type": "Currency",
+      "purpose": "Monto en disputa en una aclaración.",
+      "catalog": "BNK-011"
+    }
+  ],
+  "standardFields": [
+    {
+      "object": "FinancialAccount",
+      "apiName": "Type / Status",
+      "label": "Tipo y estado",
+      "use": "Ahorro, cheques, tarjeta, crédito…; activa, cerrada, morosa (BNK-003)",
+      "values": null,
+      "note": "FinancialAccountNumber y Type son obligatorios en FSC Core (validado en la org de referencia)."
+    },
+    {
+      "object": "FinancialAccount",
+      "apiName": "OpeningDate / ClosingDate / BranchUnitId",
+      "label": "Apertura, cierre y sucursal",
+      "use": "Ciclo de vida y sucursal (BNK-006)",
+      "values": null
+    },
+    {
+      "object": "FinancialAccountTransaction",
+      "apiName": "Amount / TransactionDate / DebitCreditIndicator",
+      "label": "Movimientos",
+      "use": "Se cargan por integración con el core (BNK-005, fuera de alcance)",
+      "values": null
+    }
+  ],
+  "validationRules": [
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_CLABE_Formato",
+      "purpose": "CLABE de 18 dígitos",
+      "formula": "AND(NOT(ISBLANK(ETC_CLABE__c)), NOT(REGEX(ETC_CLABE__c, \"[0-9]{18}\")))",
+      "message": "La CLABE debe tener 18 dígitos.",
+      "catalog": "BNK-003"
+    },
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Cierre_Requiere_Fecha",
+      "purpose": "Una cuenta cerrada requiere fecha de cierre",
+      "formula": "AND(ISPICKVAL(Status, \"Closed\"), ISBLANK(ClosingDate))",
+      "message": "Captura la fecha de cierre de la cuenta.",
+      "catalog": "BNK-003"
+    },
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Fechas_Validas",
+      "purpose": "La fecha de cierre no puede ser anterior a la apertura",
+      "formula": "AND(NOT(ISBLANK(OpeningDate)), NOT(ISBLANK(ClosingDate)), ClosingDate < OpeningDate)",
+      "message": "La fecha de cierre no puede ser anterior a la de apertura.",
+      "catalog": "BNK-003"
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Monto_Reclamado_No_Negativo",
+      "purpose": "El monto reclamado no puede ser negativo",
+      "formula": "ETC_Monto_Reclamado__c < 0",
+      "message": "El monto reclamado no puede ser negativo.",
+      "catalog": "BNK-011"
+    }
+  ],
+  "duplicateRules": []
+}

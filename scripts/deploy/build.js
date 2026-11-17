@@ -9,7 +9,7 @@
 //   - genera el cambio de OWD sobre la definición actual de cada objeto (sin alterar otras propiedades).
 const fs = require('fs');
 const path = require('path');
-const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, targetOrg, listFiles, moduleSrc } = require('../lib/common');
+const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, query, targetOrg, listFiles, moduleSrc } = require('../lib/common');
 const { resolveVerticals, activeModules, labelOf } = require('../lib/vertical');
 const { STAGES, componentOf } = require('./stages');
 
@@ -143,6 +143,29 @@ function buildSharingModel(stageDir, mods) {
   return { report, changed };
 }
 
+// ---------- Duplicate Rules: el orden debe continuar después de las reglas que ya existen en la org
+function sequenceDuplicateRules(stageDir) {
+  const dir = path.join(stageDir, 'duplicateRules');
+  if (!fs.existsSync(dir)) return [];
+  const existing = {};
+  // Solo el retrieve distingue Account de PersonAccount (en SOQL y en la lista de metadata ambas salen como Account).
+  const { found } = retrieve({ DuplicateRule: new Set(['*']) }, path.join(SNAP, 'duplicateRules'));
+  for (const file of Object.keys(found).filter((f) => f.endsWith('.duplicateRule'))) {
+    const [obj, name] = file.split('.');
+    if (!name.startsWith('ETC_')) existing[obj] = (existing[obj] || 0) + 1;
+  }
+  const next = {};
+  const report = [];
+  for (const f of fs.readdirSync(dir).sort()) {
+    const obj = f.split('.')[0];
+    next[obj] = (next[obj] ?? existing[obj] ?? 0) + 1;
+    const p = path.join(dir, f);
+    fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace(/<sortOrder>\d+<\/sortOrder>/, `<sortOrder>${next[obj]}</sortOrder>`));
+  }
+  for (const [o, n] of Object.entries(next)) report.push(`${o}: ${existing[o] || 0} reglas existentes; las ETC van de la ${(existing[o] || 0) + 1} a la ${n}`);
+  return report;
+}
+
 let ORG;
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -173,6 +196,10 @@ async function main() {
     if (s.dynamic === 'standardValueSets' && s.components.length) {
       if (ORG) entry.notes.push(...mergeStandardValueSets(stageDir));
       else entry.notes.push('Sin org: los Standard Value Sets se construyen sin combinar con los valores existentes.');
+    }
+    if (s.id === '05-duplicate-rules' && s.components.length) {
+      if (ORG) entry.notes.push(...sequenceDuplicateRules(stageDir));
+      else entry.notes.push('Sin org: el orden de las Duplicate Rules no se ajusta a las reglas existentes.');
     }
     if (s.dynamic === 'sharingModel') {
       if (ORG) {

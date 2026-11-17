@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Dirección: ETC_FSC_Base_Access + ETC_FSC_Lectura_Comercial + ETC_FSC_Riesgo_Lectura</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ETC | Dirección</label>
+    <permissionSets>ETC_FSC_Base_Access</permissionSets>
+    <permissionSets>ETC_FSC_Lectura_Comercial</permissionSets>
+    <permissionSets>ETC_FSC_Riesgo_Lectura</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

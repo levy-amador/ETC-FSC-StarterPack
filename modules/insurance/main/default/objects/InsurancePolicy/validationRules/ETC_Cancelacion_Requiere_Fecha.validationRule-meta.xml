@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Cancelacion_Requiere_Fecha</fullName>
+    <active>true</active>
+    <description>Una póliza cancelada requiere fecha de cancelación</description>
+    <errorConditionFormula>AND(ISPICKVAL(Status, &quot;Canceled&quot;), ISBLANK(CancellationDate))</errorConditionFormula>
+    <errorMessage>Captura la fecha de cancelación.</errorMessage>
+</ValidationRule>

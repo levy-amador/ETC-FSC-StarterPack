@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Motivo_Perdida__c</fullName>
+    <description>Por qué no se concretó la oportunidad.</description>
+    <label>Motivo de pérdida</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Precio o tasa</fullName>
+                <default>false</default>
+                <label>Precio o tasa</label>
+            </value>
+            <value>
+                <fullName>Competencia</fullName>
+                <default>false</default>
+                <label>Competencia</label>
+            </value>
+            <value>
+                <fullName>No calificó</fullName>
+                <default>false</default>
+                <label>No calificó</label>
+            </value>
+            <value>
+                <fullName>Sin interés</fullName>
+                <default>false</default>
+                <label>Sin interés</label>
+            </value>
+            <value>
+                <fullName>Sin respuesta</fullName>
+                <default>false</default>
+                <label>Sin respuesta</label>
+            </value>
+            <value>
+                <fullName>Otro</fullName>
+                <default>false</default>
+                <label>Otro</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

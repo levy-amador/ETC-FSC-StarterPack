@@ -16,12 +16,12 @@ Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente 
 
 | Objeto | Campos ETC | Validaciones | Reglas de duplicados |
 |---|---|---|---|
-| Account | 9 | 3 | 3 |
+| Account | 9 | 4 | 1 |
 | Contact | 8 | 2 | 1 |
 | Case | 4 | 2 | 0 |
 | Opportunity | 2 | 1 | 0 |
 | Lead | 4 | 2 | 1 |
-| **Total** | **27** | **10** | **5** |
+| **Total** | **27** | **11** | **5** |
 
 ## Account
 
@@ -48,7 +48,7 @@ Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente 
 | Rol en la empresa | `ETC_Rol_Contacto__c` | Lista | Representante legal · Apoderado · Contacto financiero · Contacto operativo · Otro | Función del contacto dentro de una cuenta de empresa. | COM-010 |
 | Canal preferido | `ETC_Canal_Preferido__c` | Lista | Correo electrónico · Teléfono · WhatsApp · Sucursal · App o banca digital | Canal por el que el cliente prefiere ser contactado. | COM-010 |
 | Autoriza comunicaciones comerciales | `ETC_Autoriza_Comunicaciones__c` | Casilla | Predeterminado: false | Consentimiento para recibir comunicaciones comerciales. | COM-010 |
-| Fecha de aceptación del aviso de privacidad | `ETC_Fecha_Aviso_Privacidad__c` | Fecha | - | Evidencia de aceptación del aviso de privacidad (LFPDPPP). | COM-010 |
+| Aceptación del aviso de privacidad | `ETC_Fecha_Aviso_Privacidad__c` | Fecha | - | Evidencia de aceptación del aviso de privacidad (LFPDPPP). | COM-010 |
 
 ## Case
 
@@ -85,8 +85,8 @@ Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente 
 | Account | `PersonBirthdate` (Fecha de nacimiento) | Personas físicas | Sin cambios |
 | Account | `PersonEmail` (Correo electrónico) | Personas físicas; base de duplicados | Sin cambios |
 | Case | `Type` (Tipo de solicitud) | Clasificación de casos | Consulta · Aclaración · Queja · Solicitud de servicio · Actualización de datos |
-| Case | `Origin` (Canal de atención) | Canal de entrada | Teléfono · Correo electrónico · Sucursal · Web · App · WhatsApp |
-| Case | `Priority` (Prioridad) | Atención y escalamiento | Alta · Media · Baja |
+| Case | `Origin` (Canal de atención) | Canal de entrada (se usan los valores estándar: Email-to-Case y escalamientos dependen de ellos) | Sin cambios |
+| Case | `Priority` (Prioridad) | Atención y escalamiento (se usan los valores estándar: Email-to-Case y escalamientos dependen de ellos) | Sin cambios |
 | Opportunity | `Type` (Tipo de oportunidad) | Origen del negocio | Nuevo cliente · Venta cruzada · Incremento · Renovación |
 | Lead | `LeadSource` (Origen del prospecto) | Canal de captación | Sucursal · Referido · Digital · Ejecutivo · Alianza · Otro |
 
@@ -96,6 +96,7 @@ Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente 
 |---|---|---|---|---|
 | Account | `ETC_RFC_Formato` | RFC de 12 caracteres (persona moral) o 13 (persona física), en mayúsculas | El RFC no tiene un formato válido: 12 caracteres para persona moral, 13 para persona física, en mayúsculas y sin guiones. | COM-028 |
 | Contact | `ETC_CURP_Formato` | CURP de 18 caracteres con estructura oficial | La CURP no tiene un formato válido (18 caracteres en mayúsculas). | COM-028 |
+| Account | `ETC_CURP_Formato_Persona` | CURP de 18 caracteres en cuentas personales | La CURP no tiene un formato válido (18 caracteres en mayúsculas). | COM-028 |
 | Account | `ETC_KYC_Fecha_Revision` | Un expediente Aprobado debe tener fecha de revisión | Captura la fecha de revisión KYC para marcar el expediente como Aprobado. | COM-028 |
 | Account | `ETC_Cliente_Activo_Requiere_KYC` | Un cliente activo debe tener KYC aprobado | Un cliente activo requiere estatus KYC Aprobado. | COM-028 |
 | Contact | `ETC_Consentimiento_Fecha` | Si autoriza comunicaciones debe existir aceptación del aviso de privacidad | Registra la fecha de aceptación del aviso de privacidad antes de autorizar comunicaciones. | COM-028 |
@@ -112,8 +113,8 @@ Todas las reglas **alertan sin bloquear**; el bloqueo se decide con el cliente d
 | Objeto | Regla | Coincidencia | Campos |
 |---|---|---|---|
 | Account | `ETC_Cuenta_RFC` | RFC exacto | `ETC_RFC__c` |
-| Account | `ETC_Persona_CURP` | CURP exacta (cuentas personales) | `ETC_CURP__pc` |
-| Account | `ETC_Persona_Correo_Nombre` | Correo exacto o nombre + fecha de nacimiento (cuentas personales) | `PersonEmail`, `FirstName`, `LastName`, `PersonBirthdate` |
+| PersonAccount | `ETC_Persona_CURP` | CURP exacta (cuentas personales) | `ETC_CURP__pc` |
+| PersonAccount | `ETC_Persona_Correo_Nombre` | Correo exacto o nombre + celular (cuentas personales) | `PersonEmail`, `FirstName`, `LastName`, `PersonMobilePhone` |
 | Contact | `ETC_Contacto_Correo` | Correo exacto | `Email` |
 | Lead | `ETC_Prospecto_RFC_Correo` | RFC o correo exacto contra prospectos y cuentas | `ETC_RFC__c`, `Email` |
 
@@ -127,6 +128,6 @@ Si el cliente no responde antes del despliegue, se usa la base de este documento
 - **Estatus KYC:** ¿Quién actualiza el estatus KYC y cada cuánto se revisa el expediente?
 - **Nivel de riesgo PLD:** ¿Usan esta clasificación o una propia? ¿Debe verla el asesor?
 - **CURP:** ¿La CURP es obligatoria para personas físicas?
-- **Fecha de aceptación del aviso de privacidad:** ¿Dónde se registra hoy la aceptación del aviso de privacidad?
+- **Aceptación del aviso de privacidad:** ¿Dónde se registra hoy la aceptación del aviso de privacidad?
 - **Fecha compromiso:** ¿Qué plazos de respuesta (SLA) aplican por tipo de solicitud?
 - **ETC_Cliente_Activo_Requiere_KYC:** ¿Se puede operar con un cliente cuyo KYC está en revisión?

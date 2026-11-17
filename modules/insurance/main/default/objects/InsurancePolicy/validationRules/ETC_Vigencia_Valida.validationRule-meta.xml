@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Vigencia_Valida</fullName>
+    <active>true</active>
+    <description>El fin de vigencia no puede ser anterior al inicio</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(EffectiveDate)), NOT(ISBLANK(ExpirationDate)), ExpirationDate &lt; EffectiveDate)</errorConditionFormula>
+    <errorMessage>El fin de vigencia no puede ser anterior al inicio de vigencia.</errorMessage>
+</ValidationRule>

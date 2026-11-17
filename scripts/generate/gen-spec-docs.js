@@ -48,3 +48,22 @@ a += `## Permission Sets y grupos\n\n| Permission Set | Otorga |\n|---|---|\n${a
 a += `## Preguntas para el cliente\n\n${[...am.askClient, ...am.personas.filter((p) => p.askClient).map((p) => p.askClient), ...am.sharingRules.filter((s) => s.askClient).map((s) => s.askClient)].map((q) => `- ${q}`).join('\n')}\n`;
 fs.writeFileSync(path.join(ROOT, 'docs', 'ACCESS_MATRIX.md'), a);
 console.log('docs/DATA_DICTIONARY.md y docs/ACCESS_MATRIX.md generados.');
+
+// ---------- Verticales: un documento por módulo con especificación
+const TYPE_V = { ...TYPE, Currency: 'Moneda', Lookup: 'Búsqueda' };
+for (const mod of ['insurance', 'banking', 'wealth']) {
+  const vd = readJson(path.join(ROOT, 'config', 'spec', `${mod}-data-dictionary.json`), null);
+  const va = readJson(path.join(ROOT, 'config', 'spec', `${mod}-access-matrix.json`), null);
+  if (!vd || !va) continue;
+  let v = `${banner}# ${vd.label} · Diccionario y accesos\n\n**Estado:** ${vd.status}.\n\n${vd.usage}\n\n## Campos ETC\n\n| Objeto | Campo | API Name | Tipo | Valores | Para qué sirve | Catálogo |\n|---|---|---|---|---|---|---|\n`;
+  v += vd.fields.map((f) => `| ${f.object} | ${f.sensitive ? '🔒 ' : ''}${esc(f.label)} | \`${f.apiName}\` | ${TYPE_V[f.type] || f.type}${f.length ? ` (${f.length})` : ''}${f.referenceTo ? ` → ${f.referenceTo}` : ''} | ${esc((f.values || []).join(' · ') || '-')} | ${esc(f.purpose)} | ${f.catalog} |`).join('\n');
+  v += `\n\n## Campos estándar FSC reutilizados\n\n| Objeto | Campos | Uso |\n|---|---|---|\n${vd.standardFields.map((s) => `| ${s.object} | \`${s.apiName}\` | ${esc(s.use)}${s.note ? ` · ${esc(s.note)}` : ''} |`).join('\n')}\n\n`;
+  v += `## Reglas de validación\n\n| Objeto | Regla | Qué asegura | Mensaje | Catálogo |\n|---|---|---|---|---|\n${vd.validationRules.map((r) => `| ${r.object} | \`${r.name}\` | ${esc(r.purpose)} | ${esc(r.message)} | ${r.catalog} |`).join('\n')}\n\n`;
+  v += `## Permission Sets\n\n${va.principles.map((p) => `- ${p}`).join('\n')}\n\n| Permission Set | Otorga |\n|---|---|\n${va.permissionSets.map((p) => `| \`${p.name}\` | ${esc(p.grants)} |`).join('\n')}\n\n`;
+  v += `## Asignación por persona (además de su Permission Set Group de la base común)\n\n| Persona | Permission Sets de ${vd.label} |\n|---|---|\n${Object.entries(va.assignment).map(([p, l]) => `| ${(am.personas.find((x) => x.id === p) || { label: p }).label} | ${l.map((x) => `\`${x}\``).join(', ')} |`).join('\n')}\n`;
+  const asks = vd.fields.filter((f) => f.askClient);
+  if (asks.length) v += `\n## Preguntas para el cliente\n\n${asks.map((f) => `- **${esc(f.label)}:** ${esc(f.askClient)}`).join('\n')}\n`;
+  fs.mkdirSync(path.join(ROOT, 'docs', 'verticals'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'docs', 'verticals', `${mod.toUpperCase()}_SPEC.md`), v);
+}
+console.log('docs/verticals/*_SPEC.md generados.');

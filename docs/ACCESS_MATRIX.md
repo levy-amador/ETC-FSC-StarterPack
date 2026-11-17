@@ -10,6 +10,7 @@
 - Sin Ver todo / Modificar todo ni permisos administrativos en conjuntos operativos.
 - Sin permiso de eliminar en usuarios operativos.
 - Los datos sensibles (KYC, riesgo PLD, estado civil) se restringen por seguridad de campo.
+- Ejecutivo y supervisor de servicio comparten permisos; los distingue el rol (el supervisor ve los casos de su equipo por jerarquía).
 
 ## Personas
 
@@ -84,20 +85,21 @@ E = edita · R = lee · — = sin acceso. Campos ETC no listados: asesor y geren
 
 | Permission Set | Otorga |
 |---|---|
-| `ETC_FSC_Base_Access` | App del Starter Pack, pestañas y lectura de campos ETC no sensibles |
-| `ETC_FSC_Comercial` | Crear/leer/editar Lead, Account, Contact, Opportunity; crear casos; editar campos comerciales |
-| `ETC_FSC_Servicio` | Crear/leer/editar Case; leer Account y Contact; editar dictamen y resolución |
-| `ETC_FSC_Cumplimiento` | Editar RFC, CURP, estatus KYC, fecha de revisión y nivel de riesgo |
-| `ETC_FSC_Supervision` | Ver nivel de riesgo, reportes y dashboards de equipo |
+| `ETC_FSC_Base_Access` | App del Starter Pack; leer Account, Contact y Case; leer sus campos ETC no sensibles (excluye nivel de riesgo y estado civil) |
+| `ETC_FSC_Comercial` | Crear/leer/editar Lead, Account, Contact y Opportunity; crear y leer casos; editar campos comerciales, RFC, CURP y estado civil |
+| `ETC_FSC_Servicio` | Crear/leer/editar Case; editar folio, dictamen, fecha compromiso y resolución |
+| `ETC_FSC_Cumplimiento` | Leer/editar Account y Contact; editar RFC, CURP, estatus KYC, fecha de revisión y nivel de riesgo; leer estado civil |
+| `ETC_FSC_Lectura_Comercial` | Leer Lead y Opportunity con sus campos ETC |
+| `ETC_FSC_Riesgo_Lectura` | Leer el nivel de riesgo PLD |
 
 | Permission Set Group | Incluye |
 |---|---|
 | `ETC_PSG_Asesor` | `ETC_FSC_Base_Access` + `ETC_FSC_Comercial` |
-| `ETC_PSG_Gerente` | `ETC_FSC_Base_Access` + `ETC_FSC_Comercial` + `ETC_FSC_Supervision` |
+| `ETC_PSG_Gerente` | `ETC_FSC_Base_Access` + `ETC_FSC_Comercial` + `ETC_FSC_Riesgo_Lectura` |
 | `ETC_PSG_Ejecutivo_Servicio` | `ETC_FSC_Base_Access` + `ETC_FSC_Servicio` |
-| `ETC_PSG_Supervisor_Servicio` | `ETC_FSC_Base_Access` + `ETC_FSC_Servicio` + `ETC_FSC_Supervision` |
+| `ETC_PSG_Supervisor_Servicio` | `ETC_FSC_Base_Access` + `ETC_FSC_Servicio` |
 | `ETC_PSG_Cumplimiento` | `ETC_FSC_Base_Access` + `ETC_FSC_Cumplimiento` |
-| `ETC_PSG_Direccion` | `ETC_FSC_Base_Access` + `ETC_FSC_Supervision` |
+| `ETC_PSG_Direccion` | `ETC_FSC_Base_Access` + `ETC_FSC_Lectura_Comercial` + `ETC_FSC_Riesgo_Lectura` |
 
 ## Preguntas para el cliente
 

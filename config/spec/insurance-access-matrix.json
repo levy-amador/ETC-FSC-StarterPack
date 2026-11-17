@@ -1,0 +1,105 @@
+{
+  "module": "insurance",
+  "label": "Seguros",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente. Requiere revisión de seguridad (COM-004, COM-007).",
+  "principles": [
+    "Los Permission Sets de la vertical se asignan además del Permission Set Group de la persona (base común).",
+    "Sin eliminar, sin Ver todo / Modificar todo.",
+    "Los objetos FSC requieren además la licencia de conjunto de permisos (PSL) correspondiente."
+  ],
+  "permissionSets": [
+    {
+      "name": "ETC_FSC_Seguros_Comercial",
+      "label": "ETC FSC · Seguros comercial",
+      "grants": "Pólizas, coberturas, participantes y bienes asegurados; consulta siniestros"
+    },
+    {
+      "name": "ETC_FSC_Seguros_Siniestros",
+      "label": "ETC FSC · Seguros siniestros",
+      "grants": "Atención de siniestros y casos de pólizas; consulta pólizas"
+    },
+    {
+      "name": "ETC_FSC_Seguros_Administracion",
+      "label": "ETC FSC · Seguros administración",
+      "grants": "Lectura y edición de todos los campos ETC de Seguros (administradores)"
+    }
+  ],
+  "permissionSetDefinitions": {
+    "ETC_FSC_Seguros_Comercial": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "R",
+        "InsurancePolicy": "CRE",
+        "InsurancePolicyCoverage": "CRE",
+        "InsurancePolicyParticipant": "CRE",
+        "InsurancePolicyAsset": "CRE",
+        "CustomerProperty": "CRE",
+        "Producer": "R",
+        "Claim": "R"
+      },
+      "fieldsRead": [
+        "Claim.*",
+        "Case.*"
+      ],
+      "fieldsEdit": [
+        "InsurancePolicy.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Seguros_Siniestros": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "CRE",
+        "InsurancePolicy": "R",
+        "InsurancePolicyCoverage": "R",
+        "Claim": "CRE",
+        "ClaimParticipant": "CRE",
+        "ClaimItem": "CRE"
+      },
+      "fieldsRead": [
+        "InsurancePolicy.*"
+      ],
+      "fieldsEdit": [
+        "Claim.*",
+        "Case.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Seguros_Administracion": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "R",
+        "InsurancePolicy": "R",
+        "Claim": "R"
+      },
+      "fieldsRead": [],
+      "fieldsEdit": [
+        "InsurancePolicy.*",
+        "Claim.*",
+        "Case.*"
+      ],
+      "exclude": []
+    }
+  },
+  "assignment": {
+    "asesor": [
+      "ETC_FSC_Seguros_Comercial"
+    ],
+    "gerente": [
+      "ETC_FSC_Seguros_Comercial"
+    ],
+    "servicio": [
+      "ETC_FSC_Seguros_Siniestros"
+    ],
+    "supervisor": [
+      "ETC_FSC_Seguros_Siniestros"
+    ],
+    "admin": [
+      "ETC_FSC_Seguros_Administracion"
+    ]
+  }
+}

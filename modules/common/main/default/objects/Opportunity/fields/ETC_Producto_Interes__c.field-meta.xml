@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Producto_Interes__c</fullName>
+    <description>Producto o servicio financiero que se ofrece. Las verticales lo sustituyen por su catálogo.</description>
+    <label>Producto de interés</label>
+    <length>100</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Fecha_Compromiso__c</fullName>
+    <description>Fecha comprometida de respuesta al cliente.</description>
+    <label>Fecha compromiso</label>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

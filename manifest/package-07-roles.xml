@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>ETC_Asesor</members>
+        <members>ETC_Cumplimiento</members>
+        <members>ETC_Direccion</members>
+        <members>ETC_Ejecutivo_Servicio</members>
+        <members>ETC_Gerente_Comercial</members>
+        <members>ETC_Supervisor_Servicio</members>
+        <name>Role</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Case</members>
+        <name>SharingRules</name>
+    </types>
+    <version>68.0</version>
+</Package>

@@ -22,15 +22,15 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 | WLT-003 | Modelo de datos | Configuración de cuentas financieras de inversión | Humano con apoyo de IA | Pendiente | Humano valida fuente maestra. |
 | WLT-004 | Modelo de datos | Configuración de activos, posiciones y tenencias | Humano | Pendiente | Humano valida valoración y reconciliación. |
 | WLT-005 | Modelo de datos | Configuración de valores e instrumentos financieros | Humano con apoyo de IA | Pendiente | Humano valida catálogo. |
-| WLT-006 | Modelo de datos | Configuración de objetivos financieros | Claude Code (con aprobación) | Pendiente | Humano valida metodología. |
+| WLT-006 | Modelo de datos | Configuración de objetivos financieros | Claude Code (con aprobación) | Validado en org | Humano valida metodología. |
 | WLT-007 | Modelo de datos | Configuración de asesores y equipos patrimoniales | Claude Code (con aprobación) | Pendiente | Humano valida asignaciones. |
 | WLT-008 | Interfaz | Configuración de Financial Accounts 360 / resumen de cuentas | Humano con apoyo de IA | Pendiente | Humano valida saldos y acceso. |
 | WLT-009 | Interfaz | Configuración de Actionable Relationship Center | Humano con apoyo de IA | Pendiente | Humano valida grafo. |
 | WLT-010 | Interfaz | Configuración de resumen patrimonial | Humano | Pendiente | Humano valida metodología y cifras. |
 | WLT-011 | Procesos | Configuración de onboarding patrimonial | Humano con apoyo de IA | Pendiente | Humano valida compliance. |
-| WLT-012 | Procesos | Configuración de revisiones periódicas de cartera | Claude Code (con aprobación) | Pendiente | Humano valida política de asesoría. |
+| WLT-012 | Procesos | Configuración de revisiones periódicas de cartera | Claude Code (con aprobación) | Validado en org | Humano valida política de asesoría. |
 | WLT-013 | Procesos | Configuración de eventos de vida | Humano con apoyo de IA | Pendiente | Humano valida privacidad y reglas. |
-| WLT-014 | Sales | Configuración de oportunidades de inversión y servicios | Claude Code (con aprobación) | Pendiente | Humano valida cumplimiento. |
+| WLT-014 | Sales | Configuración de oportunidades de inversión y servicios | Claude Code (con aprobación) | Validado en org | Humano valida cumplimiento. |
 | WLT-015 | Servicio | Configuración de casos relacionados con cuentas y clientes | Claude Code (con aprobación) | Pendiente | Humano valida acceso. |
 | WLT-016 | Reportes | Configuración de indicadores de patrimonio y asesores | Claude Code (con aprobación) | Pendiente | Humano valida cálculos. |
 
@@ -88,7 +88,7 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 - **Prerrequisitos:** Objetivos, atributos y funcionalidades FSC disponibles.
 - **Qué puede hacer Claude Code:** Puede configurar metadata y páginas; metodología de planificación financiera es humana.
 - **Validación humana:** Humano valida metodología.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:FinancialGoal.ETC_Horizonte__c`, `ValidationRule:FinancialGoal.ETC_Fecha_Meta_Valida`, `ValidationRule:FinancialGoal.ETC_Monto_Meta_Positivo`
 
 ### WLT-007 · Configuración de asesores y equipos patrimoniales
 
@@ -142,7 +142,7 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 - **Prerrequisitos:** Frecuencia, segmentos y responsables.
 - **Qué puede hacer Claude Code:** Automatizable con Flow/tareas; recomendaciones de inversión no deben generarse sin marco aprobado.
 - **Validación humana:** Humano valida política de asesoría.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Account.ETC_Frecuencia_Revision__c`, `CustomField:Account.ETC_Proxima_Revision__c`
 
 ### WLT-013 · Configuración de eventos de vida
 
@@ -160,7 +160,7 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 - **Prerrequisitos:** Catálogo, etapas y reglas de idoneidad.
 - **Qué puede hacer Claude Code:** Puede configurar metadata; suitability, recomendaciones y aceptación de riesgo requieren especialistas autorizados.
 - **Validación humana:** Humano valida cumplimiento.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Account.ETC_Fecha_Perfilamiento__c`, `CustomField:Account.ETC_Perfil_Inversionista__c`, `ValidationRule:Account.ETC_Perfil_Requiere_Fecha`
 
 ### WLT-015 · Configuración de casos relacionados con cuentas y clientes
 

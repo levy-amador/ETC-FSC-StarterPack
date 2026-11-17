@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Sucursal</fullName>
+        <default>false</default>
+        <label>Sucursal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Referido</fullName>
+        <default>false</default>
+        <label>Referido</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Digital</fullName>
+        <default>false</default>
+        <label>Digital</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Ejecutivo</fullName>
+        <default>false</default>
+        <label>Ejecutivo</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Alianza</fullName>
+        <default>false</default>
+        <label>Alianza</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Otro</fullName>
+        <default>false</default>
+        <label>Otro</label>
+    </standardValue>
+</StandardValueSet>

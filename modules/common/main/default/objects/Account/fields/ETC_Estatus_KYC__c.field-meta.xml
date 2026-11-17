@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Estatus_KYC__c</fullName>
+    <description>Estado del expediente de identificación del cliente. Solo registra el estado: la decisión KYC la toma una persona o un sistema autorizado.</description>
+    <label>Estatus KYC</label>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pendiente</fullName>
+                <default>true</default>
+                <label>Pendiente</label>
+            </value>
+            <value>
+                <fullName>En revisión</fullName>
+                <default>false</default>
+                <label>En revisión</label>
+            </value>
+            <value>
+                <fullName>Aprobado</fullName>
+                <default>false</default>
+                <label>Aprobado</label>
+            </value>
+            <value>
+                <fullName>Rechazado</fullName>
+                <default>false</default>
+                <label>Rechazado</label>
+            </value>
+            <value>
+                <fullName>Vencido</fullName>
+                <default>false</default>
+                <label>Vencido</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -55,3 +55,14 @@ Desplegado con check-only previo (etapa `00-settings` y record type de la base c
 | 2 | Contacts to Multiple Accounts | `AccountContactRelation` | Sí |
 | 3 | Group Membership + permiso Group Membership | Hogares y relaciones | Por confirmar |
 | 4 | Financial Account Management Standard Objects | Banca y Patrimonial | Por confirmar |
+
+## Prueba del Starter Pack · 2026-11-17
+
+| Paso | Resultado |
+|---|---|
+| Vertical | Banca (confirmada por el usuario) |
+| Despliegue | Base común + Banca: 89 componentes en 16 etapas, cada una con check-only previo |
+| Verificación en la org | Campos 33/33, validaciones 15/15, matching 5/5, duplicados 5/5, PS 9/9, PSG 6/6, roles 6/6 |
+| Pruebas funcionales | 13/13 OK (`deployments/<alias>/TEST_RESULTS.md`, no versionado) |
+| Seguros y Patrimonial | Check-only exitoso (110 componentes); no desplegadas |
+| OWD | Privado en Account, Opportunity, Case y Lead; Contact controlado por el principal |

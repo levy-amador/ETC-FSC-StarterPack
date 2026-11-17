@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Oficial de cumplimiento: ETC_FSC_Base_Access + ETC_FSC_Cumplimiento</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ETC | Oficial de cumplimiento</label>
+    <permissionSets>ETC_FSC_Base_Access</permissionSets>
+    <permissionSets>ETC_FSC_Cumplimiento</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

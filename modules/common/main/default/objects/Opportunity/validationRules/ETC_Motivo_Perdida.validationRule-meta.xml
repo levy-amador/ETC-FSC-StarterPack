@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Motivo_Perdida</fullName>
+    <active>true</active>
+    <description>Oportunidad perdida requiere motivo</description>
+    <errorConditionFormula>AND(IsClosed, NOT(IsWon), ISBLANK(TEXT(ETC_Motivo_Perdida__c)))</errorConditionFormula>
+    <errorMessage>Indica el motivo de pérdida.</errorMessage>
+</ValidationRule>

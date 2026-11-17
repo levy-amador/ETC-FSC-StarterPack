@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Nuevo cliente</fullName>
+        <default>false</default>
+        <label>Nuevo cliente</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Venta cruzada</fullName>
+        <default>false</default>
+        <label>Venta cruzada</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Incremento</fullName>
+        <default>false</default>
+        <label>Incremento</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Renovación</fullName>
+        <default>false</default>
+        <label>Renovación</label>
+    </standardValue>
+</StandardValueSet>

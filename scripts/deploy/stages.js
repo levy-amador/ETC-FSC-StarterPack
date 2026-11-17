@@ -12,7 +12,7 @@ const STAGES = [
   { id: '04-matching-rules', label: 'Matching Rules', match: [/^matchingRules\//], waitFor: 'matchingRules' },
   { id: '05-duplicate-rules', label: 'Duplicate Rules', match: [/^duplicateRules\//] },
   { id: '06-sharing-model', label: 'Modelo de colaboración (OWD)', match: [], dynamic: 'sharingModel', waitFor: 'sharingModel' },
-  { id: '07-roles', label: 'Jerarquía de roles', match: [/^roles\//] },
+  { id: '07-roles', label: 'Jerarquía de roles y reglas de colaboración', match: [/^roles\//, /^sharingRules\//] },
   { id: '08-queues-routing', label: 'Colas, reglas de asignación y escalamiento', match: [/^queues\//, /^assignmentRules\//, /^escalationRules\//] },
   { id: '09-layouts-actions', label: 'Page Layouts, Compact Layouts y acciones', match: [/^layouts\//, /^objects\/[^/]+\/compactLayouts\//, /^quickActions\//] },
   { id: '10-lightning-pages', label: 'Lightning Pages, Path, List Views y pestañas', match: [/^flexipages\//, /^pathAssistants\//, /^objects\/[^/]+\/listViews\//, /^tabs\//] },
@@ -41,6 +41,7 @@ function componentOf(rel) {
   if ((m = rel.match(/^matchingRules\/(.+)\.matchingRule-meta\.xml$/))) return t('MatchingRules', m[1]);
   if ((m = rel.match(/^duplicateRules\/(.+)\.duplicateRule-meta\.xml$/))) return t('DuplicateRule', m[1]);
   if ((m = rel.match(/^roles\/(.+)\.role-meta\.xml$/))) return t('Role', m[1]);
+  if ((m = rel.match(/^sharingRules\/(.+)\.sharingRules-meta\.xml$/))) return t('SharingRules', m[1]);
   if ((m = rel.match(/^queues\/(.+)\.queue-meta\.xml$/))) return t('Queue', m[1]);
   if ((m = rel.match(/^assignmentRules\/(.+)\.assignmentRules-meta\.xml$/))) return t('AssignmentRules', m[1]);
   if ((m = rel.match(/^escalationRules\/(.+)\.escalationRules-meta\.xml$/))) return t('EscalationRules', m[1]);

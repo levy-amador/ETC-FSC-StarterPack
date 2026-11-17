@@ -21,3 +21,11 @@
 ## Cambiar de vertical
 
 `npm run configure` (o `npm run build -- --vertical banking --change-vertical`) y después `build` de nuevo. Un build hecho para otra vertical o para otra org no se puede desplegar.
+
+## Pasos posteriores al despliegue (manuales)
+
+1. Crear los usuarios y asignarles su **rol** y su **Permission Set Group** de la base común (ver [ACCESS_MATRIX](ACCESS_MATRIX.md)).
+2. Asignar los **Permission Sets de la vertical** según la tabla de asignación de `docs/verticals/<VERTICAL>_SPEC.md`.
+3. Asignar a los administradores `ETC_FSC_<Vertical>_Administracion`: el perfil Administrador solo da acceso de campo a la base común.
+4. Asignar las **licencias FSC** (PSL) correspondientes: FSC Sales, FSC Service, FSC Insurance, etc.
+5. Cargar o integrar los datos maestros (sucursales, productos) que correspondan a la vertical.

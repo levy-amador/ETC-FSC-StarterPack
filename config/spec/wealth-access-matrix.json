@@ -1,0 +1,105 @@
+{
+  "module": "wealth",
+  "label": "Patrimonial",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente. Requiere revisión de seguridad (COM-004, COM-007).",
+  "principles": [
+    "Los Permission Sets de la vertical se asignan además del Permission Set Group de la persona (base común).",
+    "Sin eliminar, sin Ver todo / Modificar todo.",
+    "Los objetos FSC requieren además la licencia de conjunto de permisos (PSL) correspondiente."
+  ],
+  "permissionSets": [
+    {
+      "name": "ETC_FSC_Patrimonial_Asesor",
+      "label": "ETC FSC · Patrimonial asesor",
+      "grants": "Cuentas de inversión, objetivos, activos y pasivos; perfil y revisiones; consulta instrumentos y tenencias"
+    },
+    {
+      "name": "ETC_FSC_Patrimonial_Lectura",
+      "label": "ETC FSC · Patrimonial lectura",
+      "grants": "Consulta de la información patrimonial (servicio, cumplimiento, dirección)"
+    },
+    {
+      "name": "ETC_FSC_Patrimonial_Administracion",
+      "label": "ETC FSC · Patrimonial administración",
+      "grants": "Lectura y edición de todos los campos ETC de Patrimonial (administradores)"
+    }
+  ],
+  "permissionSetDefinitions": {
+    "ETC_FSC_Patrimonial_Asesor": {
+      "objects": {
+        "Account": "RE",
+        "Contact": "R",
+        "FinancialAccount": "CRE",
+        "FinancialAccountParty": "CRE",
+        "FinancialGoal": "CRE",
+        "FinancialGoalParty": "CRE",
+        "FinancialSecurity": "R",
+        "SecuritiesHolding": "R",
+        "PartyFinancialAsset": "CRE",
+        "PartyFinancialLiability": "CRE"
+      },
+      "fieldsRead": [],
+      "fieldsEdit": [
+        "Account.*",
+        "FinancialGoal.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Patrimonial_Lectura": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "FinancialAccount": "R",
+        "FinancialAccountParty": "R",
+        "FinancialGoal": "R",
+        "FinancialSecurity": "R",
+        "SecuritiesHolding": "R",
+        "PartyFinancialAsset": "R",
+        "PartyFinancialLiability": "R"
+      },
+      "fieldsRead": [
+        "Account.*",
+        "FinancialGoal.*"
+      ],
+      "fieldsEdit": [],
+      "exclude": []
+    },
+    "ETC_FSC_Patrimonial_Administracion": {
+      "objects": {
+        "Account": "RE",
+        "Contact": "R",
+        "FinancialGoal": "R"
+      },
+      "fieldsRead": [],
+      "fieldsEdit": [
+        "Account.*",
+        "FinancialGoal.*"
+      ],
+      "exclude": []
+    }
+  },
+  "assignment": {
+    "asesor": [
+      "ETC_FSC_Patrimonial_Asesor"
+    ],
+    "gerente": [
+      "ETC_FSC_Patrimonial_Asesor"
+    ],
+    "servicio": [
+      "ETC_FSC_Patrimonial_Lectura"
+    ],
+    "supervisor": [
+      "ETC_FSC_Patrimonial_Lectura"
+    ],
+    "cumplimiento": [
+      "ETC_FSC_Patrimonial_Lectura"
+    ],
+    "direccion": [
+      "ETC_FSC_Patrimonial_Lectura"
+    ],
+    "admin": [
+      "ETC_FSC_Patrimonial_Administracion"
+    ]
+  }
+}

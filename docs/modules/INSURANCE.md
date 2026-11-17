@@ -18,16 +18,16 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 
 | ID | Área | Configuración | Ejecuta | Estado | Validación humana |
 |---|---|---|---|---|---|
-| INS-001 | Modelo de datos | Configuración del modelo de pólizas (Insurance Policy) | Humano con apoyo de IA | Pendiente | Humano valida ciclo de vida y modelo. |
+| INS-001 | Modelo de datos | Configuración del modelo de pólizas (Insurance Policy) | Humano con apoyo de IA | Validado en org | Humano valida ciclo de vida y modelo. |
 | INS-002 | Modelo de datos | Configuración de coberturas y bienes asegurados | Humano con apoyo de IA | Pendiente | Humano valida catálogo y relaciones. |
 | INS-003 | Modelo de datos | Configuración de beneficiarios y participantes | Claude Code (con aprobación) | Pendiente | Humano valida reglas y privacidad. |
-| INS-004 | Modelo de datos | Configuración del modelo de siniestros | Humano con apoyo de IA | Pendiente | Humano valida proceso y cumplimiento. |
-| INS-005 | Procesos | Configuración del ciclo de vida de pólizas | Claude Code (con aprobación) | Pendiente | Humano valida escenarios y excepciones. |
-| INS-006 | Procesos | Configuración del ciclo de vida de siniestros | Claude Code (con aprobación) | Pendiente | Humano valida controles y aprobaciones. |
+| INS-004 | Modelo de datos | Configuración del modelo de siniestros | Humano con apoyo de IA | Validado en org | Humano valida proceso y cumplimiento. |
+| INS-005 | Procesos | Configuración del ciclo de vida de pólizas | Claude Code (con aprobación) | Validado en org | Humano valida escenarios y excepciones. |
+| INS-006 | Procesos | Configuración del ciclo de vida de siniestros | Claude Code (con aprobación) | Validado en org | Humano valida controles y aprobaciones. |
 | INS-007 | Procesos | Configuración de renovaciones y vencimientos | Claude Code (con aprobación) | Pendiente | Humano valida calendario y mensajes. |
 | INS-008 | Procesos | Configuración de asignación a agentes y ajustadores | Claude Code (con aprobación) | Pendiente | Humano valida distribución. |
 | INS-009 | Sales | Configuración de productos y oportunidades de seguros | Claude Code (con aprobación) | Pendiente | Humano valida catálogo y reglas. |
-| INS-010 | Servicio | Configuración de casos relacionados con pólizas y siniestros | Claude Code (con aprobación) | Pendiente | Humano valida proceso y acceso. |
+| INS-010 | Servicio | Configuración de casos relacionados con pólizas y siniestros | Claude Code (con aprobación) | Validado en org | Humano valida proceso y acceso. |
 | INS-011 | Servicio | Configuración de escalamiento de reclamaciones | Humano con apoyo de IA | Pendiente | Humano aprueba matriz. |
 | INS-012 | Reportes | Configuración de indicadores de pólizas y siniestros | Claude Code (con aprobación) | Pendiente | Humano valida definiciones. |
 
@@ -40,7 +40,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Licencia/funcionalidad FSC y modelo de póliza definido.
 - **Qué puede hacer Claude Code:** El agente puede configurar campos y metadata relacionada; confirmar objeto y capacidades exactas de la versión instalada.
 - **Validación humana:** Humano valida ciclo de vida y modelo.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:InsurancePolicy.ETC_Aseguradora__c`, `CustomField:InsurancePolicy.ETC_Moneda__c`, `CustomField:InsurancePolicy.ETC_Ramo__c`
 
 ### INS-002 · Configuración de coberturas y bienes asegurados
 
@@ -67,7 +67,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Disponibilidad de Claims y proceso de reclamaciones definido.
 - **Qué puede hacer Claude Code:** Puede preparar metadata; verificar qué capacidades están licenciadas y si el objeto estándar cubre el caso.
 - **Validación humana:** Humano valida proceso y cumplimiento.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Claim.ETC_Numero_Siniestro_Aseguradora__c`
 
 ### INS-005 · Configuración del ciclo de vida de pólizas
 
@@ -76,7 +76,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Estados y reglas del negocio asegurador.
 - **Qué puede hacer Claude Code:** Automatizable mediante picklists, flows y reglas; decisiones de suscripción y cancelación son humanas.
 - **Validación humana:** Humano valida escenarios y excepciones.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:InsurancePolicy.ETC_Conducto_Cobro__c`, `ValidationRule:InsurancePolicy.ETC_Cancelacion_Requiere_Fecha`, `ValidationRule:InsurancePolicy.ETC_Vigencia_Valida`
 
 ### INS-006 · Configuración del ciclo de vida de siniestros
 
@@ -85,7 +85,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Flujo operativo y matriz de autorizaciones.
 - **Qué puede hacer Claude Code:** Puede construir automatizaciones; decisiones de cobertura, reservas y pago no deben delegarse al agente.
 - **Validación humana:** Humano valida controles y aprobaciones.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Claim.ETC_Coaseguro_Aplicado__c`, `CustomField:Claim.ETC_Deducible_Aplicado__c`, `ValidationRule:Claim.ETC_Fecha_Siniestro_No_Futura`, `ValidationRule:Claim.ETC_Montos_No_Negativos`
 
 ### INS-007 · Configuración de renovaciones y vencimientos
 
@@ -121,7 +121,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Modelo de casos y relaciones disponibles.
 - **Qué puede hacer Claude Code:** Puede configurar campos, relaciones y layouts; validar visibilidad de información sensible.
 - **Validación humana:** Humano valida proceso y acceso.
-- **Componentes:** Pendiente
+- **Componentes:** `CustomField:Case.ETC_Poliza__c`
 
 ### INS-011 · Configuración de escalamiento de reclamaciones
 

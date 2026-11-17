@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Frecuencia_Revision__c</fullName>
+    <description>Cada cuánto se revisa la cartera con el cliente.</description>
+    <label>Frecuencia de revisión</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Trimestral</fullName>
+                <default>false</default>
+                <label>Trimestral</label>
+            </value>
+            <value>
+                <fullName>Semestral</fullName>
+                <default>false</default>
+                <label>Semestral</label>
+            </value>
+            <value>
+                <fullName>Anual</fullName>
+                <default>false</default>
+                <label>Anual</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

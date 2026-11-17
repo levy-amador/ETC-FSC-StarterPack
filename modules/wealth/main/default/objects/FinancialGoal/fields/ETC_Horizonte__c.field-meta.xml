@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Horizonte__c</fullName>
+    <description>Plazo del objetivo financiero.</description>
+    <label>Horizonte</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Corto plazo (menos de 1 año)</fullName>
+                <default>false</default>
+                <label>Corto plazo (menos de 1 año)</label>
+            </value>
+            <value>
+                <fullName>Mediano plazo (1 a 5 años)</fullName>
+                <default>false</default>
+                <label>Mediano plazo (1 a 5 años)</label>
+            </value>
+            <value>
+                <fullName>Largo plazo (más de 5 años)</fullName>
+                <default>false</default>
+                <label>Largo plazo (más de 5 años)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

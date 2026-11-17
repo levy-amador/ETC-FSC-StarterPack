@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>ETC_Casos_Lectura_Comercial</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>El asesor da seguimiento a las solicitudes de sus clientes.</description>
+        <label>ETC Casos Lectura Comercial</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ETC_Gerente_Comercial</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>ETC_Supervisor_Servicio</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Montos_No_Negativos</fullName>
+    <active>true</active>
+    <description>Montos del siniestro no negativos</description>
+    <errorConditionFormula>OR(ApprovedAmount &lt; 0, ETC_Deducible_Aplicado__c &lt; 0, ETC_Coaseguro_Aplicado__c &lt; 0)</errorConditionFormula>
+    <errorMessage>Los montos del siniestro no pueden ser negativos.</errorMessage>
+</ValidationRule>

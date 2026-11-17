@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_RFC_Formato</fullName>
+    <active>true</active>
+    <description>RFC de prospecto con formato válido (12 o 13 caracteres)</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(ETC_RFC__c)), NOT(REGEX(ETC_RFC__c, &quot;[A-ZÑ&amp;]{3}[0-9]{6}[A-Z0-9]{3}|[A-ZÑ&amp;]{4}[0-9]{6}[A-Z0-9]{3}&quot;)))</errorConditionFormula>
+    <errorMessage>El RFC no tiene un formato válido.</errorMessage>
+</ValidationRule>

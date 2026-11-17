@@ -14,7 +14,7 @@
     "Pendiente": "Sin construir",
     "En construcción": "Metadata en progreso",
     "Construido": "Metadata en el repo y validada localmente",
-    "Validado en org": "Validación check-only exitosa",
+    "Validado en org": "Metadata validada contra una org real (check-only o despliegue). No sustituye la aprobación de negocio de validacionHumana.",
     "Manual": "Paso manual documentado (no automatizable o requiere decisión humana)",
     "Fuera de alcance": "Fase 2 / no incluido"
   },
@@ -46,11 +46,12 @@
       "prerequisitos": "Licencias y permisos administrativos; algunas funciones requieren soporte o aprovisionamiento Salesforce.",
       "capacidadClaude": "El agente puede guiar y, en ciertos casos, configurar opciones vía Setup/API. No debe asumir que puede habilitar cualquier feature.",
       "validacionHumana": "Aprobación del arquitecto/admin antes de activar.",
-      "estado": "En construcción",
+      "estado": "Validado en org",
       "componentes": [
         "Settings:Industries"
       ],
-      "nota": "Por metadata: Group Membership y Financial Account Management Standard Objects (desplegado en la org de referencia el 2026-11-17). Manual en Setup: Person Accounts (irreversible) y Contacts to Multiple Accounts (activarlo por metadata deja la org inconsistente)."
+      "nota": "Por metadata: Group Membership y Financial Account Management Standard Objects (desplegado en la org de referencia el 2026-11-17). Manual en Setup: Person Accounts (irreversible) y Contacts to Multiple Accounts (activarlo por metadata deja la org inconsistente).",
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-003",
@@ -79,8 +80,22 @@
       "prerequisitos": "Salesforce CLI/API con permisos adecuados; matriz de acceso aprobada.",
       "capacidadClaude": "Puede crear/actualizar metadata y asignaciones cuando la API lo permita; no debe decidir privilegios de negocio.",
       "validacionHumana": "Humano aprueba matriz y prueba acceso por persona.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "PermissionSet:ETC_FSC_Base_Access",
+        "PermissionSet:ETC_FSC_Comercial",
+        "PermissionSet:ETC_FSC_Cumplimiento",
+        "PermissionSet:ETC_FSC_Lectura_Comercial",
+        "PermissionSet:ETC_FSC_Riesgo_Lectura",
+        "PermissionSet:ETC_FSC_Servicio",
+        "PermissionSetGroup:ETC_PSG_Asesor",
+        "PermissionSetGroup:ETC_PSG_Cumplimiento",
+        "PermissionSetGroup:ETC_PSG_Direccion",
+        "PermissionSetGroup:ETC_PSG_Ejecutivo_Servicio",
+        "PermissionSetGroup:ETC_PSG_Gerente",
+        "PermissionSetGroup:ETC_PSG_Supervisor_Servicio"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-005",
@@ -94,11 +109,12 @@
       "prerequisitos": "Acceso Metadata API; definición de permisos aprobada.",
       "capacidadClaude": "Puede modificar metadata de perfiles; cambios amplios o sobre perfiles existentes requieren revisión por riesgo.",
       "validacionHumana": "Humano valida mínimo privilegio y regresión.",
-      "estado": "En construcción",
+      "estado": "Validado en org",
       "componentes": [
         "Profile:Admin"
       ],
-      "nota": "Solo visibilidad del record type ETC_Empresa para Administrador. Desplegado en la org de referencia el 2026-11-17."
+      "nota": "Solo visibilidad del record type ETC_Empresa para Administrador. Desplegado en la org de referencia el 2026-11-17.",
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-006",
@@ -112,8 +128,16 @@
       "prerequisitos": "Organigrama, modelo operativo y reglas de visibilidad aprobados.",
       "capacidadClaude": "El agente puede preparar metadata y configuración soportada; el diseño de acceso es decisión de negocio.",
       "validacionHumana": "Humano define y aprueba el modelo.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "Role:ETC_Asesor",
+        "Role:ETC_Cumplimiento",
+        "Role:ETC_Direccion",
+        "Role:ETC_Ejecutivo_Servicio",
+        "Role:ETC_Gerente_Comercial",
+        "Role:ETC_Supervisor_Servicio"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-007",
@@ -127,8 +151,12 @@
       "prerequisitos": "Matriz de acceso, modelo de datos y criterios regulatorios.",
       "capacidadClaude": "Puede preparar reglas y metadata; impacto de exposición de datos exige aprobación y pruebas humanas.",
       "validacionHumana": "Revisión de seguridad obligatoria.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "SharingRules:Account",
+        "SharingRules:Case"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-008",
@@ -172,8 +200,30 @@
       "prerequisitos": "Diccionario de datos aprobado; límites de campos y convenciones.",
       "capacidadClaude": "Altamente automatizable con metadata/API; decisiones de tipo, obligatoriedad y retención deben venir del negocio.",
       "validacionHumana": "Humano aprueba definición y prueba datos.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Account.ETC_Cliente_Desde__c",
+        "CustomField:Account.ETC_Estatus_KYC__c",
+        "CustomField:Account.ETC_Fecha_Revision_KYC__c",
+        "CustomField:Account.ETC_Nivel_Riesgo__c",
+        "CustomField:Account.ETC_Observaciones__c",
+        "CustomField:Account.ETC_RFC__c",
+        "CustomField:Account.ETC_Regimen_Fiscal__c",
+        "CustomField:Contact.ETC_Autoriza_Comunicaciones__c",
+        "CustomField:Contact.ETC_CURP__c",
+        "CustomField:Contact.ETC_Canal_Preferido__c",
+        "CustomField:Contact.ETC_Estado_Civil__c",
+        "CustomField:Contact.ETC_Fecha_Aviso_Privacidad__c",
+        "CustomField:Contact.ETC_Nacionalidad__c",
+        "CustomField:Contact.ETC_Ocupacion__c",
+        "CustomField:Contact.ETC_Rol_Contacto__c",
+        "CustomField:Lead.ETC_Motivo_Descalificacion__c",
+        "CustomField:Lead.ETC_Producto_Interes__c",
+        "CustomField:Lead.ETC_RFC__c",
+        "CustomField:Opportunity.ETC_Motivo_Perdida__c",
+        "CustomField:Opportunity.ETC_Producto_Interes__c"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-011",
@@ -217,11 +267,18 @@
       "prerequisitos": "Procesos y valores de negocio definidos.",
       "capacidadClaude": "Automatizable vía metadata; requiere consistencia entre procesos, layouts y automatizaciones.",
       "validacionHumana": "Humano valida catálogos y escenarios.",
-      "estado": "En construcción",
+      "estado": "Validado en org",
       "componentes": [
-        "RecordType:Account.ETC_Empresa"
+        "CustomField:Account.ETC_Segmento__c",
+        "CustomField:Account.ETC_Tipo_Cliente__c",
+        "CustomField:Lead.ETC_Segmento__c",
+        "RecordType:Account.ETC_Empresa",
+        "StandardValueSet:CaseType",
+        "StandardValueSet:LeadSource",
+        "StandardValueSet:OpportunityType"
       ],
-      "nota": "Record type de empresa (persona moral); prerrequisito de Person Accounts. Desplegado en la org de referencia el 2026-11-17."
+      "nota": "Record type de empresa (persona moral); prerrequisito de Person Accounts. Desplegado en la org de referencia el 2026-11-17.",
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-014",
@@ -310,8 +367,14 @@
       "prerequisitos": "Reglas de negocio y excepciones documentadas.",
       "capacidadClaude": "Automatizable con metadata; debe probarse con procesos e integraciones existentes.",
       "validacionHumana": "Humano aprueba reglas y excepciones.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "ValidationRule:Case.ETC_Dictamen_Aclaracion",
+        "ValidationRule:Case.ETC_Resolucion_Al_Cerrar",
+        "ValidationRule:Lead.ETC_Motivo_Descalificacion",
+        "ValidationRule:Opportunity.ETC_Motivo_Perdida"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-020",
@@ -370,8 +433,13 @@
       "prerequisitos": "Proceso de atención y modelo de soporte.",
       "capacidadClaude": "Automatizable en buena medida vía metadata; colas, canales y permisos requieren validación.",
       "validacionHumana": "Humano aprueba proceso de atención.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Case.ETC_Dictamen__c",
+        "CustomField:Case.ETC_Folio_Externo__c",
+        "CustomField:Case.ETC_Resolucion__c"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-024",
@@ -400,8 +468,11 @@
       "prerequisitos": "Licencias/capacidades habilitadas, SLA y reglas aprobadas.",
       "capacidadClaude": "El agente puede preparar parte de la metadata; disponibilidad de entitlements/milestones varía por org.",
       "validacionHumana": "Humano define SLA y valida calendario.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Case.ETC_Fecha_Compromiso__c"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-026",
@@ -430,8 +501,19 @@
       "prerequisitos": "Política de identidad, campos confiables y tolerancia a falsos positivos.",
       "capacidadClaude": "Puede configurar metadata; calibración requiere datos representativos y decisión humana.",
       "validacionHumana": "Humano valida falsos positivos/negativos.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "DuplicateRule:Account.ETC_Cuenta_RFC",
+        "DuplicateRule:Contact.ETC_Contacto_Correo",
+        "DuplicateRule:Lead.ETC_Prospecto_RFC_Correo",
+        "DuplicateRule:PersonAccount.ETC_Persona_CURP",
+        "DuplicateRule:PersonAccount.ETC_Persona_Correo_Nombre",
+        "MatchingRules:Account",
+        "MatchingRules:Contact",
+        "MatchingRules:Lead",
+        "MatchingRules:PersonAccount"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-028",
@@ -445,8 +527,17 @@
       "prerequisitos": "Reglas de captura y fuentes de datos.",
       "capacidadClaude": "Puede automatizar reglas declarativas; no puede decidir política de calidad.",
       "validacionHumana": "Humano aprueba reglas.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "ValidationRule:Account.ETC_CURP_Formato_Persona",
+        "ValidationRule:Account.ETC_Cliente_Activo_Requiere_KYC",
+        "ValidationRule:Account.ETC_KYC_Fecha_Revision",
+        "ValidationRule:Account.ETC_RFC_Formato",
+        "ValidationRule:Contact.ETC_CURP_Formato",
+        "ValidationRule:Contact.ETC_Consentimiento_Fecha",
+        "ValidationRule:Lead.ETC_RFC_Formato"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "COM-029",
@@ -490,8 +581,13 @@
       "prerequisitos": "Licencia/funcionalidad FSC y modelo de póliza definido.",
       "capacidadClaude": "El agente puede configurar campos y metadata relacionada; confirmar objeto y capacidades exactas de la versión instalada.",
       "validacionHumana": "Humano valida ciclo de vida y modelo.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:InsurancePolicy.ETC_Aseguradora__c",
+        "CustomField:InsurancePolicy.ETC_Moneda__c",
+        "CustomField:InsurancePolicy.ETC_Ramo__c"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "INS-002",
@@ -535,8 +631,11 @@
       "prerequisitos": "Disponibilidad de Claims y proceso de reclamaciones definido.",
       "capacidadClaude": "Puede preparar metadata; verificar qué capacidades están licenciadas y si el objeto estándar cubre el caso.",
       "validacionHumana": "Humano valida proceso y cumplimiento.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Claim.ETC_Numero_Siniestro_Aseguradora__c"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "INS-005",
@@ -550,8 +649,13 @@
       "prerequisitos": "Estados y reglas del negocio asegurador.",
       "capacidadClaude": "Automatizable mediante picklists, flows y reglas; decisiones de suscripción y cancelación son humanas.",
       "validacionHumana": "Humano valida escenarios y excepciones.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:InsurancePolicy.ETC_Conducto_Cobro__c",
+        "ValidationRule:InsurancePolicy.ETC_Cancelacion_Requiere_Fecha",
+        "ValidationRule:InsurancePolicy.ETC_Vigencia_Valida"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "INS-006",
@@ -565,8 +669,14 @@
       "prerequisitos": "Flujo operativo y matriz de autorizaciones.",
       "capacidadClaude": "Puede construir automatizaciones; decisiones de cobertura, reservas y pago no deben delegarse al agente.",
       "validacionHumana": "Humano valida controles y aprobaciones.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Claim.ETC_Coaseguro_Aplicado__c",
+        "CustomField:Claim.ETC_Deducible_Aplicado__c",
+        "ValidationRule:Claim.ETC_Fecha_Siniestro_No_Futura",
+        "ValidationRule:Claim.ETC_Montos_No_Negativos"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "INS-007",
@@ -625,8 +735,11 @@
       "prerequisitos": "Modelo de casos y relaciones disponibles.",
       "capacidadClaude": "Puede configurar campos, relaciones y layouts; validar visibilidad de información sensible.",
       "validacionHumana": "Humano valida proceso y acceso.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Case.ETC_Poliza__c"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "INS-011",
@@ -700,8 +813,15 @@
       "prerequisitos": "FSC/licencia y definición de cuentas, estados y titulares.",
       "capacidadClaude": "Puede configurar extensiones; integración con core y saldos reales no se resuelve solo con metadata.",
       "validacionHumana": "Humano valida modelo y fuente maestra.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:FinancialAccount.ETC_CLABE__c",
+        "CustomField:FinancialAccount.ETC_Moneda__c",
+        "ValidationRule:FinancialAccount.ETC_CLABE_Formato",
+        "ValidationRule:FinancialAccount.ETC_Cierre_Requiere_Fecha",
+        "ValidationRule:FinancialAccount.ETC_Fechas_Validas"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "BNK-004",
@@ -715,8 +835,11 @@
       "prerequisitos": "Catálogo de productos y modelo comercial.",
       "capacidadClaude": "Puede crear catálogo y relaciones; condiciones, tasas y elegibilidad requieren aprobación.",
       "validacionHumana": "Humano valida producto y cumplimiento.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:FinancialAccount.ETC_Nivel_Cuenta__c"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "BNK-005",
@@ -790,8 +913,11 @@
       "prerequisitos": "Proceso KYC, documentos, sistemas externos y criterios de aprobación.",
       "capacidadClaude": "Puede automatizar tareas y estados; validación de identidad, screening y decisiones de riesgo requieren sistemas/personas autorizadas.",
       "validacionHumana": "Humano valida compliance e integración.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:FinancialAccount.ETC_Canal_Apertura__c"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "BNK-010",
@@ -820,8 +946,13 @@
       "prerequisitos": "Taxonomía de motivos, estados y SLA.",
       "capacidadClaude": "Puede configurar objetos, colas, flows y reportes; cumplimiento regulatorio debe validarse.",
       "validacionHumana": "Humano valida taxonomía y SLA.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Case.ETC_Cuenta_Financiera__c",
+        "CustomField:Case.ETC_Monto_Reclamado__c",
+        "ValidationRule:Case.ETC_Monto_Reclamado_No_Negativo"
+      ],
+      "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
     },
     {
       "id": "BNK-012",
@@ -940,8 +1071,13 @@
       "prerequisitos": "Objetivos, atributos y funcionalidades FSC disponibles.",
       "capacidadClaude": "Puede configurar metadata y páginas; metodología de planificación financiera es humana.",
       "validacionHumana": "Humano valida metodología.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:FinancialGoal.ETC_Horizonte__c",
+        "ValidationRule:FinancialGoal.ETC_Fecha_Meta_Valida",
+        "ValidationRule:FinancialGoal.ETC_Monto_Meta_Positivo"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "WLT-007",
@@ -1030,8 +1166,12 @@
       "prerequisitos": "Frecuencia, segmentos y responsables.",
       "capacidadClaude": "Automatizable con Flow/tareas; recomendaciones de inversión no deben generarse sin marco aprobado.",
       "validacionHumana": "Humano valida política de asesoría.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Account.ETC_Frecuencia_Revision__c",
+        "CustomField:Account.ETC_Proxima_Revision__c"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "WLT-013",
@@ -1060,8 +1200,13 @@
       "prerequisitos": "Catálogo, etapas y reglas de idoneidad.",
       "capacidadClaude": "Puede configurar metadata; suitability, recomendaciones y aceptación de riesgo requieren especialistas autorizados.",
       "validacionHumana": "Humano valida cumplimiento.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "Validado en org",
+      "componentes": [
+        "CustomField:Account.ETC_Fecha_Perfilamiento__c",
+        "CustomField:Account.ETC_Perfil_Inversionista__c",
+        "ValidationRule:Account.ETC_Perfil_Requiere_Fecha"
+      ],
+      "evidencia": "Check-only exitoso en la org de referencia; no desplegado (2026-11-17)."
     },
     {
       "id": "WLT-015",

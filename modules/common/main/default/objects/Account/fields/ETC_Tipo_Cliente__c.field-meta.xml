@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Tipo_Cliente__c</fullName>
+    <description>Etapa de la relación con el cliente.</description>
+    <label>Tipo de cliente</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospecto</fullName>
+                <default>true</default>
+                <label>Prospecto</label>
+            </value>
+            <value>
+                <fullName>Cliente activo</fullName>
+                <default>false</default>
+                <label>Cliente activo</label>
+            </value>
+            <value>
+                <fullName>Cliente inactivo</fullName>
+                <default>false</default>
+                <label>Cliente inactivo</label>
+            </value>
+            <value>
+                <fullName>Ex cliente</fullName>
+                <default>false</default>
+                <label>Ex cliente</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

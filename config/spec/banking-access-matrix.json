@@ -1,0 +1,96 @@
+{
+  "module": "banking",
+  "label": "Banca",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente. Requiere revisión de seguridad (COM-004, COM-007).",
+  "principles": [
+    "Los Permission Sets de la vertical se asignan además del Permission Set Group de la persona (base común).",
+    "Sin eliminar, sin Ver todo / Modificar todo.",
+    "Los objetos FSC requieren además la licencia de conjunto de permisos (PSL) correspondiente."
+  ],
+  "permissionSets": [
+    {
+      "name": "ETC_FSC_Banca_Comercial",
+      "label": "ETC FSC · Banca comercial",
+      "grants": "Cuentas financieras y titulares; consulta movimientos y sucursales"
+    },
+    {
+      "name": "ETC_FSC_Banca_Servicio",
+      "label": "ETC FSC · Banca servicio",
+      "grants": "Aclaraciones y casos sobre cuentas; consulta cuentas y movimientos"
+    },
+    {
+      "name": "ETC_FSC_Banca_Administracion",
+      "label": "ETC FSC · Banca administración",
+      "grants": "Lectura y edición de todos los campos ETC de Banca (administradores)"
+    }
+  ],
+  "permissionSetDefinitions": {
+    "ETC_FSC_Banca_Comercial": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "R",
+        "FinancialAccount": "CRE",
+        "FinancialAccountParty": "CRE",
+        "FinancialAccountTransaction": "R",
+        "BranchUnit": "R"
+      },
+      "fieldsRead": [
+        "Case.*"
+      ],
+      "fieldsEdit": [
+        "FinancialAccount.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Banca_Servicio": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "CRE",
+        "FinancialAccount": "R",
+        "FinancialAccountParty": "R",
+        "FinancialAccountTransaction": "R"
+      },
+      "fieldsRead": [
+        "FinancialAccount.*"
+      ],
+      "fieldsEdit": [
+        "Case.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Banca_Administracion": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "R",
+        "FinancialAccount": "R"
+      },
+      "fieldsRead": [],
+      "fieldsEdit": [
+        "FinancialAccount.*",
+        "Case.*"
+      ],
+      "exclude": []
+    }
+  },
+  "assignment": {
+    "asesor": [
+      "ETC_FSC_Banca_Comercial"
+    ],
+    "gerente": [
+      "ETC_FSC_Banca_Comercial"
+    ],
+    "servicio": [
+      "ETC_FSC_Banca_Servicio"
+    ],
+    "supervisor": [
+      "ETC_FSC_Banca_Servicio"
+    ],
+    "admin": [
+      "ETC_FSC_Banca_Administracion"
+    ]
+  }
+}

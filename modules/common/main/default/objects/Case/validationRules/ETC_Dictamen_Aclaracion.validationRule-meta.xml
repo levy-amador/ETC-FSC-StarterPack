@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Dictamen_Aclaracion</fullName>
+    <active>true</active>
+    <description>Aclaraciones y quejas cerradas requieren dictamen</description>
+    <errorConditionFormula>AND(OR(IsClosed, ISPICKVAL(Status, &quot;Closed&quot;)), OR(ISPICKVAL(Type, &quot;Aclaración&quot;), ISPICKVAL(Type, &quot;Queja&quot;)), ISBLANK(TEXT(ETC_Dictamen__c)))</errorConditionFormula>
+    <errorMessage>Las aclaraciones y quejas requieren dictamen al cerrarse.</errorMessage>
+</ValidationRule>

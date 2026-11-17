@@ -7,7 +7,8 @@
     "Permission Set First: permisos por Permission Set Groups; perfiles solo para lo que Metadata API exige.",
     "Sin Ver todo / Modificar todo ni permisos administrativos en conjuntos operativos.",
     "Sin permiso de eliminar en usuarios operativos.",
-    "Los datos sensibles (KYC, riesgo PLD, estado civil) se restringen por seguridad de campo."
+    "Los datos sensibles (KYC, riesgo PLD, estado civil) se restringen por seguridad de campo.",
+    "Ejecutivo y supervisor de servicio comparten permisos; los distingue el rol (el supervisor ve los casos de su equipo por jerarquía)."
   ],
   "personas": [
     {
@@ -265,27 +266,32 @@
     {
       "name": "ETC_FSC_Base_Access",
       "label": "ETC FSC · Base",
-      "grants": "App del Starter Pack, pestañas y lectura de campos ETC no sensibles"
+      "grants": "App del Starter Pack; leer Account, Contact y Case; leer sus campos ETC no sensibles (excluye nivel de riesgo y estado civil)"
     },
     {
       "name": "ETC_FSC_Comercial",
       "label": "ETC FSC · Comercial",
-      "grants": "Crear/leer/editar Lead, Account, Contact, Opportunity; crear casos; editar campos comerciales"
+      "grants": "Crear/leer/editar Lead, Account, Contact y Opportunity; crear y leer casos; editar campos comerciales, RFC, CURP y estado civil"
     },
     {
       "name": "ETC_FSC_Servicio",
       "label": "ETC FSC · Servicio",
-      "grants": "Crear/leer/editar Case; leer Account y Contact; editar dictamen y resolución"
+      "grants": "Crear/leer/editar Case; editar folio, dictamen, fecha compromiso y resolución"
     },
     {
       "name": "ETC_FSC_Cumplimiento",
       "label": "ETC FSC · Cumplimiento",
-      "grants": "Editar RFC, CURP, estatus KYC, fecha de revisión y nivel de riesgo"
+      "grants": "Leer/editar Account y Contact; editar RFC, CURP, estatus KYC, fecha de revisión y nivel de riesgo; leer estado civil"
     },
     {
-      "name": "ETC_FSC_Supervision",
-      "label": "ETC FSC · Supervisión",
-      "grants": "Ver nivel de riesgo, reportes y dashboards de equipo"
+      "name": "ETC_FSC_Lectura_Comercial",
+      "label": "ETC FSC · Lectura comercial",
+      "grants": "Leer Lead y Opportunity con sus campos ETC"
+    },
+    {
+      "name": "ETC_FSC_Riesgo_Lectura",
+      "label": "ETC FSC · Lectura de riesgo",
+      "grants": "Leer el nivel de riesgo PLD"
     }
   ],
   "permissionSetGroups": {
@@ -296,7 +302,7 @@
     "ETC_PSG_Gerente": [
       "ETC_FSC_Base_Access",
       "ETC_FSC_Comercial",
-      "ETC_FSC_Supervision"
+      "ETC_FSC_Riesgo_Lectura"
     ],
     "ETC_PSG_Ejecutivo_Servicio": [
       "ETC_FSC_Base_Access",
@@ -304,8 +310,7 @@
     ],
     "ETC_PSG_Supervisor_Servicio": [
       "ETC_FSC_Base_Access",
-      "ETC_FSC_Servicio",
-      "ETC_FSC_Supervision"
+      "ETC_FSC_Servicio"
     ],
     "ETC_PSG_Cumplimiento": [
       "ETC_FSC_Base_Access",
@@ -313,7 +318,8 @@
     ],
     "ETC_PSG_Direccion": [
       "ETC_FSC_Base_Access",
-      "ETC_FSC_Supervision"
+      "ETC_FSC_Lectura_Comercial",
+      "ETC_FSC_Riesgo_Lectura"
     ]
   },
   "askClient": [
@@ -322,5 +328,103 @@
     "¿Quién puede ver el nivel de riesgo PLD?",
     "¿Licencias contratadas por persona (FSC Sales / FSC Service)?",
     "¿Hay usuarios externos (portal, brokers, aliados)?"
-  ]
+  ],
+  "permissionSetDefinitions": {
+    "ETC_FSC_Base_Access": {
+      "app": true,
+      "objects": {
+        "Account": "R",
+        "Contact": "R",
+        "Case": "R"
+      },
+      "fieldsRead": [
+        "Account.*",
+        "Contact.*",
+        "Case.*"
+      ],
+      "fieldsEdit": [],
+      "exclude": [
+        "Account.ETC_Nivel_Riesgo__c",
+        "Contact.ETC_Estado_Civil__c"
+      ]
+    },
+    "ETC_FSC_Comercial": {
+      "objects": {
+        "Lead": "CRE",
+        "Account": "CRE",
+        "Contact": "CRE",
+        "Opportunity": "CRE",
+        "Case": "CR"
+      },
+      "fieldsRead": [
+        "Account.ETC_Estatus_KYC__c",
+        "Account.ETC_Fecha_Revision_KYC__c"
+      ],
+      "fieldsEdit": [
+        "Lead.*",
+        "Account.*",
+        "Contact.*",
+        "Opportunity.*"
+      ],
+      "exclude": [
+        "Account.ETC_Nivel_Riesgo__c",
+        "Account.ETC_Estatus_KYC__c",
+        "Account.ETC_Fecha_Revision_KYC__c"
+      ]
+    },
+    "ETC_FSC_Servicio": {
+      "objects": {
+        "Case": "CRE",
+        "Account": "R",
+        "Contact": "R"
+      },
+      "fieldsRead": [],
+      "fieldsEdit": [
+        "Case.*"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Cumplimiento": {
+      "objects": {
+        "Account": "RE",
+        "Contact": "RE"
+      },
+      "fieldsRead": [
+        "Contact.ETC_Estado_Civil__c"
+      ],
+      "fieldsEdit": [
+        "Account.ETC_RFC__c",
+        "Contact.ETC_CURP__c",
+        "Account.ETC_Estatus_KYC__c",
+        "Account.ETC_Fecha_Revision_KYC__c",
+        "Account.ETC_Nivel_Riesgo__c"
+      ],
+      "exclude": []
+    },
+    "ETC_FSC_Lectura_Comercial": {
+      "objects": {
+        "Account": "R",
+        "Lead": "R",
+        "Opportunity": "R",
+        "Contact": "R"
+      },
+      "fieldsRead": [
+        "Lead.*",
+        "Opportunity.*"
+      ],
+      "fieldsEdit": [],
+      "exclude": []
+    },
+    "ETC_FSC_Riesgo_Lectura": {
+      "objects": {
+        "Account": "R",
+        "Contact": "R"
+      },
+      "fieldsRead": [
+        "Account.ETC_Nivel_Riesgo__c"
+      ],
+      "fieldsEdit": [],
+      "exclude": []
+    }
+  }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Account.ETC_Empresa</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>CaseType</members>
+        <members>LeadSource</members>
+        <members>OpportunityType</members>
+        <name>StandardValueSet</name>
+    </types>
+    <version>68.0</version>
+</Package>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Fechas_Validas</fullName>
+    <active>true</active>
+    <description>La fecha de cierre no puede ser anterior a la apertura</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(OpeningDate)), NOT(ISBLANK(ClosingDate)), ClosingDate &lt; OpeningDate)</errorConditionFormula>
+    <errorMessage>La fecha de cierre no puede ser anterior a la de apertura.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Ejecutivo de servicio: ETC_FSC_Base_Access + ETC_FSC_Servicio</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ETC | Ejecutivo de servicio</label>
+    <permissionSets>ETC_FSC_Base_Access</permissionSets>
+    <permissionSets>ETC_FSC_Servicio</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

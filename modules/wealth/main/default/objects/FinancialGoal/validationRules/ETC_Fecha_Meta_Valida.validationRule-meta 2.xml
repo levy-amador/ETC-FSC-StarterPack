@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Fecha_Meta_Valida</fullName>
+    <active>true</active>
+    <description>La fecha meta debe ser posterior al inicio</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(StartDate)), NOT(ISBLANK(TargetDate)), TargetDate &lt;= StartDate)</errorConditionFormula>
+    <errorMessage>La fecha meta debe ser posterior a la fecha de inicio.</errorMessage>
+</ValidationRule>

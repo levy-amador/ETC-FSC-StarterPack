@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_RFC_Formato</fullName>
+    <active>true</active>
+    <description>RFC de 12 caracteres (persona moral) o 13 (persona física), en mayúsculas</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(ETC_RFC__c)), IF(IsPersonAccount, NOT(REGEX(ETC_RFC__c, &quot;[A-ZÑ&amp;]{4}[0-9]{6}[A-Z0-9]{3}&quot;)), NOT(REGEX(ETC_RFC__c, &quot;[A-ZÑ&amp;]{3}[0-9]{6}[A-Z0-9]{3}&quot;))))</errorConditionFormula>
+    <errorMessage>El RFC no tiene un formato válido: 12 caracteres para persona moral, 13 para persona física, en mayúsculas y sin guiones.</errorMessage>
+</ValidationRule>

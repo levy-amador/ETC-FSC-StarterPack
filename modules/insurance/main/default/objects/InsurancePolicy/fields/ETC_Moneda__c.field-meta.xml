@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Moneda__c</fullName>
+    <description>Moneda en que se pacta la suma asegurada y la prima.</description>
+    <label>Moneda de la póliza</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MXN</fullName>
+                <default>true</default>
+                <label>MXN</label>
+            </value>
+            <value>
+                <fullName>USD</fullName>
+                <default>false</default>
+                <label>USD</label>
+            </value>
+            <value>
+                <fullName>UDI</fullName>
+                <default>false</default>
+                <label>UDI</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

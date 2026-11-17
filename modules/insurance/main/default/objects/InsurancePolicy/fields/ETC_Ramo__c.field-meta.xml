@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Ramo__c</fullName>
+    <description>Ramo de seguro según la clasificación usada en México.</description>
+    <label>Ramo</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Vida</fullName>
+                <default>false</default>
+                <label>Vida</label>
+            </value>
+            <value>
+                <fullName>Gastos médicos mayores</fullName>
+                <default>false</default>
+                <label>Gastos médicos mayores</label>
+            </value>
+            <value>
+                <fullName>Accidentes personales</fullName>
+                <default>false</default>
+                <label>Accidentes personales</label>
+            </value>
+            <value>
+                <fullName>Autos</fullName>
+                <default>false</default>
+                <label>Autos</label>
+            </value>
+            <value>
+                <fullName>Daños</fullName>
+                <default>false</default>
+                <label>Daños</label>
+            </value>
+            <value>
+                <fullName>Responsabilidad civil</fullName>
+                <default>false</default>
+                <label>Responsabilidad civil</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

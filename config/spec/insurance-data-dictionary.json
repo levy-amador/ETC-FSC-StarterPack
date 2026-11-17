@@ -1,0 +1,169 @@
+{
+  "module": "insurance",
+  "label": "Seguros",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente",
+  "usage": "Complementa los campos estándar de FSC (vigencias, primas, montos, estados), que se reutilizan tal cual. Se usa si el cliente no entrega su definición.",
+  "conventions": {
+    "prefix": "ETC_",
+    "standardFirst": "Se reutilizan los campos estándar de los objetos FSC Core; solo se agregan campos ETC para datos de México o del proceso ETC."
+  },
+  "fields": [
+    {
+      "object": "InsurancePolicy",
+      "apiName": "ETC_Ramo__c",
+      "label": "Ramo",
+      "type": "Picklist",
+      "purpose": "Ramo de seguro según la clasificación usada en México.",
+      "catalog": "INS-001",
+      "values": [
+        "Vida",
+        "Gastos médicos mayores",
+        "Accidentes personales",
+        "Autos",
+        "Daños",
+        "Responsabilidad civil"
+      ],
+      "askClient": "¿Qué ramos manejan?"
+    },
+    {
+      "object": "InsurancePolicy",
+      "apiName": "ETC_Aseguradora__c",
+      "label": "Aseguradora",
+      "type": "Text",
+      "purpose": "Compañía que emite la póliza (relevante para agentes y corredurías).",
+      "catalog": "INS-001",
+      "length": 100
+    },
+    {
+      "object": "InsurancePolicy",
+      "apiName": "ETC_Moneda__c",
+      "label": "Moneda de la póliza",
+      "type": "Picklist",
+      "purpose": "Moneda en que se pacta la suma asegurada y la prima.",
+      "catalog": "INS-001",
+      "values": [
+        "MXN",
+        "USD",
+        "UDI"
+      ],
+      "default": "MXN"
+    },
+    {
+      "object": "InsurancePolicy",
+      "apiName": "ETC_Conducto_Cobro__c",
+      "label": "Conducto de cobro",
+      "type": "Picklist",
+      "purpose": "Medio por el que se cobra la prima.",
+      "catalog": "INS-005",
+      "values": [
+        "Domiciliación",
+        "Tarjeta de crédito",
+        "Transferencia",
+        "Ventanilla",
+        "Descuento por nómina"
+      ]
+    },
+    {
+      "object": "Claim",
+      "apiName": "ETC_Numero_Siniestro_Aseguradora__c",
+      "label": "Número de siniestro (aseguradora)",
+      "type": "Text",
+      "purpose": "Folio que asigna la aseguradora al siniestro.",
+      "catalog": "INS-004",
+      "length": 40
+    },
+    {
+      "object": "Claim",
+      "apiName": "ETC_Deducible_Aplicado__c",
+      "label": "Deducible aplicado",
+      "type": "Currency",
+      "purpose": "Monto de deducible aplicado al siniestro.",
+      "catalog": "INS-006"
+    },
+    {
+      "object": "Claim",
+      "apiName": "ETC_Coaseguro_Aplicado__c",
+      "label": "Coaseguro aplicado",
+      "type": "Currency",
+      "purpose": "Monto de coaseguro aplicado al siniestro.",
+      "catalog": "INS-006"
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Poliza__c",
+      "label": "Póliza",
+      "type": "Lookup",
+      "purpose": "Póliza relacionada con la solicitud o reclamación.",
+      "catalog": "INS-010",
+      "referenceTo": "InsurancePolicy",
+      "relationshipName": "ETC_Casos_Poliza",
+      "relationshipLabel": "Casos"
+    }
+  ],
+  "standardFields": [
+    {
+      "object": "InsurancePolicy",
+      "apiName": "Status",
+      "label": "Estado",
+      "use": "Ciclo de vida de la póliza (INS-005)",
+      "values": null
+    },
+    {
+      "object": "InsurancePolicy",
+      "apiName": "EffectiveDate / ExpirationDate",
+      "label": "Vigencia",
+      "use": "Inicio y fin de vigencia; base de renovaciones (INS-007)",
+      "values": null
+    },
+    {
+      "object": "InsurancePolicy",
+      "apiName": "PremiumAmount / PremiumFrequency",
+      "label": "Prima y frecuencia",
+      "use": "Prima y forma de pago",
+      "values": null
+    },
+    {
+      "object": "Claim",
+      "apiName": "Status / LossDate / EstimatedAmount / ApprovedAmount",
+      "label": "Siniestro",
+      "use": "Ciclo de vida y montos del siniestro (INS-006)",
+      "values": null
+    }
+  ],
+  "validationRules": [
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Vigencia_Valida",
+      "purpose": "El fin de vigencia no puede ser anterior al inicio",
+      "formula": "AND(NOT(ISBLANK(EffectiveDate)), NOT(ISBLANK(ExpirationDate)), ExpirationDate < EffectiveDate)",
+      "message": "El fin de vigencia no puede ser anterior al inicio de vigencia.",
+      "catalog": "INS-005"
+    },
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Cancelacion_Requiere_Fecha",
+      "purpose": "Una póliza cancelada requiere fecha de cancelación",
+      "formula": "AND(ISPICKVAL(Status, \"Canceled\"), ISBLANK(CancellationDate))",
+      "message": "Captura la fecha de cancelación.",
+      "catalog": "INS-005"
+    },
+    {
+      "object": "Claim",
+      "name": "ETC_Fecha_Siniestro_No_Futura",
+      "purpose": "La fecha de ocurrencia no puede ser futura",
+      "formula": "AND(NOT(ISBLANK(LossDate)), LossDate > NOW())",
+      "message": "La fecha de ocurrencia del siniestro no puede ser futura.",
+      "catalog": "INS-006"
+    },
+    {
+      "object": "Claim",
+      "name": "ETC_Montos_No_Negativos",
+      "purpose": "Montos del siniestro no negativos",
+      "formula": "OR(ApprovedAmount < 0, ETC_Deducible_Aplicado__c < 0, ETC_Coaseguro_Aplicado__c < 0)",
+      "message": "Los montos del siniestro no pueden ser negativos.",
+      "catalog": "INS-006"
+    }
+  ],
+  "duplicateRules": []
+}

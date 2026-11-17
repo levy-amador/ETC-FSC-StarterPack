@@ -16,8 +16,9 @@ A cada cliente se le despliega una **base común** más **una vertical**, que se
 - ✔ Arquitectura modular y scripts operativos: configure, assess, build, validate, deploy, test y deployment-report.
 - ✔ Catálogo de 71 configuraciones importado como fuente única ([docs/CATALOG.md](docs/CATALOG.md)).
 - ✔ Objetos FSC Core por módulo, tomados de la documentación oficial ([config/modules.json](config/modules.json)).
-- ◐ Base común: diccionario de datos y matriz de acceso en borrador (base ETC predeterminada) en `config/spec/`. Falta aprobarlos o ajustarlos con el cliente y generar la metadata.
-- ○ Diccionario y matriz de cada vertical: pendientes.
+- ✔ Metadata inicial generada desde `config/spec/` para la base común y las 3 verticales (`npm run generate`).
+- ✔ Prueba real en la org de referencia (2026-11-17): base común + Banca **desplegadas**, 13/13 pruebas funcionales OK; Seguros y Patrimonial **validadas con check-only**. Lecciones en [LESSONS_REFERENCE_ORG](docs/LESSONS_REFERENCE_ORG.md).
+- ○ Pendiente: layouts, Lightning pages, list views, flows y reportes; aprobación del cliente de la base ETC.
 - ✔ Org FSC de referencia habilitada: base común y las 3 verticales en **Listo** (`npm run assess`, 2026-11-17 · [docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
 
 ## Uso rápido
@@ -31,7 +32,8 @@ npm run validate -- --target-org ETC_FSC              # validaciones locales + c
 npm run deploy   -- --target-org ETC_FSC              # confirma vertical y despliegue
 npm run test     -- --target-org ETC_FSC --allow-data --cleanup
 npm run deployment-report -- --target-org ETC_FSC
-npm run docs                                          # regenera docs del catálogo
+npm run generate                                      # metadata desde config/spec/
+npm run docs                                          # regenera docs del catálogo y de la especificación
 ```
 
 Requisitos: Salesforce CLI 2.x y Node.js 18 o superior. No hay dependencias npm y el proyecto no guarda credenciales.
@@ -48,6 +50,8 @@ config/spec/                    Diccionario de datos y matriz de acceso por mód
 scripts/                        configure · assess · deploy (build, stages, deploy, report) · validate · test · generate
 docs/                           Arquitectura, despliegue, catálogo y un documento por módulo
 presentation/                   Generador de la presentación Quick Start
+templates/                      Formato de solicitud al cliente (Excel) y su generador
+tests/<módulo>/                 Pruebas funcionales (npm run test)
 deployments/<alias>/            Evidencia por instancia (no versionada)
 ```
 
@@ -58,6 +62,8 @@ deployments/<alias>/            Evidencia por instancia (no versionada)
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | Principios, módulos y decisiones |
 | [DEPLOYMENT](docs/DEPLOYMENT.md) | Flujo de despliegue y controles |
 | [DATA_DICTIONARY](docs/DATA_DICTIONARY.md) · [ACCESS_MATRIX](docs/ACCESS_MATRIX.md) | Campos, validaciones, duplicados y seguridad de la base común (generado desde `config/spec/`) |
+| [verticals/](docs/verticals/) | Diccionario y permisos de Seguros, Banca y Patrimonial (generado) |
+| [LESSONS_REFERENCE_ORG](docs/LESSONS_REFERENCE_ORG.md) | Hallazgos de la prueba real y sus correcciones |
 | [CATALOG](docs/CATALOG.md) · [modules/](docs/modules/) | Alcance por módulo (generado) |
 | [ROADMAP](docs/ROADMAP.md) | Siguientes pasos de construcción |
 | [REFERENCE_ORG](docs/REFERENCE_ORG.md) | Diagnóstico de la org de referencia y pasos de Setup |

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Fecha_Aviso_Privacidad__c</fullName>
+    <description>Evidencia de aceptación del aviso de privacidad (LFPDPPP).</description>
+    <label>Aceptación del aviso de privacidad</label>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

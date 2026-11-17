@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Estado_Civil__c</fullName>
+    <description>Dato de perfil para hogares y productos.</description>
+    <label>Estado civil</label>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Soltero(a)</fullName>
+                <default>false</default>
+                <label>Soltero(a)</label>
+            </value>
+            <value>
+                <fullName>Casado(a)</fullName>
+                <default>false</default>
+                <label>Casado(a)</label>
+            </value>
+            <value>
+                <fullName>Unión libre</fullName>
+                <default>false</default>
+                <label>Unión libre</label>
+            </value>
+            <value>
+                <fullName>Divorciado(a)</fullName>
+                <default>false</default>
+                <label>Divorciado(a)</label>
+            </value>
+            <value>
+                <fullName>Viudo(a)</fullName>
+                <default>false</default>
+                <label>Viudo(a)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Segmento__c</fullName>
+    <description>Segmento estimado; pasa a la cuenta al convertir.</description>
+    <label>Segmento</label>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Masivo</fullName>
+                <default>false</default>
+                <label>Masivo</label>
+            </value>
+            <value>
+                <fullName>Preferente</fullName>
+                <default>false</default>
+                <label>Preferente</label>
+            </value>
+            <value>
+                <fullName>Patrimonial</fullName>
+                <default>false</default>
+                <label>Patrimonial</label>
+            </value>
+            <value>
+                <fullName>PyME</fullName>
+                <default>false</default>
+                <label>PyME</label>
+            </value>
+            <value>
+                <fullName>Empresarial</fullName>
+                <default>false</default>
+                <label>Empresarial</label>
+            </value>
+            <value>
+                <fullName>Corporativo</fullName>
+                <default>false</default>
+                <label>Corporativo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

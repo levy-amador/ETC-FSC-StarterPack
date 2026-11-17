@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_KYC_Fecha_Revision</fullName>
+    <active>true</active>
+    <description>Un expediente Aprobado debe tener fecha de revisión</description>
+    <errorConditionFormula>AND(ISPICKVAL(ETC_Estatus_KYC__c, &quot;Aprobado&quot;), ISBLANK(ETC_Fecha_Revision_KYC__c))</errorConditionFormula>
+    <errorMessage>Captura la fecha de revisión KYC para marcar el expediente como Aprobado.</errorMessage>
+</ValidationRule>

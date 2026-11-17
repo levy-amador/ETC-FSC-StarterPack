@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Resolucion_Al_Cerrar</fullName>
+    <active>true</active>
+    <description>No se cierra un caso sin resolución</description>
+    <errorConditionFormula>AND(OR(IsClosed, ISPICKVAL(Status, &quot;Closed&quot;)), ISBLANK(ETC_Resolucion__c))</errorConditionFormula>
+    <errorMessage>Captura la resolución antes de cerrar el caso.</errorMessage>
+</ValidationRule>

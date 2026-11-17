@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Perfil_Inversionista__c</fullName>
+    <description>Resultado del perfilamiento del cliente. Lo determina el proceso de perfilamiento aprobado, no el asesor por su cuenta.</description>
+    <label>Perfil de inversionista</label>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Conservador</fullName>
+                <default>false</default>
+                <label>Conservador</label>
+            </value>
+            <value>
+                <fullName>Moderado</fullName>
+                <default>false</default>
+                <label>Moderado</label>
+            </value>
+            <value>
+                <fullName>Balanceado</fullName>
+                <default>false</default>
+                <label>Balanceado</label>
+            </value>
+            <value>
+                <fullName>Agresivo</fullName>
+                <default>false</default>
+                <label>Agresivo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

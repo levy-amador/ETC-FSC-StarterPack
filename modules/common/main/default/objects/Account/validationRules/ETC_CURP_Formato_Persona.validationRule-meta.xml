@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_CURP_Formato_Persona</fullName>
+    <active>true</active>
+    <description>CURP de 18 caracteres en cuentas personales</description>
+    <errorConditionFormula>AND(IsPersonAccount, NOT(ISBLANK(ETC_CURP__pc)), NOT(REGEX(ETC_CURP__pc, &quot;[A-Z]{4}[0-9]{6}[HMX][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]&quot;)))</errorConditionFormula>
+    <errorMessage>La CURP no tiene un formato válido (18 caracteres en mayúsculas).</errorMessage>
+</ValidationRule>

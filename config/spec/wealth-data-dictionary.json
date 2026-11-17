@@ -1,0 +1,121 @@
+{
+  "module": "wealth",
+  "label": "Patrimonial",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente",
+  "usage": "Complementa los campos estándar de FSC (vigencias, primas, montos, estados), que se reutilizan tal cual. Se usa si el cliente no entrega su definición.",
+  "conventions": {
+    "prefix": "ETC_",
+    "standardFirst": "Se reutilizan los campos estándar de los objetos FSC Core; solo se agregan campos ETC para datos de México o del proceso ETC."
+  },
+  "fields": [
+    {
+      "object": "Account",
+      "apiName": "ETC_Perfil_Inversionista__c",
+      "label": "Perfil de inversionista",
+      "type": "Picklist",
+      "purpose": "Resultado del perfilamiento del cliente. Lo determina el proceso de perfilamiento aprobado, no el asesor por su cuenta.",
+      "catalog": "WLT-014",
+      "values": [
+        "Conservador",
+        "Moderado",
+        "Balanceado",
+        "Agresivo"
+      ],
+      "sensitive": true,
+      "askClient": "¿Qué perfiles usan y con qué cuestionario se determinan?"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Fecha_Perfilamiento__c",
+      "label": "Fecha de perfilamiento",
+      "type": "Date",
+      "purpose": "Fecha del último perfilamiento; base para su actualización.",
+      "catalog": "WLT-014"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Frecuencia_Revision__c",
+      "label": "Frecuencia de revisión",
+      "type": "Picklist",
+      "purpose": "Cada cuánto se revisa la cartera con el cliente.",
+      "catalog": "WLT-012",
+      "values": [
+        "Trimestral",
+        "Semestral",
+        "Anual"
+      ]
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Proxima_Revision__c",
+      "label": "Próxima revisión de cartera",
+      "type": "Date",
+      "purpose": "Fecha de la siguiente revisión programada.",
+      "catalog": "WLT-012"
+    },
+    {
+      "object": "FinancialGoal",
+      "apiName": "ETC_Horizonte__c",
+      "label": "Horizonte",
+      "type": "Picklist",
+      "purpose": "Plazo del objetivo financiero.",
+      "catalog": "WLT-006",
+      "values": [
+        "Corto plazo (menos de 1 año)",
+        "Mediano plazo (1 a 5 años)",
+        "Largo plazo (más de 5 años)"
+      ]
+    }
+  ],
+  "standardFields": [
+    {
+      "object": "FinancialGoal",
+      "apiName": "Type / TargetAmount / TargetDate / Status",
+      "label": "Objetivo financiero",
+      "use": "Meta, monto, fecha y avance (WLT-006)",
+      "values": null
+    },
+    {
+      "object": "FinancialAccount",
+      "apiName": "Type / Status / IsManaged",
+      "label": "Cuenta de inversión",
+      "use": "Cuentas de inversión y custodia (WLT-003)",
+      "values": null
+    },
+    {
+      "object": "SecuritiesHolding",
+      "apiName": "Shares / MarketValue / AssetClass",
+      "label": "Tenencias",
+      "use": "Se cargan por integración con custodios (WLT-004, fuera de alcance)",
+      "values": null
+    }
+  ],
+  "validationRules": [
+    {
+      "object": "Account",
+      "name": "ETC_Perfil_Requiere_Fecha",
+      "purpose": "Un perfil de inversionista requiere fecha de perfilamiento",
+      "formula": "AND(NOT(ISBLANK(TEXT(ETC_Perfil_Inversionista__c))), ISBLANK(ETC_Fecha_Perfilamiento__c))",
+      "message": "Captura la fecha de perfilamiento.",
+      "catalog": "WLT-014"
+    },
+    {
+      "object": "FinancialGoal",
+      "name": "ETC_Fecha_Meta_Valida",
+      "purpose": "La fecha meta debe ser posterior al inicio",
+      "formula": "AND(NOT(ISBLANK(StartDate)), NOT(ISBLANK(TargetDate)), TargetDate <= StartDate)",
+      "message": "La fecha meta debe ser posterior a la fecha de inicio.",
+      "catalog": "WLT-006"
+    },
+    {
+      "object": "FinancialGoal",
+      "name": "ETC_Monto_Meta_Positivo",
+      "purpose": "El monto meta debe ser mayor a cero",
+      "formula": "AND(NOT(ISBLANK(TargetAmount)), TargetAmount <= 0)",
+      "message": "El monto meta debe ser mayor a cero.",
+      "catalog": "WLT-006"
+    }
+  ],
+  "duplicateRules": []
+}

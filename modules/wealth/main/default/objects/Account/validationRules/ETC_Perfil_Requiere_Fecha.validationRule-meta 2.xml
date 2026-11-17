@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Perfil_Requiere_Fecha</fullName>
+    <active>true</active>
+    <description>Un perfil de inversionista requiere fecha de perfilamiento</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(TEXT(ETC_Perfil_Inversionista__c))), ISBLANK(ETC_Fecha_Perfilamiento__c))</errorConditionFormula>
+    <errorMessage>Captura la fecha de perfilamiento.</errorMessage>
+</ValidationRule>

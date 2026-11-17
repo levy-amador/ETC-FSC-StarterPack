@@ -224,7 +224,7 @@
     {
       "object": "Contact",
       "apiName": "ETC_Fecha_Aviso_Privacidad__c",
-      "label": "Fecha de aceptación del aviso de privacidad",
+      "label": "Aceptación del aviso de privacidad",
       "type": "Date",
       "purpose": "Evidencia de aceptación del aviso de privacidad (LFPDPPP).",
       "catalog": "COM-010",
@@ -360,7 +360,7 @@
         "Alianza",
         "Otro"
       ],
-      "valueSet": "AccountSource"
+      "note": "Salesforce no permite desplegar AccountSource como Standard Value Set (validado en la org de referencia); los valores se administran en Setup."
     },
     {
       "object": "Account",
@@ -408,27 +408,16 @@
       "object": "Case",
       "apiName": "Origin",
       "label": "Canal de atención",
-      "use": "Canal de entrada",
-      "values": [
-        "Teléfono",
-        "Correo electrónico",
-        "Sucursal",
-        "Web",
-        "App",
-        "WhatsApp"
-      ],
+      "use": "Canal de entrada (se usan los valores estándar: Email-to-Case y escalamientos dependen de ellos)",
+      "values": null,
       "valueSet": "CaseOrigin"
     },
     {
       "object": "Case",
       "apiName": "Priority",
       "label": "Prioridad",
-      "use": "Atención y escalamiento",
-      "values": [
-        "Alta",
-        "Media",
-        "Baja"
-      ],
+      "use": "Atención y escalamiento (se usan los valores estándar: Email-to-Case y escalamientos dependen de ellos)",
+      "values": null,
       "valueSet": "CasePriority"
     },
     {
@@ -479,6 +468,15 @@
     },
     {
       "object": "Account",
+      "name": "ETC_CURP_Formato_Persona",
+      "purpose": "CURP de 18 caracteres en cuentas personales",
+      "formula": "AND(IsPersonAccount, NOT(ISBLANK(ETC_CURP__pc)), NOT(REGEX(ETC_CURP__pc, \"[A-Z]{4}[0-9]{6}[HMX][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]\")))",
+      "message": "La CURP no tiene un formato válido (18 caracteres en mayúsculas).",
+      "catalog": "COM-028",
+      "note": "Las validaciones de Contact no se ejecutan al crear o editar cuentas personales (prueba COM-T03); esta regla cubre ese caso."
+    },
+    {
+      "object": "Account",
       "name": "ETC_KYC_Fecha_Revision",
       "purpose": "Un expediente Aprobado debe tener fecha de revisión",
       "formula": "AND(ISPICKVAL(ETC_Estatus_KYC__c, \"Aprobado\"), ISBLANK(ETC_Fecha_Revision_KYC__c))",
@@ -506,15 +504,16 @@
       "object": "Case",
       "name": "ETC_Resolucion_Al_Cerrar",
       "purpose": "No se cierra un caso sin resolución",
-      "formula": "AND(IsClosed, ISBLANK(ETC_Resolucion__c))",
+      "formula": "AND(OR(IsClosed, ISPICKVAL(Status, \"Closed\")), ISBLANK(ETC_Resolucion__c))",
       "message": "Captura la resolución antes de cerrar el caso.",
-      "catalog": "COM-019"
+      "catalog": "COM-019",
+      "note": "IsClosed no está calculado al validar un caso que se crea ya cerrado (prueba COM-T07); por eso también se evalúa Status."
     },
     {
       "object": "Case",
       "name": "ETC_Dictamen_Aclaracion",
       "purpose": "Aclaraciones y quejas cerradas requieren dictamen",
-      "formula": "AND(IsClosed, OR(ISPICKVAL(Type, \"Aclaración\"), ISPICKVAL(Type, \"Queja\")), ISBLANK(TEXT(ETC_Dictamen__c)))",
+      "formula": "AND(OR(IsClosed, ISPICKVAL(Status, \"Closed\")), OR(ISPICKVAL(Type, \"Aclaración\"), ISPICKVAL(Type, \"Queja\")), ISBLANK(TEXT(ETC_Dictamen__c)))",
       "message": "Las aclaraciones y quejas requieren dictamen al cerrarse.",
       "catalog": "COM-019"
     },
@@ -538,10 +537,10 @@
       "object": "Lead",
       "name": "ETC_Motivo_Descalificacion",
       "purpose": "Prospecto descalificado requiere motivo",
-      "formula": "AND(ISPICKVAL(Status, \"Closed - Not Converted\"), ISBLANK(TEXT(ETC_Motivo_Descalificacion__c)))",
+      "formula": "AND(ISPICKVAL(Status, \"Unqualified\"), ISBLANK(TEXT(ETC_Motivo_Descalificacion__c)))",
       "message": "Indica el motivo de descalificación.",
       "catalog": "COM-019",
-      "note": "El valor de estado se ajusta al Lead Status que defina el cliente."
+      "note": "Usa el estado estándar Unqualified (API). Se ajusta si el cliente define otros estados de prospecto."
     }
   ],
   "duplicateRules": [
@@ -556,27 +555,29 @@
       "catalog": "COM-027"
     },
     {
-      "object": "Account",
+      "object": "PersonAccount",
       "name": "ETC_Persona_CURP",
       "match": "CURP exacta (cuentas personales)",
       "fields": [
         "ETC_CURP__pc"
       ],
       "action": "Alertar (no bloquear)",
-      "catalog": "COM-027"
+      "catalog": "COM-027",
+      "note": "En metadata, las reglas de cuentas personales viven en el objeto PersonAccount (no Account)."
     },
     {
-      "object": "Account",
+      "object": "PersonAccount",
       "name": "ETC_Persona_Correo_Nombre",
-      "match": "Correo exacto o nombre + fecha de nacimiento (cuentas personales)",
+      "match": "Correo exacto o nombre + celular (cuentas personales)",
       "fields": [
         "PersonEmail",
         "FirstName",
         "LastName",
-        "PersonBirthdate"
+        "PersonMobilePhone"
       ],
       "action": "Alertar (no bloquear)",
-      "catalog": "COM-027"
+      "catalog": "COM-027",
+      "note": "En metadata, las reglas de cuentas personales viven en el objeto PersonAccount (no Account). Las matching rules no aceptan campos de fecha (PersonBirthdate rechazado en la org de referencia); se usa el celular."
     },
     {
       "object": "Contact",
