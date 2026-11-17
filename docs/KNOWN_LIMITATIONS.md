@@ -3,9 +3,9 @@
 | Tema | Situación | Etiqueta |
 |---|---|---|
 | Metadata de módulos | Los módulos están vacíos. Antes hay que aprobar el diccionario de campos por vertical y la matriz de acceso. | Pendiente |
-| Org de pruebas FSC | Todavía no hay una org con licencias FSC. `assess`, `build` con org, `validate` contra org y `deploy` no se han ejecutado contra una org real. | Pendiente |
-| Nombres API no confirmados | `ActionPlanTemplate`, `ActionPlan` y `ActionPlanItem` (base común) y `SecuritiesHolding` (patrimonial: la doc oficial se contradice). Se verifican con `assess`. | Fuente pendiente |
-| Licencias | La doc oficial no publica `PermissionSetLicense.DeveloperName` de FSC. `assess` busca por patrón (FSC, Financial, Insurance, Action Plan) y la validación contractual la hace una persona. | Fuente pendiente |
+| Org de pruebas FSC | Ya hay org de referencia y `assess` corrió el 2026-11-17 ([REFERENCE_ORG](REFERENCE_ORG.md)). Faltan los pasos de Setup de la base, Banca y Patrimonial. `build`, `validate` y `deploy` contra la org todavía no se han ejecutado. | En curso |
+| Nombres API | Todos los objetos de `config/modules.json` están confirmados con doc oficial o con la org de referencia. Falta validar si `SecuritiesHolding` sirve para tenencias. | Confirmado |
+| Licencias | En la org de referencia aparecen los DeveloperName reales (p. ej. `FSCInsurancePsl`, `FSCComprehensivePsl`, `ActionPlansPsl`). `assess` sigue buscando por patrón y la validación contractual la hace una persona. | Confirmado en org |
 | Habilitación por metadata | No se confirmaron los flags de `IndustriesSettings` que activan "Group Membership" y "Financial Account Management Standard Objects". Por ahora es un paso manual en Setup. | Fuente pendiente |
 | Pestañas estándar FSC | Las pestañas `standard-InsurancePolicy`, `standard-FinancialAccount` y similares de `config/modules.json` se validan con check-only en la primera org. | Supuesto |
 | Scratch org | No se confirmaron los features de scratch org para FSC Core. Se recomienda una org de prueba FSC o un sandbox con licencias. | Supuesto |

@@ -6,12 +6,12 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 ## Objetos FSC Core
 
 - Requeridos (sin ellos la org no está lista): `FinancialAccount`, `FinancialAccountParty`, `FinancialGoal`, `FinancialSecurity`
-- Opcionales: `FinancialGoalParty`, `SecuritiesHolding` (nombre no confirmado en doc oficial), `PartyFinancialAsset`, `PartyFinancialLiability`
+- Opcionales: `FinancialGoalParty`, `SecuritiesHolding`, `PartyFinancialAsset`, `PartyFinancialLiability`
 
 ## Prerrequisitos de Setup
 
 - Activar 'Financial Account Management Standard Objects' en Setup
-- Validar en la org el objeto de tenencias: la doc oficial se contradice sobre SecuritiesHolding
+- SecuritiesHolding existe en la org de referencia; validar su uso para tenencias (la doc oficial lo describe ligado a pólizas)
 
 ## Ítems del catálogo
 

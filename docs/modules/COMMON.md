@@ -6,12 +6,13 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 ## Objetos FSC Core
 
 - Requeridos (sin ellos la org no está lista): `Account`, `Contact`, `Case`, `AccountContactRelation`, `ContactContactRelation`, `AccountAccountRelation`, `PartyRelationshipGroup`
-- Opcionales: `PersonLifeEvent`, `BusinessMilestone`, `PartyProfile`, `IdentityDocument`, `ActionPlanTemplate` (nombre no confirmado en doc oficial), `ActionPlan` (nombre no confirmado en doc oficial), `ActionPlanItem` (nombre no confirmado en doc oficial)
+- Opcionales: `PersonLifeEvent`, `BusinessMilestone`, `PartyProfile`, `IdentityDocument`, `ActionPlanTemplate`, `ActionPlan`, `ActionPlanItem`
 
 ## Prerrequisitos de Setup
 
+- Person Accounts habilitadas (IRREVERSIBLE: requiere decisión del cliente; se habilita desde Setup o con Soporte de Salesforce)
+- Activar 'Allow users to relate a contact to multiple accounts' (Contacts to Multiple Accounts) para AccountContactRelation
 - Activar 'Group Membership' en Setup y asignar el permiso Group Membership (habilita AccountAccountRelation, ContactContactRelation y PartyRelationshipGroup)
-- Person Accounts habilitadas
 
 ## Ítems del catálogo
 

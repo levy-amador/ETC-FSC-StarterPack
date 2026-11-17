@@ -26,10 +26,13 @@ function main() {
       "SELECT DeveloperName, MasterLabel, Status, TotalLicenses, UsedLicenses FROM PermissionSetLicense WHERE MasterLabel LIKE '%FSC%' OR MasterLabel LIKE '%Financial%' OR MasterLabel LIKE '%Insurance%' OR MasterLabel LIKE '%Action Plan%' OR DeveloperName LIKE '%FSC%' OR DeveloperName LIKE '%Insurance%' ORDER BY MasterLabel",
       { allowFail: true }
     ) || [];
+  // Licencias asignadas al usuario que corre el diagnóstico: `sf sobject list` solo devuelve lo que ese usuario puede ver.
+  const me = (query(org, `SELECT Id FROM User WHERE Username = '${String(id.username).replace(/'/g, "\\'")}'`, { allowFail: true }) || [])[0];
+  const myPsl = me ? (query(org, `SELECT PermissionSetLicense.MasterLabel FROM PermissionSetLicenseAssign WHERE AssigneeId = '${me.Id}' ORDER BY PermissionSetLicense.MasterLabel`, { allowFail: true }) || []).map((r) => r.PermissionSetLicense.MasterLabel) : [];
   const userLic = query(org, "SELECT Name, Status, TotalLicenses, UsedLicenses FROM UserLicense WHERE Status = 'Active' ORDER BY Name", { allowFail: true }) || [];
   const selected = readImplementation().verticals || [];
 
-  const result = { assessedAt: new Date().toISOString(), org, orgId: id.orgId, orgName: id.orgName, edition: id.edition, isSandbox: id.isSandbox, personAccounts, finservManagedPackage: finservPkg, selectedVerticals: selected, permissionSetLicenses: psl, modules: {} };
+  const result = { assessedAt: new Date().toISOString(), org, orgId: id.orgId, orgName: id.orgName, edition: id.edition, isSandbox: id.isSandbox, personAccounts, finservManagedPackage: finservPkg, selectedVerticals: selected, permissionSetLicenses: psl, runningUserPsl: myPsl, modules: {} };
 
   for (const m of modules()) {
     const missing = m.requiredObjects.filter((o) => !objects.has(o));
@@ -64,6 +67,10 @@ Generado por \`npm run assess\` el ${result.assessedAt}. Solo lectura: no se mod
 | Person Accounts | ${yes(personAccounts)} |
 | Paquete gestionado FinServ instalado | ${yes(finservPkg)}${finservPkg ? ' · ⚠ Este Starter Pack usa FSC Core (objetos estándar); Salesforce recomienda no mezclar ambos modelos' : ''} |
 | Vertical seleccionada | ${selected.length ? labelOf(selected) : 'Sin seleccionar (npm run configure)'} |
+
+> Los objetos se detectan con \`sf sobject list\`, que solo muestra lo que puede ver el usuario que corre el diagnóstico. Un objeto "faltante" puede deberse a una funcionalidad apagada en Setup **o** a una licencia/permiso no asignado a ese usuario.
+
+Licencias asignadas al usuario del diagnóstico: ${myPsl.join(', ') || 'ninguna relacionada'}
 
 ## Disponibilidad por módulo
 
