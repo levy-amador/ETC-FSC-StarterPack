@@ -25,6 +25,15 @@ El usuario del diagnóstico ya tiene asignadas las licencias FSC. Los objetos fa
 - `ActionPlanTemplate`, `ActionPlan` y `ActionPlanItem` existen.
 - `SecuritiesHolding` existe. Falta validar si sirve para tenencias de Patrimonial.
 
+## Estado actual · 2026-11-17: los 4 módulos en ✔ Listo
+
+| Módulo | Veredicto |
+|---|---|
+| Base común | ✔ Listo |
+| Seguros | ✔ Listo |
+| Banca | ✔ Listo |
+| Patrimonial | ✔ Listo |
+
 ## Habilitación · 2026-11-17
 
 Desplegado con check-only previo (etapa `00-settings` y record type de la base común):
@@ -33,7 +42,7 @@ Desplegado con check-only previo (etapa `00-settings` y record type de la base c
 |---|---|---|
 | Group Membership | `IndustriesSettings.enableGroupMembershipPref` | ✔ `AccountAccountRelation`, `ContactContactRelation` y `PartyRelationshipGroup` disponibles |
 | Financial Account Management Standard Objects | `IndustriesSettings.enableFinancialAccountMgmt` | ✔ `FinancialAccount`, `FinancialAccountParty` y `FinancialSecurity` disponibles. Banca y Patrimonial: **Listo** |
-| Contacts to Multiple Accounts | **Manual en Setup** | ✖ Activarlo por metadata (`enableRelateContactToMultipleAccounts`) dejó la casilla marcada sin habilitar la función (Setup respondía: *"You can't disable Contacts to Multiple Accounts unless the feature is enabled"*). Se regresó la bandera a `false` por metadata y se activa desde Setup |
+| Contacts to Multiple Accounts | **Manual en Setup** | ✖ Activarlo por metadata (`enableRelateContactToMultipleAccounts`) dejó la casilla marcada sin habilitar la función (Setup respondía: *"You can't disable Contacts to Multiple Accounts unless the feature is enabled"*). Se regresó la bandera a `false` por metadata y se activó desde Setup el 2026-11-17: ✔ `AccountContactRelation` disponible, con las relaciones de los contactos existentes generadas |
 | Record type `Account.ETC_Empresa` | Metadata + visibilidad en el perfil Admin | ✔ Prerrequisito de Person Accounts |
 | Person Accounts | **Manual en Setup** (no está expuesto en metadata) | ✔ Activado el 2026-11-17 por una persona |
 | Record type `PersonAccount` en el perfil Admin | `Profile.recordTypeVisibilities` (`personAccountDefault`) | ✔ Cuenta personal es la predeterminada para personas y Empresa para negocios |

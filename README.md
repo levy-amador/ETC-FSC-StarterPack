@@ -17,7 +17,7 @@ A cada cliente se le despliega una **base común** más **una vertical**, que se
 - ✔ Catálogo de 71 configuraciones importado como fuente única ([docs/CATALOG.md](docs/CATALOG.md)).
 - ✔ Objetos FSC Core por módulo, tomados de la documentación oficial ([config/modules.json](config/modules.json)).
 - ○ Metadata de los módulos: **pendiente**. Primero hay que aprobar el diccionario de campos y la matriz de acceso.
-- ◐ Org FSC de referencia conectada; diagnóstico del 2026-11-17: Seguros listo; Base común, Banca y Patrimonial esperan pasos de Setup ([docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
+- ✔ Org FSC de referencia habilitada: base común y las 3 verticales en **Listo** (`npm run assess`, 2026-11-17 · [docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
 
 ## Uso rápido
 
