@@ -46,8 +46,12 @@
       "prerequisitos": "Licencias y permisos administrativos; algunas funciones requieren soporte o aprovisionamiento Salesforce.",
       "capacidadClaude": "El agente puede guiar y, en ciertos casos, configurar opciones vía Setup/API. No debe asumir que puede habilitar cualquier feature.",
       "validacionHumana": "Aprobación del arquitecto/admin antes de activar.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "Settings:Account",
+        "Settings:Industries"
+      ],
+      "nota": "Habilita Contacts to Multiple Accounts, Group Membership y Financial Account Management Standard Objects. Desplegado en la org de referencia el 2026-11-17. Person Accounts: paso manual en Setup (irreversible)."
     },
     {
       "id": "COM-003",
@@ -91,8 +95,11 @@
       "prerequisitos": "Acceso Metadata API; definición de permisos aprobada.",
       "capacidadClaude": "Puede modificar metadata de perfiles; cambios amplios o sobre perfiles existentes requieren revisión por riesgo.",
       "validacionHumana": "Humano valida mínimo privilegio y regresión.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "Profile:Admin"
+      ],
+      "nota": "Solo visibilidad del record type ETC_Empresa para Administrador. Desplegado en la org de referencia el 2026-11-17."
     },
     {
       "id": "COM-006",
@@ -211,8 +218,11 @@
       "prerequisitos": "Procesos y valores de negocio definidos.",
       "capacidadClaude": "Automatizable vía metadata; requiere consistencia entre procesos, layouts y automatizaciones.",
       "validacionHumana": "Humano valida catálogos y escenarios.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "RecordType:Account.ETC_Empresa"
+      ],
+      "nota": "Record type de empresa (persona moral); prerrequisito de Person Accounts. Desplegado en la org de referencia el 2026-11-17."
     },
     {
       "id": "COM-014",

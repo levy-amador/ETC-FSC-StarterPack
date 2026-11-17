@@ -25,7 +25,19 @@ El usuario del diagnóstico ya tiene asignadas las licencias FSC. Los objetos fa
 - `ActionPlanTemplate`, `ActionPlan` y `ActionPlanItem` existen.
 - `SecuritiesHolding` existe. Falta validar si sirve para tenencias de Patrimonial.
 
-## Pasos de Setup pendientes (los hace o aprueba una persona)
+## Habilitación · 2026-11-17
+
+Desplegado con check-only previo (etapa `00-settings` y record type de la base común):
+
+| Ajuste | Cómo | Resultado |
+|---|---|---|
+| Group Membership | `IndustriesSettings.enableGroupMembershipPref` | ✔ `AccountAccountRelation`, `ContactContactRelation` y `PartyRelationshipGroup` disponibles |
+| Financial Account Management Standard Objects | `IndustriesSettings.enableFinancialAccountMgmt` | ✔ `FinancialAccount`, `FinancialAccountParty` y `FinancialSecurity` disponibles. Banca y Patrimonial: **Listo** |
+| Contacts to Multiple Accounts | `AccountSettings.enableRelateContactToMultipleAccounts` | ◐ La bandera quedó en `true`, pero `AccountContactRelation` todavía no aparece. Verificar en Setup › Account Settings |
+| Record type `Account.ETC_Empresa` | Metadata + visibilidad en el perfil Admin | ✔ Prerrequisito de Person Accounts |
+| Person Accounts | **Manual en Setup** (no está expuesto en metadata) | ○ Pendiente |
+
+## Pasos de Setup originales
 
 | # | Ajuste | Habilita | Reversible |
 |---|---|---|---|

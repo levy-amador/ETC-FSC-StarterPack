@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Empresa</fullName>
+    <active>true</active>
+    <description>Cuenta de empresa (persona moral). Requerido para habilitar Person Accounts; las personas físicas usan el record type de Person Account.</description>
+    <label>Empresa</label>
+</RecordType>

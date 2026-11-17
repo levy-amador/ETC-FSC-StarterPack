@@ -19,10 +19,10 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 | ID | Área | Configuración | Ejecuta | Estado | Validación humana |
 |---|---|---|---|---|---|
 | COM-001 | Plataforma | Diagnóstico de edición, licencias y funcionalidades FSC | Humano | Pendiente | Humano confirma licencias, alcance y arquitectura. |
-| COM-002 | Plataforma | Habilitación de funcionalidades FSC | Humano con apoyo de IA | Pendiente | Aprobación del arquitecto/admin antes de activar. |
+| COM-002 | Plataforma | Habilitación de funcionalidades FSC | Humano con apoyo de IA | En construcción | Aprobación del arquitecto/admin antes de activar. |
 | COM-003 | Plataforma | Instalación o actualización de paquetes administrados | Humano con apoyo de IA | Pendiente | Humano ejecuta o aprueba instalación y smoke tests. |
 | COM-004 | Seguridad | Activación y asignación de Permission Sets / Permission Set Groups | Claude Code (con aprobación) | Pendiente | Humano aprueba matriz y prueba acceso por persona. |
-| COM-005 | Seguridad | Configuración de perfiles | Claude Code (con aprobación) | Pendiente | Humano valida mínimo privilegio y regresión. |
+| COM-005 | Seguridad | Configuración de perfiles | Claude Code (con aprobación) | En construcción | Humano valida mínimo privilegio y regresión. |
 | COM-006 | Seguridad | Configuración de roles y jerarquías | Humano con apoyo de IA | Pendiente | Humano define y aprueba el modelo. |
 | COM-007 | Seguridad | Configuración de sharing rules y OWD | Humano con apoyo de IA | Pendiente | Revisión de seguridad obligatoria. |
 | COM-008 | Aplicación | Creación/configuración de aplicación Lightning | Claude Code (con aprobación) | Pendiente | Humano valida experiencia por perfil. |
@@ -30,7 +30,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 | COM-010 | Modelo de datos | Creación de campos personalizados | Claude Code (con aprobación) | Pendiente | Humano aprueba definición y prueba datos. |
 | COM-011 | Modelo de datos | Creación de objetos personalizados | Claude Code (con aprobación) | Pendiente | Humano aprueba modelo y estrategia de gobierno. |
 | COM-012 | Modelo de datos | Configuración de relaciones entre objetos | Claude Code (con aprobación) | Pendiente | Humano valida cardinalidad, integridad y migración. |
-| COM-013 | Modelo de datos | Configuración de record types y picklists | Claude Code (con aprobación) | Pendiente | Humano valida catálogos y escenarios. |
+| COM-013 | Modelo de datos | Configuración de record types y picklists | Claude Code (con aprobación) | En construcción | Humano valida catálogos y escenarios. |
 | COM-014 | Interfaz | Configuración de Lightning Record Pages | Claude Code (con aprobación) | Pendiente | Humano valida renderizado y experiencia. |
 | COM-015 | Interfaz | Configuración de page layouts y acciones | Claude Code (con aprobación) | Pendiente | Humano valida por perfil. |
 | COM-016 | Interfaz | Configuración de related lists y componentes relacionados | Claude Code (con aprobación) | Pendiente | Humano valida contenido y rendimiento. |
@@ -67,7 +67,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Licencias y permisos administrativos; algunas funciones requieren soporte o aprovisionamiento Salesforce.
 - **Qué puede hacer Claude Code:** El agente puede guiar y, en ciertos casos, configurar opciones vía Setup/API. No debe asumir que puede habilitar cualquier feature.
 - **Validación humana:** Aprobación del arquitecto/admin antes de activar.
-- **Componentes:** Pendiente
+- **Componentes:** `Settings:Account`, `Settings:Industries`
 
 ### COM-003 · Instalación o actualización de paquetes administrados
 
@@ -94,7 +94,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Acceso Metadata API; definición de permisos aprobada.
 - **Qué puede hacer Claude Code:** Puede modificar metadata de perfiles; cambios amplios o sobre perfiles existentes requieren revisión por riesgo.
 - **Validación humana:** Humano valida mínimo privilegio y regresión.
-- **Componentes:** Pendiente
+- **Componentes:** `Profile:Admin`
 
 ### COM-006 · Configuración de roles y jerarquías
 
@@ -166,7 +166,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Procesos y valores de negocio definidos.
 - **Qué puede hacer Claude Code:** Automatizable vía metadata; requiere consistencia entre procesos, layouts y automatizaciones.
 - **Validación humana:** Humano valida catálogos y escenarios.
-- **Componentes:** Pendiente
+- **Componentes:** `RecordType:Account.ETC_Empresa`
 
 ### COM-014 · Configuración de Lightning Record Pages
 
