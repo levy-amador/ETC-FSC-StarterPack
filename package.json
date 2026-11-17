@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "description": "ETC | Acelerador de Salesforce Financial Services Cloud (FSC Core): base común + vertical Seguros, Banca o Patrimonial",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "configure": "node scripts/configure/configure.js",
     "assess": "node scripts/assess/assess.js",
@@ -12,6 +14,6 @@
     "deploy": "node scripts/deploy/deploy.js",
     "deployment-report": "node scripts/deploy/deployment-report.js",
     "test": "node scripts/test/run-tests.js",
-    "docs": "node scripts/generate/gen-docs.js"
+    "docs": "node scripts/generate/gen-docs.js && node scripts/generate/gen-spec-docs.js"
   }
 }

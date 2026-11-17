@@ -1,0 +1,326 @@
+{
+  "module": "common",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · requiere revisión de seguridad y aprobación del cliente (COM-004, COM-006, COM-007)",
+  "principles": [
+    "Privado por defecto: cada quien ve lo suyo y lo de su equipo por jerarquía.",
+    "Permission Set First: permisos por Permission Set Groups; perfiles solo para lo que Metadata API exige.",
+    "Sin Ver todo / Modificar todo ni permisos administrativos en conjuntos operativos.",
+    "Sin permiso de eliminar en usuarios operativos.",
+    "Los datos sensibles (KYC, riesgo PLD, estado civil) se restringen por seguridad de campo."
+  ],
+  "personas": [
+    {
+      "id": "asesor",
+      "label": "Asesor / ejecutivo comercial",
+      "description": "Atiende su cartera: prospectos, clientes, oportunidades y solicitudes.",
+      "role": "ETC_Asesor",
+      "psg": "ETC_PSG_Asesor",
+      "license": "FSC Sales",
+      "catalog": "COM-004"
+    },
+    {
+      "id": "gerente",
+      "label": "Gerente comercial",
+      "description": "Supervisa a su equipo de asesores; ve y edita la cartera del equipo; reportes.",
+      "role": "ETC_Gerente_Comercial",
+      "psg": "ETC_PSG_Gerente",
+      "license": "FSC Sales",
+      "catalog": "COM-004"
+    },
+    {
+      "id": "servicio",
+      "label": "Ejecutivo de servicio",
+      "description": "Atiende casos: consultas, aclaraciones y quejas. Consulta clientes sin modificarlos.",
+      "role": "ETC_Ejecutivo_Servicio",
+      "psg": "ETC_PSG_Ejecutivo_Servicio",
+      "license": "FSC Service",
+      "catalog": "COM-004"
+    },
+    {
+      "id": "supervisor",
+      "label": "Supervisor de servicio",
+      "description": "Supervisa la operación de casos, reasigna y da seguimiento a SLA.",
+      "role": "ETC_Supervisor_Servicio",
+      "psg": "ETC_PSG_Supervisor_Servicio",
+      "license": "FSC Service",
+      "catalog": "COM-004"
+    },
+    {
+      "id": "cumplimiento",
+      "label": "Oficial de cumplimiento",
+      "description": "Revisa expedientes KYC y clasifica el riesgo PLD. Única persona que edita esos campos.",
+      "role": "ETC_Cumplimiento",
+      "psg": "ETC_PSG_Cumplimiento",
+      "license": "FSC Service",
+      "catalog": "COM-004",
+      "askClient": "¿Qué licencia tendrá Cumplimiento? ¿Es un área interna o un proveedor?"
+    },
+    {
+      "id": "direccion",
+      "label": "Dirección",
+      "description": "Visibilidad de toda la operación por jerarquía y dashboards; no captura.",
+      "role": "ETC_Direccion",
+      "psg": "ETC_PSG_Direccion",
+      "license": "FSC Sales",
+      "catalog": "COM-004"
+    },
+    {
+      "id": "admin",
+      "label": "Administrador",
+      "description": "Configuración de la plataforma. Usa el perfil Administrador del sistema; no recibe Permission Set Groups operativos.",
+      "role": null,
+      "psg": null,
+      "license": "Salesforce",
+      "catalog": "COM-005"
+    }
+  ],
+  "roles": [
+    {
+      "name": "ETC_Direccion",
+      "label": "Dirección",
+      "parent": null
+    },
+    {
+      "name": "ETC_Gerente_Comercial",
+      "label": "Gerente comercial",
+      "parent": "ETC_Direccion"
+    },
+    {
+      "name": "ETC_Asesor",
+      "label": "Asesor",
+      "parent": "ETC_Gerente_Comercial"
+    },
+    {
+      "name": "ETC_Supervisor_Servicio",
+      "label": "Supervisor de servicio",
+      "parent": "ETC_Direccion"
+    },
+    {
+      "name": "ETC_Ejecutivo_Servicio",
+      "label": "Ejecutivo de servicio",
+      "parent": "ETC_Supervisor_Servicio"
+    },
+    {
+      "name": "ETC_Cumplimiento",
+      "label": "Cumplimiento",
+      "parent": "ETC_Direccion"
+    }
+  ],
+  "owd": {
+    "Account": "Private",
+    "Contact": "ControlledByParent",
+    "Opportunity": "Private",
+    "Case": "Private",
+    "Lead": "Private"
+  },
+  "sharingRules": [
+    {
+      "object": "Account",
+      "name": "ETC_Clientes_Lectura_Servicio",
+      "criteria": "Cuentas propiedad de la jerarquía comercial (rol ETC_Direccion y subordinados)",
+      "sharedWith": "Rol ETC_Supervisor_Servicio y subordinados",
+      "access": "Read",
+      "why": "Servicio necesita consultar al cliente para atender casos.",
+      "catalog": "COM-007"
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Clientes_Edicion_Cumplimiento",
+      "criteria": "Cuentas propiedad de la jerarquía comercial (rol ETC_Direccion y subordinados)",
+      "sharedWith": "Rol ETC_Cumplimiento",
+      "access": "Edit",
+      "why": "Cumplimiento actualiza KYC y riesgo; la seguridad de campo limita qué puede editar.",
+      "catalog": "COM-007"
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Casos_Lectura_Comercial",
+      "criteria": "Casos propiedad de la jerarquía de servicio (rol ETC_Supervisor_Servicio y subordinados)",
+      "sharedWith": "Rol ETC_Gerente_Comercial y subordinados",
+      "access": "Read",
+      "why": "El asesor da seguimiento a las solicitudes de sus clientes.",
+      "catalog": "COM-007",
+      "askClient": "¿El asesor debe ver todos los casos o solo los de sus clientes?"
+    }
+  ],
+  "objectPermissions": {
+    "Lead": {
+      "asesor": "CRE",
+      "gerente": "CRE",
+      "servicio": "",
+      "supervisor": "",
+      "cumplimiento": "",
+      "direccion": "R"
+    },
+    "Account": {
+      "asesor": "CRE",
+      "gerente": "CRE",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "RE",
+      "direccion": "R"
+    },
+    "Contact": {
+      "asesor": "CRE",
+      "gerente": "CRE",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "RE",
+      "direccion": "R"
+    },
+    "Opportunity": {
+      "asesor": "CRE",
+      "gerente": "CRE",
+      "servicio": "",
+      "supervisor": "",
+      "cumplimiento": "",
+      "direccion": "R"
+    },
+    "Case": {
+      "asesor": "CR",
+      "gerente": "CR",
+      "servicio": "CRE",
+      "supervisor": "CRE",
+      "cumplimiento": "R",
+      "direccion": "R"
+    }
+  },
+  "recordScope": {
+    "asesor": "Sus registros",
+    "gerente": "Su equipo (jerarquía)",
+    "servicio": "Clientes: lectura (sharing); casos: los suyos y su cola",
+    "supervisor": "Casos de su equipo (jerarquía) y clientes en lectura",
+    "cumplimiento": "Todos los clientes (sharing de edición)",
+    "direccion": "Todo (jerarquía)"
+  },
+  "fieldSecurity": {
+    "Account.ETC_RFC__c": {
+      "asesor": "E",
+      "gerente": "E",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "E",
+      "direccion": "R"
+    },
+    "Contact.ETC_CURP__c": {
+      "asesor": "E",
+      "gerente": "E",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "E",
+      "direccion": "R"
+    },
+    "Account.ETC_Estatus_KYC__c": {
+      "asesor": "R",
+      "gerente": "R",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "E",
+      "direccion": "R"
+    },
+    "Account.ETC_Fecha_Revision_KYC__c": {
+      "asesor": "R",
+      "gerente": "R",
+      "servicio": "R",
+      "supervisor": "R",
+      "cumplimiento": "E",
+      "direccion": "R"
+    },
+    "Account.ETC_Nivel_Riesgo__c": {
+      "asesor": "-",
+      "gerente": "R",
+      "servicio": "-",
+      "supervisor": "-",
+      "cumplimiento": "E",
+      "direccion": "R"
+    },
+    "Contact.ETC_Estado_Civil__c": {
+      "asesor": "E",
+      "gerente": "E",
+      "servicio": "-",
+      "supervisor": "-",
+      "cumplimiento": "R",
+      "direccion": "-"
+    },
+    "Case.ETC_Dictamen__c": {
+      "asesor": "R",
+      "gerente": "R",
+      "servicio": "E",
+      "supervisor": "E",
+      "cumplimiento": "R",
+      "direccion": "R"
+    },
+    "Case.ETC_Resolucion__c": {
+      "asesor": "R",
+      "gerente": "R",
+      "servicio": "E",
+      "supervisor": "E",
+      "cumplimiento": "R",
+      "direccion": "R"
+    }
+  },
+  "fieldSecurityDefault": "Campos ETC no listados: asesor y gerente editan; el resto lee.",
+  "permissionSets": [
+    {
+      "name": "ETC_FSC_Base_Access",
+      "label": "ETC FSC · Base",
+      "grants": "App del Starter Pack, pestañas y lectura de campos ETC no sensibles"
+    },
+    {
+      "name": "ETC_FSC_Comercial",
+      "label": "ETC FSC · Comercial",
+      "grants": "Crear/leer/editar Lead, Account, Contact, Opportunity; crear casos; editar campos comerciales"
+    },
+    {
+      "name": "ETC_FSC_Servicio",
+      "label": "ETC FSC · Servicio",
+      "grants": "Crear/leer/editar Case; leer Account y Contact; editar dictamen y resolución"
+    },
+    {
+      "name": "ETC_FSC_Cumplimiento",
+      "label": "ETC FSC · Cumplimiento",
+      "grants": "Editar RFC, CURP, estatus KYC, fecha de revisión y nivel de riesgo"
+    },
+    {
+      "name": "ETC_FSC_Supervision",
+      "label": "ETC FSC · Supervisión",
+      "grants": "Ver nivel de riesgo, reportes y dashboards de equipo"
+    }
+  ],
+  "permissionSetGroups": {
+    "ETC_PSG_Asesor": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Comercial"
+    ],
+    "ETC_PSG_Gerente": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Comercial",
+      "ETC_FSC_Supervision"
+    ],
+    "ETC_PSG_Ejecutivo_Servicio": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Servicio"
+    ],
+    "ETC_PSG_Supervisor_Servicio": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Servicio",
+      "ETC_FSC_Supervision"
+    ],
+    "ETC_PSG_Cumplimiento": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Cumplimiento"
+    ],
+    "ETC_PSG_Direccion": [
+      "ETC_FSC_Base_Access",
+      "ETC_FSC_Supervision"
+    ]
+  },
+  "askClient": [
+    "Organigrama real: ¿cuántos niveles entre asesor y dirección? ¿Hay regiones o sucursales?",
+    "¿Servicio y comercial son equipos distintos o la misma persona atiende ambos?",
+    "¿Quién puede ver el nivel de riesgo PLD?",
+    "¿Licencias contratadas por persona (FSC Sales / FSC Service)?",
+    "¿Hay usuarios externos (portal, brokers, aliados)?"
+  ]
+}

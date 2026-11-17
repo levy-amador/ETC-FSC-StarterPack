@@ -30,3 +30,8 @@ El paquete trae la **base común** y las **tres verticales**: Seguros (`insuranc
 
 ## Contenido y estilo
 Español de México. No inventes avances, cifras, licencias ni resultados: usa las etiquetas **Supuesto · Estimación · Placeholder · Recomendación · Fuente pendiente**.
+
+## Regla 5 · Especificación antes de metadata
+- `config/spec/<módulo>-data-dictionary.json` y `config/spec/<módulo>-access-matrix.json` son la fuente de los campos, las validaciones, los duplicados, los roles, los permisos y la seguridad de campo.
+- Si el cliente entrega su definición, ajusta la especificación y deja el origen documentado. Si no la entrega, se usa la base ETC predeterminada.
+- La metadata se genera desde la especificación; no se escribe a mano por separado. `npm run validate` revisa la consistencia entre diccionario, matriz y catálogo.

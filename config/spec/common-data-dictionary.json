@@ -1,0 +1,603 @@
+{
+  "module": "common",
+  "version": "0.1",
+  "status": "Base ETC predeterminada · pendiente de validación con el cliente",
+  "usage": "Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente la entrega, se ajusta este archivo (origen: Cliente) antes de generar metadata.",
+  "conventions": {
+    "prefix": "ETC_",
+    "personAccountFields": "Los campos de Contact aparecen en cuentas personales con sufijo __pc (p. ej. ETC_CURP__pc).",
+    "standardFirst": "Antes de crear un campo ETC_ se reutiliza el estándar equivalente."
+  },
+  "fields": [
+    {
+      "object": "Account",
+      "apiName": "ETC_RFC__c",
+      "label": "RFC",
+      "type": "Text",
+      "purpose": "Identificador fiscal (12 caracteres persona moral, 13 persona física). Base de la detección de duplicados.",
+      "catalog": "COM-010",
+      "length": 13,
+      "required": false,
+      "helpText": "RFC con homoclave, sin espacios ni guiones.",
+      "sensitive": true,
+      "askClient": "¿El RFC es obligatorio al crear al cliente o solo al formalizar?"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Regimen_Fiscal__c",
+      "label": "Régimen fiscal",
+      "type": "Picklist",
+      "purpose": "Régimen fiscal SAT para facturación y segmentación.",
+      "catalog": "COM-010",
+      "values": [
+        "601 General de Ley Personas Morales",
+        "603 Personas Morales con Fines no Lucrativos",
+        "605 Sueldos y Salarios",
+        "606 Arrendamiento",
+        "612 Personas Físicas con Actividades Empresariales y Profesionales",
+        "616 Sin obligaciones fiscales",
+        "626 Régimen Simplificado de Confianza"
+      ],
+      "askClient": "¿Qué regímenes atienden? (catálogo c_RegimenFiscal del SAT)"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Segmento__c",
+      "label": "Segmento",
+      "type": "Picklist",
+      "purpose": "Segmento comercial del cliente; define atención y reportes.",
+      "catalog": "COM-013",
+      "values": [
+        "Masivo",
+        "Preferente",
+        "Patrimonial",
+        "PyME",
+        "Empresarial",
+        "Corporativo"
+      ],
+      "askClient": "¿Cuáles son sus segmentos y con qué criterio se asignan?"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Tipo_Cliente__c",
+      "label": "Tipo de cliente",
+      "type": "Picklist",
+      "purpose": "Etapa de la relación con el cliente.",
+      "catalog": "COM-013",
+      "values": [
+        "Prospecto",
+        "Cliente activo",
+        "Cliente inactivo",
+        "Ex cliente"
+      ],
+      "default": "Prospecto"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Cliente_Desde__c",
+      "label": "Cliente desde",
+      "type": "Date",
+      "purpose": "Fecha de inicio de la relación comercial.",
+      "catalog": "COM-010"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Estatus_KYC__c",
+      "label": "Estatus KYC",
+      "type": "Picklist",
+      "purpose": "Estado del expediente de identificación del cliente. Solo registra el estado: la decisión KYC la toma una persona o un sistema autorizado.",
+      "catalog": "COM-010",
+      "values": [
+        "Pendiente",
+        "En revisión",
+        "Aprobado",
+        "Rechazado",
+        "Vencido"
+      ],
+      "default": "Pendiente",
+      "sensitive": true,
+      "askClient": "¿Quién actualiza el estatus KYC y cada cuánto se revisa el expediente?"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Fecha_Revision_KYC__c",
+      "label": "Fecha de revisión KYC",
+      "type": "Date",
+      "purpose": "Fecha de la última revisión del expediente; base para alertas de vencimiento.",
+      "catalog": "COM-010",
+      "sensitive": true
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Nivel_Riesgo__c",
+      "label": "Nivel de riesgo PLD",
+      "type": "Picklist",
+      "purpose": "Clasificación de riesgo de prevención de lavado de dinero. Solo la edita Cumplimiento.",
+      "catalog": "COM-010",
+      "values": [
+        "Bajo",
+        "Medio",
+        "Alto"
+      ],
+      "sensitive": true,
+      "restricted": true,
+      "askClient": "¿Usan esta clasificación o una propia? ¿Debe verla el asesor?"
+    },
+    {
+      "object": "Account",
+      "apiName": "ETC_Observaciones__c",
+      "label": "Observaciones",
+      "type": "LongTextArea",
+      "purpose": "Notas generales del cliente.",
+      "catalog": "COM-010",
+      "length": 4000
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_CURP__c",
+      "label": "CURP",
+      "type": "Text",
+      "purpose": "Clave Única de Registro de Población (18 caracteres). En cuentas personales aparece como ETC_CURP__pc.",
+      "catalog": "COM-010",
+      "length": 18,
+      "sensitive": true,
+      "helpText": "18 caracteres, en mayúsculas.",
+      "askClient": "¿La CURP es obligatoria para personas físicas?"
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Estado_Civil__c",
+      "label": "Estado civil",
+      "type": "Picklist",
+      "purpose": "Dato de perfil para hogares y productos.",
+      "catalog": "COM-010",
+      "values": [
+        "Soltero(a)",
+        "Casado(a)",
+        "Unión libre",
+        "Divorciado(a)",
+        "Viudo(a)"
+      ],
+      "sensitive": true
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Ocupacion__c",
+      "label": "Ocupación",
+      "type": "Text",
+      "purpose": "Actividad u ocupación de la persona; insumo de perfil y de riesgo.",
+      "catalog": "COM-010",
+      "length": 100
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Nacionalidad__c",
+      "label": "Nacionalidad",
+      "type": "Picklist",
+      "purpose": "Nacionalidad de la persona.",
+      "catalog": "COM-010",
+      "values": [
+        "Mexicana",
+        "Extranjera"
+      ],
+      "default": "Mexicana"
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Rol_Contacto__c",
+      "label": "Rol en la empresa",
+      "type": "Picklist",
+      "purpose": "Función del contacto dentro de una cuenta de empresa.",
+      "catalog": "COM-010",
+      "values": [
+        "Representante legal",
+        "Apoderado",
+        "Contacto financiero",
+        "Contacto operativo",
+        "Otro"
+      ]
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Canal_Preferido__c",
+      "label": "Canal preferido",
+      "type": "Picklist",
+      "purpose": "Canal por el que el cliente prefiere ser contactado.",
+      "catalog": "COM-010",
+      "values": [
+        "Correo electrónico",
+        "Teléfono",
+        "WhatsApp",
+        "Sucursal",
+        "App o banca digital"
+      ]
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Autoriza_Comunicaciones__c",
+      "label": "Autoriza comunicaciones comerciales",
+      "type": "Checkbox",
+      "purpose": "Consentimiento para recibir comunicaciones comerciales.",
+      "catalog": "COM-010",
+      "default": false
+    },
+    {
+      "object": "Contact",
+      "apiName": "ETC_Fecha_Aviso_Privacidad__c",
+      "label": "Fecha de aceptación del aviso de privacidad",
+      "type": "Date",
+      "purpose": "Evidencia de aceptación del aviso de privacidad (LFPDPPP).",
+      "catalog": "COM-010",
+      "askClient": "¿Dónde se registra hoy la aceptación del aviso de privacidad?"
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Folio_Externo__c",
+      "label": "Folio externo",
+      "type": "Text",
+      "purpose": "Folio de la autoridad o de la Unidad Especializada (p. ej. CONDUSEF/UNE) cuando aplique.",
+      "catalog": "COM-023",
+      "length": 30
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Dictamen__c",
+      "label": "Dictamen",
+      "type": "Picklist",
+      "purpose": "Resultado de la aclaración o queja.",
+      "catalog": "COM-023",
+      "values": [
+        "Procedente",
+        "Parcialmente procedente",
+        "Improcedente"
+      ]
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Fecha_Compromiso__c",
+      "label": "Fecha compromiso",
+      "type": "Date",
+      "purpose": "Fecha comprometida de respuesta al cliente.",
+      "catalog": "COM-025",
+      "askClient": "¿Qué plazos de respuesta (SLA) aplican por tipo de solicitud?"
+    },
+    {
+      "object": "Case",
+      "apiName": "ETC_Resolucion__c",
+      "label": "Resolución",
+      "type": "LongTextArea",
+      "purpose": "Respuesta dada al cliente; obligatoria para cerrar.",
+      "catalog": "COM-023",
+      "length": 4000
+    },
+    {
+      "object": "Opportunity",
+      "apiName": "ETC_Producto_Interes__c",
+      "label": "Producto de interés",
+      "type": "Text",
+      "purpose": "Producto o servicio financiero que se ofrece. Las verticales lo sustituyen por su catálogo.",
+      "catalog": "COM-010",
+      "length": 100
+    },
+    {
+      "object": "Opportunity",
+      "apiName": "ETC_Motivo_Perdida__c",
+      "label": "Motivo de pérdida",
+      "type": "Picklist",
+      "purpose": "Por qué no se concretó la oportunidad.",
+      "catalog": "COM-010",
+      "values": [
+        "Precio o tasa",
+        "Competencia",
+        "No calificó",
+        "Sin interés",
+        "Sin respuesta",
+        "Otro"
+      ]
+    },
+    {
+      "object": "Lead",
+      "apiName": "ETC_RFC__c",
+      "label": "RFC",
+      "type": "Text",
+      "purpose": "Identificador fiscal del prospecto; pasa a la cuenta al convertir.",
+      "catalog": "COM-010",
+      "length": 13,
+      "sensitive": true
+    },
+    {
+      "object": "Lead",
+      "apiName": "ETC_Segmento__c",
+      "label": "Segmento",
+      "type": "Picklist",
+      "purpose": "Segmento estimado; pasa a la cuenta al convertir.",
+      "catalog": "COM-013",
+      "values": [
+        "Masivo",
+        "Preferente",
+        "Patrimonial",
+        "PyME",
+        "Empresarial",
+        "Corporativo"
+      ]
+    },
+    {
+      "object": "Lead",
+      "apiName": "ETC_Producto_Interes__c",
+      "label": "Producto de interés",
+      "type": "Text",
+      "purpose": "Producto que le interesa al prospecto; pasa a la oportunidad.",
+      "catalog": "COM-010",
+      "length": 100
+    },
+    {
+      "object": "Lead",
+      "apiName": "ETC_Motivo_Descalificacion__c",
+      "label": "Motivo de descalificación",
+      "type": "Picklist",
+      "purpose": "Por qué se descartó el prospecto.",
+      "catalog": "COM-010",
+      "values": [
+        "No cumple perfil",
+        "Sin interés",
+        "Sin respuesta",
+        "Duplicado",
+        "Otro"
+      ]
+    }
+  ],
+  "standardFields": [
+    {
+      "object": "Account",
+      "apiName": "AccountSource",
+      "label": "Origen de la cuenta",
+      "use": "Canal de origen",
+      "values": [
+        "Sucursal",
+        "Referido",
+        "Digital",
+        "Ejecutivo",
+        "Alianza",
+        "Otro"
+      ],
+      "valueSet": "AccountSource"
+    },
+    {
+      "object": "Account",
+      "apiName": "Industry",
+      "label": "Sector",
+      "use": "Actividad económica de empresas",
+      "values": null
+    },
+    {
+      "object": "Account",
+      "apiName": "AnnualRevenue",
+      "label": "Ingresos anuales",
+      "use": "Tamaño de empresas",
+      "values": null
+    },
+    {
+      "object": "Account",
+      "apiName": "PersonBirthdate",
+      "label": "Fecha de nacimiento",
+      "use": "Personas físicas",
+      "values": null
+    },
+    {
+      "object": "Account",
+      "apiName": "PersonEmail",
+      "label": "Correo electrónico",
+      "use": "Personas físicas; base de duplicados",
+      "values": null
+    },
+    {
+      "object": "Case",
+      "apiName": "Type",
+      "label": "Tipo de solicitud",
+      "use": "Clasificación de casos",
+      "values": [
+        "Consulta",
+        "Aclaración",
+        "Queja",
+        "Solicitud de servicio",
+        "Actualización de datos"
+      ],
+      "valueSet": "CaseType"
+    },
+    {
+      "object": "Case",
+      "apiName": "Origin",
+      "label": "Canal de atención",
+      "use": "Canal de entrada",
+      "values": [
+        "Teléfono",
+        "Correo electrónico",
+        "Sucursal",
+        "Web",
+        "App",
+        "WhatsApp"
+      ],
+      "valueSet": "CaseOrigin"
+    },
+    {
+      "object": "Case",
+      "apiName": "Priority",
+      "label": "Prioridad",
+      "use": "Atención y escalamiento",
+      "values": [
+        "Alta",
+        "Media",
+        "Baja"
+      ],
+      "valueSet": "CasePriority"
+    },
+    {
+      "object": "Opportunity",
+      "apiName": "Type",
+      "label": "Tipo de oportunidad",
+      "use": "Origen del negocio",
+      "values": [
+        "Nuevo cliente",
+        "Venta cruzada",
+        "Incremento",
+        "Renovación"
+      ],
+      "valueSet": "OpportunityType"
+    },
+    {
+      "object": "Lead",
+      "apiName": "LeadSource",
+      "label": "Origen del prospecto",
+      "use": "Canal de captación",
+      "values": [
+        "Sucursal",
+        "Referido",
+        "Digital",
+        "Ejecutivo",
+        "Alianza",
+        "Otro"
+      ],
+      "valueSet": "LeadSource"
+    }
+  ],
+  "validationRules": [
+    {
+      "object": "Account",
+      "name": "ETC_RFC_Formato",
+      "purpose": "RFC de 12 caracteres (persona moral) o 13 (persona física), en mayúsculas",
+      "formula": "AND(NOT(ISBLANK(ETC_RFC__c)), IF(IsPersonAccount, NOT(REGEX(ETC_RFC__c, \"[A-ZÑ&]{4}[0-9]{6}[A-Z0-9]{3}\")), NOT(REGEX(ETC_RFC__c, \"[A-ZÑ&]{3}[0-9]{6}[A-Z0-9]{3}\"))))",
+      "message": "El RFC no tiene un formato válido: 12 caracteres para persona moral, 13 para persona física, en mayúsculas y sin guiones.",
+      "catalog": "COM-028"
+    },
+    {
+      "object": "Contact",
+      "name": "ETC_CURP_Formato",
+      "purpose": "CURP de 18 caracteres con estructura oficial",
+      "formula": "AND(NOT(ISBLANK(ETC_CURP__c)), NOT(REGEX(ETC_CURP__c, \"[A-Z]{4}[0-9]{6}[HMX][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9][0-9]\")))",
+      "message": "La CURP no tiene un formato válido (18 caracteres en mayúsculas).",
+      "catalog": "COM-028"
+    },
+    {
+      "object": "Account",
+      "name": "ETC_KYC_Fecha_Revision",
+      "purpose": "Un expediente Aprobado debe tener fecha de revisión",
+      "formula": "AND(ISPICKVAL(ETC_Estatus_KYC__c, \"Aprobado\"), ISBLANK(ETC_Fecha_Revision_KYC__c))",
+      "message": "Captura la fecha de revisión KYC para marcar el expediente como Aprobado.",
+      "catalog": "COM-028"
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Cliente_Activo_Requiere_KYC",
+      "purpose": "Un cliente activo debe tener KYC aprobado",
+      "formula": "AND(ISPICKVAL(ETC_Tipo_Cliente__c, \"Cliente activo\"), NOT(ISPICKVAL(ETC_Estatus_KYC__c, \"Aprobado\")))",
+      "message": "Un cliente activo requiere estatus KYC Aprobado.",
+      "catalog": "COM-028",
+      "askClient": "¿Se puede operar con un cliente cuyo KYC está en revisión?"
+    },
+    {
+      "object": "Contact",
+      "name": "ETC_Consentimiento_Fecha",
+      "purpose": "Si autoriza comunicaciones debe existir aceptación del aviso de privacidad",
+      "formula": "AND(ETC_Autoriza_Comunicaciones__c, ISBLANK(ETC_Fecha_Aviso_Privacidad__c))",
+      "message": "Registra la fecha de aceptación del aviso de privacidad antes de autorizar comunicaciones.",
+      "catalog": "COM-028"
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Resolucion_Al_Cerrar",
+      "purpose": "No se cierra un caso sin resolución",
+      "formula": "AND(IsClosed, ISBLANK(ETC_Resolucion__c))",
+      "message": "Captura la resolución antes de cerrar el caso.",
+      "catalog": "COM-019"
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Dictamen_Aclaracion",
+      "purpose": "Aclaraciones y quejas cerradas requieren dictamen",
+      "formula": "AND(IsClosed, OR(ISPICKVAL(Type, \"Aclaración\"), ISPICKVAL(Type, \"Queja\")), ISBLANK(TEXT(ETC_Dictamen__c)))",
+      "message": "Las aclaraciones y quejas requieren dictamen al cerrarse.",
+      "catalog": "COM-019"
+    },
+    {
+      "object": "Opportunity",
+      "name": "ETC_Motivo_Perdida",
+      "purpose": "Oportunidad perdida requiere motivo",
+      "formula": "AND(IsClosed, NOT(IsWon), ISBLANK(TEXT(ETC_Motivo_Perdida__c)))",
+      "message": "Indica el motivo de pérdida.",
+      "catalog": "COM-019"
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_RFC_Formato",
+      "purpose": "RFC de prospecto con formato válido (12 o 13 caracteres)",
+      "formula": "AND(NOT(ISBLANK(ETC_RFC__c)), NOT(REGEX(ETC_RFC__c, \"[A-ZÑ&]{3}[0-9]{6}[A-Z0-9]{3}|[A-ZÑ&]{4}[0-9]{6}[A-Z0-9]{3}\")))",
+      "message": "El RFC no tiene un formato válido.",
+      "catalog": "COM-028"
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_Motivo_Descalificacion",
+      "purpose": "Prospecto descalificado requiere motivo",
+      "formula": "AND(ISPICKVAL(Status, \"Closed - Not Converted\"), ISBLANK(TEXT(ETC_Motivo_Descalificacion__c)))",
+      "message": "Indica el motivo de descalificación.",
+      "catalog": "COM-019",
+      "note": "El valor de estado se ajusta al Lead Status que defina el cliente."
+    }
+  ],
+  "duplicateRules": [
+    {
+      "object": "Account",
+      "name": "ETC_Cuenta_RFC",
+      "match": "RFC exacto",
+      "fields": [
+        "ETC_RFC__c"
+      ],
+      "action": "Alertar (no bloquear)",
+      "catalog": "COM-027"
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Persona_CURP",
+      "match": "CURP exacta (cuentas personales)",
+      "fields": [
+        "ETC_CURP__pc"
+      ],
+      "action": "Alertar (no bloquear)",
+      "catalog": "COM-027"
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Persona_Correo_Nombre",
+      "match": "Correo exacto o nombre + fecha de nacimiento (cuentas personales)",
+      "fields": [
+        "PersonEmail",
+        "FirstName",
+        "LastName",
+        "PersonBirthdate"
+      ],
+      "action": "Alertar (no bloquear)",
+      "catalog": "COM-027"
+    },
+    {
+      "object": "Contact",
+      "name": "ETC_Contacto_Correo",
+      "match": "Correo exacto",
+      "fields": [
+        "Email"
+      ],
+      "action": "Alertar (no bloquear)",
+      "catalog": "COM-027"
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_Prospecto_RFC_Correo",
+      "match": "RFC o correo exacto contra prospectos y cuentas",
+      "fields": [
+        "ETC_RFC__c",
+        "Email"
+      ],
+      "action": "Alertar (no bloquear)",
+      "catalog": "COM-027"
+    }
+  ]
+}

@@ -16,7 +16,8 @@ A cada cliente se le despliega una **base común** más **una vertical**, que se
 - ✔ Arquitectura modular y scripts operativos: configure, assess, build, validate, deploy, test y deployment-report.
 - ✔ Catálogo de 71 configuraciones importado como fuente única ([docs/CATALOG.md](docs/CATALOG.md)).
 - ✔ Objetos FSC Core por módulo, tomados de la documentación oficial ([config/modules.json](config/modules.json)).
-- ○ Metadata de los módulos: **pendiente**. Primero hay que aprobar el diccionario de campos y la matriz de acceso.
+- ◐ Base común: diccionario de datos y matriz de acceso en borrador (base ETC predeterminada) en `config/spec/`. Falta aprobarlos o ajustarlos con el cliente y generar la metadata.
+- ○ Diccionario y matriz de cada vertical: pendientes.
 - ✔ Org FSC de referencia habilitada: base común y las 3 verticales en **Listo** (`npm run assess`, 2026-11-17 · [docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
 
 ## Uso rápido
@@ -43,6 +44,7 @@ config/modules.json             Módulos, objetos FSC requeridos, prerrequisitos
 config/implementation.json      Cliente y vertical seleccionada (npm run configure)
 config/catalog/fsc-catalog.json Catálogo de 71 configuraciones: alcance, ejecutor y estado
 config/sharing-model.json       OWD objetivo por módulo
+config/spec/                    Diccionario de datos y matriz de acceso por módulo (fuente de la metadata)
 scripts/                        configure · assess · deploy (build, stages, deploy, report) · validate · test · generate
 docs/                           Arquitectura, despliegue, catálogo y un documento por módulo
 presentation/                   Generador de la presentación Quick Start
@@ -55,6 +57,7 @@ deployments/<alias>/            Evidencia por instancia (no versionada)
 |---|---|
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | Principios, módulos y decisiones |
 | [DEPLOYMENT](docs/DEPLOYMENT.md) | Flujo de despliegue y controles |
+| [DATA_DICTIONARY](docs/DATA_DICTIONARY.md) · [ACCESS_MATRIX](docs/ACCESS_MATRIX.md) | Campos, validaciones, duplicados y seguridad de la base común (generado desde `config/spec/`) |
 | [CATALOG](docs/CATALOG.md) · [modules/](docs/modules/) | Alcance por módulo (generado) |
 | [ROADMAP](docs/ROADMAP.md) | Siguientes pasos de construcción |
 | [REFERENCE_ORG](docs/REFERENCE_ORG.md) | Diagnóstico de la org de referencia y pasos de Setup |

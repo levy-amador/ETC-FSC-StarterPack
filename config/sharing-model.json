@@ -3,15 +3,40 @@
   "modules": {
     "common": {
       "objects": {
-        "Account": { "sharingModel": "Private", "externalSharingModel": "Private" },
-        "Contact": { "sharingModel": "ControlledByParent", "externalSharingModel": "ControlledByParent" },
-        "Opportunity": { "sharingModel": "Private", "externalSharingModel": "Private" },
-        "Case": { "sharingModel": "Private", "externalSharingModel": "Private" }
+        "Account": {
+          "sharingModel": "Private",
+          "externalSharingModel": "Private"
+        },
+        "Contact": {
+          "sharingModel": "ControlledByParent",
+          "externalSharingModel": "ControlledByParent"
+        },
+        "Opportunity": {
+          "sharingModel": "Private",
+          "externalSharingModel": "Private"
+        },
+        "Case": {
+          "sharingModel": "Private",
+          "externalSharingModel": "Private"
+        },
+        "Lead": {
+          "sharingModel": "Private",
+          "externalSharingModel": "Private"
+        }
       }
     },
-    "insurance": { "objects": {}, "pending": "Definir OWD de InsurancePolicy y Claim con la matriz de acceso (COM-007). Revisión de seguridad obligatoria." },
-    "banking": { "objects": {}, "pending": "Definir OWD de FinancialAccount con la matriz de acceso (COM-007). Revisión de seguridad obligatoria." },
-    "wealth": { "objects": {}, "pending": "Definir OWD de FinancialAccount y FinancialGoal con la matriz de acceso (COM-007). Revisión de seguridad obligatoria." }
+    "insurance": {
+      "objects": {},
+      "pending": "Definir OWD de InsurancePolicy y Claim con la matriz de acceso (COM-007). Revisión de seguridad obligatoria."
+    },
+    "banking": {
+      "objects": {},
+      "pending": "Definir OWD de FinancialAccount con la matriz de acceso (COM-007). Revisión de seguridad obligatoria."
+    },
+    "wealth": {
+      "objects": {},
+      "pending": "Definir OWD de FinancialAccount y FinancialGoal con la matriz de acceso (COM-007). Revisión de seguridad obligatoria."
+    }
   },
   "notes": [
     "Contact queda Controlled by Parent porque Account es Private.",

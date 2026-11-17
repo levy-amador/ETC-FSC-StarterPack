@@ -133,6 +133,27 @@ function localChecks() {
     for (const k of it.componentes || []) if (!components.has(k)) errors.push(`Catálogo: ${it.id} declara ${k}, que no existe en el repo`);
     if (['Construido', 'Validado en org'].includes(it.estado) && !(it.componentes || []).length) errors.push(`Catálogo: ${it.id} está "${it.estado}" sin componentes declarados`);
   }
+  // Especificación de la base común: consistencia entre diccionario y matriz de acceso
+  const dd = readJson(path.join(ROOT, 'config', 'spec', 'common-data-dictionary.json'), null);
+  const am = readJson(path.join(ROOT, 'config', 'spec', 'common-access-matrix.json'), null);
+  if (dd && am) {
+    const specFields = new Set(dd.fields.map((f) => `${f.object}.${f.apiName}`));
+    for (const f of dd.fields) {
+      if (!/^ETC_[A-Za-z0-9_]{1,36}__c$/.test(f.apiName)) errors.push(`Spec: API Name inválido ${f.object}.${f.apiName}`);
+      if (f.type === 'Picklist' && !(f.values || []).length) errors.push(`Spec: ${f.object}.${f.apiName} es lista sin valores`);
+      if (!ids.has(f.catalog)) errors.push(`Spec: ${f.object}.${f.apiName} apunta a un ítem de catálogo inexistente (${f.catalog})`);
+    }
+    for (const v of dd.validationRules) for (const m of v.formula.matchAll(/\b(ETC_[A-Za-z0-9_]+__c)\b/g)) if (!specFields.has(`${v.object}.${m[1]}`)) errors.push(`Spec: la validación ${v.object}.${v.name} usa ${m[1]}, que no está en el diccionario`);
+    for (const r of dd.duplicateRules) for (const fld of r.fields) if (/^ETC_/.test(fld)) { const base = fld.replace(/__pc$/, '__c'); if (!specFields.has(`${r.object}.${base}`) && !specFields.has(`Contact.${base}`)) errors.push(`Spec: la regla ${r.name} usa ${fld}, que no está en el diccionario`); }
+    for (const f of Object.keys(am.fieldSecurity)) if (!specFields.has(f)) errors.push(`Spec: seguridad de campo para ${f}, que no está en el diccionario`);
+    const roleNames = new Set(am.roles.map((r) => r.name));
+    for (const r of am.roles) if (r.parent && !roleNames.has(r.parent)) errors.push(`Spec: el rol ${r.name} tiene un padre inexistente (${r.parent})`);
+    const psNames = new Set(am.permissionSets.map((p) => p.name));
+    for (const [g, l] of Object.entries(am.permissionSetGroups)) for (const x of l) if (!psNames.has(x)) errors.push(`Spec: ${g} incluye ${x}, que no está definido`);
+    for (const p of am.personas) { if (p.role && !roleNames.has(p.role)) errors.push(`Spec: la persona ${p.id} usa el rol inexistente ${p.role}`); if (p.psg && !am.permissionSetGroups[p.psg]) errors.push(`Spec: la persona ${p.id} usa el PSG inexistente ${p.psg}`); }
+    for (const [o, m] of Object.entries(am.objectPermissions)) for (const v of Object.values(m)) if (/D/.test(v)) errors.push(`Spec: ${o} otorga eliminar a un usuario operativo`);
+    ok.push(`Especificación base común (${dd.fields.length} campos, ${dd.validationRules.length} validaciones, ${am.personas.length} personas, ${am.roles.length} roles)`);
+  }
   const done = cat.items.filter((i) => ['Construido', 'Validado en org'].includes(i.estado)).length;
   ok.push(`Catálogo (${cat.items.length} ítems, ${done} construidos)`);
 }
