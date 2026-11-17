@@ -8,7 +8,7 @@ Org de pruebas de ETC para construir y validar el Starter Pack. Los identificado
 |---|---|
 | Edición | Enterprise Edition |
 | Paquete gestionado FinServ | No instalado (compatible con FSC Core) |
-| Person Accounts | No habilitadas |
+| Person Accounts | No habilitadas al inicio; activadas el 2026-11-17 |
 | Licencias FSC | Presentes: FSC Comprehensive, FSC Sales, FSC Service, FSC Insurance, Action Plans, Insurance Policy Administration, Insurance Claim Management, entre otras |
 
 | Módulo | Veredicto | Causa |
@@ -33,9 +33,10 @@ Desplegado con check-only previo (etapa `00-settings` y record type de la base c
 |---|---|---|
 | Group Membership | `IndustriesSettings.enableGroupMembershipPref` | ✔ `AccountAccountRelation`, `ContactContactRelation` y `PartyRelationshipGroup` disponibles |
 | Financial Account Management Standard Objects | `IndustriesSettings.enableFinancialAccountMgmt` | ✔ `FinancialAccount`, `FinancialAccountParty` y `FinancialSecurity` disponibles. Banca y Patrimonial: **Listo** |
-| Contacts to Multiple Accounts | `AccountSettings.enableRelateContactToMultipleAccounts` | ◐ La bandera quedó en `true`, pero `AccountContactRelation` todavía no aparece. Verificar en Setup › Account Settings |
+| Contacts to Multiple Accounts | `AccountSettings.enableRelateContactToMultipleAccounts` | ◐ La bandera quedó en `true` y la casilla aparece marcada en Setup, pero la API todavía no expone `AccountContactRelation`. Hipótesis: activar por metadata no corre la activación completa que hace la interfaz. Se reintenta desde Setup |
 | Record type `Account.ETC_Empresa` | Metadata + visibilidad en el perfil Admin | ✔ Prerrequisito de Person Accounts |
-| Person Accounts | **Manual en Setup** (no está expuesto en metadata) | ○ Pendiente |
+| Person Accounts | **Manual en Setup** (no está expuesto en metadata) | ✔ Activado el 2026-11-17 por una persona |
+| Record type `PersonAccount` en el perfil Admin | `Profile.recordTypeVisibilities` (`personAccountDefault`) | ✔ Cuenta personal es la predeterminada para personas y Empresa para negocios |
 
 ## Pasos de Setup originales
 
