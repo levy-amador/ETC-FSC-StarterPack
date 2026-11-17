@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    { "path": "modules/common", "default": true },
+    { "path": "modules/insurance" },
+    { "path": "modules/banking" },
+    { "path": "modules/wealth" }
+  ],
+  "name": "ETC-FSC-StarterPack",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "68.0"
+}

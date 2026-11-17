@@ -1,0 +1,9 @@
+{
+  "orgName": "ETC FSC Starter Pack",
+  "edition": "Enterprise",
+  "features": ["PersonAccounts", "EnableSetPasswordInApi"],
+  "settings": {
+    "lightningExperienceSettings": { "enableS1DesktopEnabled": true }
+  },
+  "_nota": "Fuente pendiente: los features de scratch org para FSC Core no están confirmados. Para pruebas se recomienda una org de prueba FSC o un sandbox con licencias."
+}

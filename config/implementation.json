@@ -1,0 +1,5 @@
+{
+  "description": "Vertical que se implementa con el cliente actual. La escribe npm run configure; build y deploy la exigen y deploy la vuelve a confirmar. Valores: insurance | banking | wealth.",
+  "client": null,
+  "verticals": []
+}

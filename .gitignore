@@ -1,0 +1,43 @@
+# Salesforce CLI / DX
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# Dependencias
+node_modules/
+
+# Logs y temporales
+logs/
+*.log
+npm-debug.log*
+*.tmp
+*.swp
+tmp/
+.cache/
+
+# Artefactos generados
+build/*
+!build/.gitkeep
+deploy-results/
+coverage/
+
+# Credenciales, tokens y configuración sensible
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.p12
+auth*.json
+*sfdxAuthUrl*
+authUrl*.txt
+config/branding/*.local.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Evidencia por instancia (Org Id, URL, usuarios, IDs de registros): no se versiona
+deployments/*
+!deployments/README.md

@@ -1,0 +1,72 @@
+{
+  "description": "Módulos del Starter Pack. La base común siempre se despliega; de las verticales se despliega solo la que confirme el cliente. 'requiredObjects' decide si la org está lista (npm run assess); 'optionalObjects' solo se reporta. Modelo FSC Core: objetos estándar, sin paquete gestionado FinServ__.",
+  "dataModel": "FSC Core (objetos estándar)",
+  "minApiVersion": "61.0",
+  "sources": {
+    "objectReference": "https://developer.salesforce.com/docs/atlas.en-us.financial_services_cloud_object_reference.meta/financial_services_cloud_object_reference/",
+    "packageToStandardMapping": "https://help.salesforce.com/s/articleView?id=ind.fsc_admin_managed_pkg_to_std_object_mapping.htm&type=5",
+    "groupMembership": "https://help.salesforce.com/s/articleView?id=ind.group_membership.htm&type=5",
+    "financialAccountStandardObjects": "https://help.salesforce.com/s/articleView?id=ind.fsc_admin_console_apps_enable.htm&type=5",
+    "insuranceSetup": "https://help.salesforce.com/s/articleView?id=ind.fsc_insurance_admin_setup.htm&type=5",
+    "verification": "Nombres API tomados de la documentación oficial vía resúmenes de búsqueda (2026-11-17). 'confirmado: false' = no encontrado en doc oficial; se verifica con npm run assess en la org."
+  },
+  "modules": [
+    {
+      "id": "common",
+      "kind": "base",
+      "label": "Base común FSC",
+      "aliases": ["comun", "común", "base", "general"],
+      "catalogPrefix": "COM",
+      "description": "Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y reportes",
+      "requiresPersonAccounts": true,
+      "requiredObjects": ["Account", "Contact", "Case", "AccountContactRelation", "ContactContactRelation", "AccountAccountRelation", "PartyRelationshipGroup"],
+      "optionalObjects": ["PersonLifeEvent", "BusinessMilestone", "PartyProfile", "IdentityDocument", "ActionPlanTemplate", "ActionPlan", "ActionPlanItem"],
+      "unconfirmedObjects": ["ActionPlanTemplate", "ActionPlan", "ActionPlanItem"],
+      "setupPrerequisites": ["Activar 'Group Membership' en Setup y asignar el permiso Group Membership (habilita AccountAccountRelation, ContactContactRelation y PartyRelationshipGroup)", "Person Accounts habilitadas"],
+      "licenseHints": ["FSC", "Financial Services", "Action Plans"],
+      "appTabs": ["standard-home", "standard-Account", "standard-Contact", "standard-Case", "standard-Opportunity", "standard-report", "standard-Dashboard"]
+    },
+    {
+      "id": "insurance",
+      "kind": "vertical",
+      "label": "Seguros",
+      "aliases": ["seguros", "ins", "insurance"],
+      "catalogPrefix": "INS",
+      "description": "Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores",
+      "requiredObjects": ["InsurancePolicy", "InsurancePolicyCoverage", "InsurancePolicyParticipant", "InsurancePolicyAsset", "CustomerProperty", "Producer"],
+      "optionalObjects": ["InsurancePolicyTransaction", "ProducerPolicyAssignment", "ProducerCommission", "InsuranceContract", "Claim", "ClaimParticipant", "ClaimItem", "ClaimCoverage", "ClaimCoveragePaymentDetail", "ClaimRecovery"],
+      "unconfirmedObjects": [],
+      "setupPrerequisites": ["PSL 'FSC Insurance' asignada (acceso a objetos de seguros)", "Siniestros: licencia 'Insurance Claim Management' (permiso FSCInsClaimMgmtPlatformUser)", "Administración de pólizas: licencia 'Insurance Policy Administration' (permiso FSCInsPolicyAdminPlatformUser)"],
+      "licenseHints": ["Insurance"],
+      "appTabs": ["standard-InsurancePolicy", "standard-Claim", "standard-Producer"]
+    },
+    {
+      "id": "banking",
+      "kind": "vertical",
+      "label": "Banca",
+      "aliases": ["banca", "banking", "bnk"],
+      "catalogPrefix": "BNK",
+      "description": "Cuentas financieras, titulares, movimientos, tarjetas y sucursales",
+      "requiredObjects": ["FinancialAccount", "FinancialAccountParty", "FinancialAccountTransaction"],
+      "optionalObjects": ["FinancialAccountBalance", "IssuedCard", "BranchUnit", "BranchUnitRelatedRecord", "Banker"],
+      "unconfirmedObjects": [],
+      "setupPrerequisites": ["Activar 'Financial Account Management Standard Objects' en Setup"],
+      "licenseHints": ["FSC", "Financial Services"],
+      "appTabs": ["standard-FinancialAccount", "standard-BranchUnit"]
+    },
+    {
+      "id": "wealth",
+      "kind": "vertical",
+      "label": "Patrimonial",
+      "aliases": ["patrimonial", "wealth", "wealth management", "wlt"],
+      "catalogPrefix": "WLT",
+      "description": "Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/pasivos",
+      "requiredObjects": ["FinancialAccount", "FinancialAccountParty", "FinancialGoal", "FinancialSecurity"],
+      "optionalObjects": ["FinancialGoalParty", "SecuritiesHolding", "PartyFinancialAsset", "PartyFinancialLiability"],
+      "unconfirmedObjects": ["SecuritiesHolding"],
+      "setupPrerequisites": ["Activar 'Financial Account Management Standard Objects' en Setup", "Validar en la org el objeto de tenencias: la doc oficial se contradice sobre SecuritiesHolding"],
+      "licenseHints": ["FSC", "Financial Services"],
+      "appTabs": ["standard-FinancialAccount", "standard-FinancialGoal"]
+    }
+  ]
+}

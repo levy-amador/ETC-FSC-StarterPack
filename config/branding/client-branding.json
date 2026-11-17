@@ -1,0 +1,22 @@
+{
+  "appLabel": "Starter Pack FSC",
+  "appApiName": "Starter_Pack_FSC",
+  "logo": {
+    "source": "predeterminado (monograma ETC)",
+    "staticResource": "ETC_App_Logo",
+    "contentAsset": "ETC_App_Logo",
+    "format": "image/png"
+  },
+  "colors": {
+    "primary": "#0B5CAB",
+    "secondary": "#F28C28",
+    "source": "predeterminada",
+    "appliedTo": {
+      "primary": "CustomApplication.brand.headerColor (barra de navegación de la app)",
+      "secondary": "Se conserva en configuración; Lightning App metadata no expone un segundo color. Se usa en el logo predeterminado."
+    }
+  },
+  "overridesOrgTheme": true,
+  "modifiesGlobalTheme": false,
+  "generatedAt": "2026-11-17T22:45:47.261Z"
+}
