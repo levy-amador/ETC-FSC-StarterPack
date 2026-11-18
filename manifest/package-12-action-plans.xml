@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>ETC_Atencion_Siniestro</members>
+        <members>ETC_Onboarding_Cliente</members>
+        <members>ETC_Revision_Cartera</members>
+        <name>ActionPlanTemplate</name>
+    </types>
+    <version>68.0</version>
+</Package>

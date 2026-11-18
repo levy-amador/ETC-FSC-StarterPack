@@ -1,0 +1,327 @@
+{
+  "status": "Base ETC predeterminada (Supuesto): se ajusta si el cliente define su proceso",
+  "opportunityStages": [
+    {
+      "value": "Calificación",
+      "probability": 10,
+      "forecast": "Pipeline",
+      "fields": [
+        "Type",
+        "ETC_Producto_Interes__c",
+        "CloseDate"
+      ],
+      "info": "Confirma que el cliente tiene una necesidad real y que hablas con quien decide."
+    },
+    {
+      "value": "Análisis de necesidades",
+      "probability": 25,
+      "forecast": "Pipeline",
+      "fields": [
+        "ETC_Producto_Interes__c",
+        "Amount",
+        "NextStep"
+      ],
+      "info": "Documenta la situación financiera y los objetivos del cliente. Estima el monto."
+    },
+    {
+      "value": "Propuesta",
+      "probability": 50,
+      "forecast": "Pipeline",
+      "fields": [
+        "Amount",
+        "NextStep",
+        "CloseDate"
+      ],
+      "info": "Presenta la propuesta de producto con condiciones. Registra el próximo paso con fecha."
+    },
+    {
+      "value": "Negociación",
+      "probability": 75,
+      "forecast": "BestCase",
+      "fields": [
+        "Amount",
+        "NextStep",
+        "CloseDate"
+      ],
+      "info": "Acuerda condiciones. Verifica que el expediente KYC del cliente esté aprobado antes de formalizar."
+    },
+    {
+      "value": "Formalización",
+      "probability": 90,
+      "forecast": "Forecast",
+      "fields": [
+        "Amount",
+        "CloseDate"
+      ],
+      "info": "Firma de contrato y alta del producto. Confirma documentos completos."
+    },
+    {
+      "value": "Cerrada ganada",
+      "probability": 100,
+      "forecast": "Closed",
+      "closed": true,
+      "won": true,
+      "fields": [
+        "Amount",
+        "CloseDate"
+      ],
+      "info": "Producto contratado. Da seguimiento al onboarding del cliente."
+    },
+    {
+      "value": "Cerrada perdida",
+      "probability": 0,
+      "forecast": "Omitted",
+      "closed": true,
+      "won": false,
+      "fields": [
+        "ETC_Motivo_Perdida__c"
+      ],
+      "info": "Registra el motivo de pérdida para mejorar la oferta."
+    }
+  ],
+  "leadStatuses": [
+    {
+      "value": "Nuevo",
+      "default": true,
+      "fields": [
+        "LeadSource",
+        "ETC_Producto_Interes__c"
+      ],
+      "info": "Revisa el origen y contacta al prospecto en menos de 24 horas."
+    },
+    {
+      "value": "Contactado",
+      "fields": [
+        "Phone",
+        "Email",
+        "ETC_Producto_Interes__c"
+      ],
+      "info": "Registra la llamada o reunión y confirma el producto de interés."
+    },
+    {
+      "value": "En calificación",
+      "fields": [
+        "ETC_Segmento__c",
+        "ETC_RFC__c",
+        "Industry"
+      ],
+      "info": "Valida perfil, segmento y datos fiscales antes de convertir."
+    },
+    {
+      "value": "Calificado",
+      "converted": true,
+      "fields": [
+        "ETC_Segmento__c",
+        "ETC_RFC__c"
+      ],
+      "info": "Convierte el prospecto en cliente y oportunidad."
+    },
+    {
+      "value": "No calificado",
+      "fields": [
+        "ETC_Motivo_Descalificacion__c"
+      ],
+      "info": "Registra el motivo de descalificación."
+    }
+  ],
+  "queues": [
+    {
+      "module": "common",
+      "name": "ETC_Aclaraciones_Quejas",
+      "label": "ETC Aclaraciones y quejas",
+      "object": "Case",
+      "members": [
+        "ETC_Supervisor_Servicio"
+      ],
+      "catalog": "COM-024"
+    },
+    {
+      "module": "common",
+      "name": "ETC_Servicio_General",
+      "label": "ETC Servicio general",
+      "object": "Case",
+      "members": [
+        "ETC_Supervisor_Servicio"
+      ],
+      "catalog": "COM-024"
+    },
+    {
+      "module": "insurance",
+      "name": "ETC_Siniestros",
+      "label": "ETC Siniestros y pólizas",
+      "object": "Case",
+      "members": [
+        "ETC_Supervisor_Servicio"
+      ],
+      "catalog": "INS-008"
+    },
+    {
+      "module": "banking",
+      "name": "ETC_Servicio_Banca",
+      "label": "ETC Servicio a cuentas",
+      "object": "Case",
+      "members": [
+        "ETC_Supervisor_Servicio"
+      ],
+      "catalog": "BNK-012"
+    }
+  ],
+  "caseAssignment": {
+    "name": "ETC_Asignacion_Casos",
+    "catalog": "COM-024",
+    "entries": [
+      {
+        "module": "insurance",
+        "queue": "ETC_Siniestros",
+        "formula": "NOT(ISBLANK(ETC_Poliza__c))",
+        "why": "Casos con póliza relacionada"
+      },
+      {
+        "module": "banking",
+        "queue": "ETC_Servicio_Banca",
+        "formula": "AND(NOT(ISBLANK(ETC_Cuenta_Financiera__c)), NOT(OR(ISPICKVAL(Type, \"Aclaración\"), ISPICKVAL(Type, \"Queja\"))))",
+        "why": "Solicitudes sobre una cuenta financiera"
+      },
+      {
+        "module": "common",
+        "queue": "ETC_Aclaraciones_Quejas",
+        "formula": "OR(ISPICKVAL(Type, \"Aclaración\"), ISPICKVAL(Type, \"Queja\"))",
+        "why": "Aclaraciones y quejas"
+      },
+      {
+        "module": "common",
+        "queue": "ETC_Servicio_General",
+        "formula": "true",
+        "why": "Todo lo demás"
+      }
+    ]
+  },
+  "actionPlans": [
+    {
+      "module": "common",
+      "name": "ETC_Onboarding_Cliente",
+      "label": "ETC Onboarding de cliente",
+      "target": "Account",
+      "catalog": "COM-022",
+      "items": [
+        [
+          "Recabar identificación oficial y comprobante de domicilio",
+          0,
+          "High"
+        ],
+        [
+          "Registrar aceptación del aviso de privacidad",
+          0,
+          "High"
+        ],
+        [
+          "Revisión del expediente KYC por Cumplimiento",
+          2,
+          "High"
+        ],
+        [
+          "Llamada de bienvenida al cliente",
+          5,
+          "Normal"
+        ]
+      ]
+    },
+    {
+      "module": "banking",
+      "name": "ETC_Apertura_Cuenta",
+      "label": "ETC Apertura de cuenta",
+      "target": "Account",
+      "catalog": "BNK-009",
+      "items": [
+        [
+          "Validar documentos del titular",
+          0,
+          "High"
+        ],
+        [
+          "Firma de contrato de apertura",
+          1,
+          "High"
+        ],
+        [
+          "Alta de la cuenta en el sistema central",
+          2,
+          "High"
+        ],
+        [
+          "Entrega de tarjeta y medios de acceso",
+          5,
+          "Normal"
+        ],
+        [
+          "Llamada de seguimiento",
+          10,
+          "Normal"
+        ]
+      ]
+    },
+    {
+      "module": "insurance",
+      "name": "ETC_Atencion_Siniestro",
+      "label": "ETC Atención de siniestro",
+      "target": "Claim",
+      "catalog": "INS-006",
+      "items": [
+        [
+          "Registrar el aviso del siniestro",
+          0,
+          "High"
+        ],
+        [
+          "Solicitar documentos al asegurado",
+          1,
+          "High"
+        ],
+        [
+          "Evaluación y ajuste",
+          5,
+          "Normal"
+        ],
+        [
+          "Dictamen del siniestro",
+          10,
+          "High"
+        ],
+        [
+          "Pago o cierre",
+          15,
+          "Normal"
+        ]
+      ]
+    },
+    {
+      "module": "wealth",
+      "name": "ETC_Revision_Cartera",
+      "label": "ETC Revisión de cartera",
+      "target": "Account",
+      "catalog": "WLT-012",
+      "items": [
+        [
+          "Preparar estado de cuenta y rendimiento",
+          0,
+          "Normal"
+        ],
+        [
+          "Actualizar perfil de inversionista si aplica",
+          0,
+          "High"
+        ],
+        [
+          "Reunión de revisión con el cliente",
+          3,
+          "High"
+        ],
+        [
+          "Documentar acuerdos y próximos pasos",
+          4,
+          "Normal"
+        ]
+      ]
+    }
+  ]
+}

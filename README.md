@@ -19,7 +19,8 @@ A cada cliente se le despliega una **base común** más **una vertical**, que se
 - ✔ Metadata inicial generada desde `config/spec/` para la base común y las 3 verticales (`npm run generate`).
 - ✔ Prueba real en la org de referencia (2026-11-17): base común + Banca **desplegadas**, 13/13 pruebas funcionales OK; Seguros y Patrimonial **validadas con check-only**. Lecciones en [LESSONS_REFERENCE_ORG](docs/LESSONS_REFERENCE_ORG.md).
 - ✔ Experiencia de usuario y automatización: layouts, Lightning Record Pages, list views, 8 flows con umbrales en Custom Metadata, 3 tipos de reporte, 13 reportes y 4 dashboards (`config/spec/*-ui.json`, `common-settings.json`).
-- ○ Pendiente: aprobación del cliente de la base ETC; Path, colas y reglas de asignación, Action Plans.
+- ✔ Procesos: etapas y Path de prospectos y oportunidades, colas y regla de asignación de casos, plantillas de Action Plans (`config/spec/common-process.json`).
+- ○ Pendiente: aprobación del cliente de la base ETC; despliegue real de Seguros y Patrimonial.
 - ✔ Org FSC de referencia habilitada: base común y las 3 verticales en **Listo** (`npm run assess`, 2026-11-17 · [docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
 
 ## Uso rápido

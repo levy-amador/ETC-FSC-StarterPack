@@ -4,15 +4,18 @@
         <members>Account.ETC_CURP_Formato_Persona</members>
         <members>Account.ETC_Cliente_Activo_Requiere_KYC</members>
         <members>Account.ETC_KYC_Fecha_Revision</members>
+        <members>Account.ETC_Perfil_Requiere_Fecha</members>
         <members>Account.ETC_RFC_Formato</members>
         <members>Case.ETC_Dictamen_Aclaracion</members>
-        <members>Case.ETC_Monto_Reclamado_No_Negativo</members>
         <members>Case.ETC_Resolucion_Al_Cerrar</members>
+        <members>Claim.ETC_Fecha_Siniestro_No_Futura</members>
+        <members>Claim.ETC_Montos_No_Negativos</members>
         <members>Contact.ETC_CURP_Formato</members>
         <members>Contact.ETC_Consentimiento_Fecha</members>
-        <members>FinancialAccount.ETC_CLABE_Formato</members>
-        <members>FinancialAccount.ETC_Cierre_Requiere_Fecha</members>
-        <members>FinancialAccount.ETC_Fechas_Validas</members>
+        <members>FinancialGoal.ETC_Fecha_Meta_Valida</members>
+        <members>FinancialGoal.ETC_Monto_Meta_Positivo</members>
+        <members>InsurancePolicy.ETC_Cancelacion_Requiere_Fecha</members>
+        <members>InsurancePolicy.ETC_Vigencia_Valida</members>
         <members>Lead.ETC_Motivo_Descalificacion</members>
         <members>Lead.ETC_RFC_Formato</members>
         <members>Opportunity.ETC_Motivo_Perdida</members>

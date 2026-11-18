@@ -3,24 +3,34 @@
     <types>
         <members>ETC_Caso_Record_Page</members>
         <members>ETC_Contacto_Record_Page</members>
-        <members>ETC_Cuenta_Financiera_Record_Page</members>
         <members>ETC_Cuenta_Record_Page</members>
+        <members>ETC_Objetivo_Record_Page</members>
         <members>ETC_Oportunidad_Record_Page</members>
+        <members>ETC_Poliza_Record_Page</members>
         <members>ETC_Prospecto_Record_Page</members>
+        <members>ETC_Siniestro_Record_Page</members>
         <name>FlexiPage</name>
     </types>
     <types>
         <members>Account.ETC_Clientes_Activos</members>
         <members>Account.ETC_KYC_Por_Atender</members>
         <members>Account.ETC_Mis_Clientes</members>
+        <members>Account.ETC_Revisiones_Proximas</members>
         <members>Case.ETC_Aclaraciones_Quejas</members>
         <members>Case.ETC_Casos_Vencidos</members>
         <members>Case.ETC_Mis_Casos_Abiertos</members>
-        <members>FinancialAccount.ETC_Cuentas_Activas</members>
-        <members>FinancialAccount.ETC_Mis_Cuentas_Financieras</members>
+        <members>Claim.ETC_Siniestros_Abiertos</members>
+        <members>FinancialGoal.ETC_Mis_Objetivos</members>
+        <members>InsurancePolicy.ETC_Mis_Polizas</members>
+        <members>InsurancePolicy.ETC_Polizas_Por_Vencer</members>
         <members>Lead.ETC_Mis_Prospectos</members>
         <members>Opportunity.ETC_Mis_Oportunidades_Abiertas</members>
         <name>ListView</name>
+    </types>
+    <types>
+        <members>ETC_Oportunidad_Path</members>
+        <members>ETC_Prospecto_Path</members>
+        <name>PathAssistant</name>
     </types>
     <version>68.0</version>
 </Package>

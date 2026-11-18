@@ -7,11 +7,11 @@ Fuente: *Catálogo de configuraciones Financial Services Cloud - Claude.xlsx* (i
 
 | Módulo | Ítems | Claude Code (con aprobación) | Humano con apoyo de IA | Humano | Pendiente | En construcción | Construido | Validado en org | Manual | Fuera de alcance |
 |---|---|---|---|---|---|---|---|---|---|---|
-| [Base común FSC](modules/COMMON.md) | 30 | 21 | 8 | 1 | 18 | 0 | 0 | 12 | 0 | 0 |
-| [Seguros](modules/INSURANCE.md) | 12 | 8 | 4 | 0 | 7 | 0 | 0 | 5 | 0 | 0 |
-| [Banca](modules/BANKING.md) | 13 | 8 | 4 | 1 | 9 | 0 | 0 | 4 | 0 | 0 |
+| [Base común FSC](modules/COMMON.md) | 30 | 21 | 8 | 1 | 16 | 2 | 0 | 12 | 0 | 0 |
+| [Seguros](modules/INSURANCE.md) | 12 | 8 | 4 | 0 | 6 | 1 | 0 | 5 | 0 | 0 |
+| [Banca](modules/BANKING.md) | 13 | 8 | 4 | 1 | 8 | 1 | 0 | 4 | 0 | 0 |
 | [Patrimonial](modules/WEALTH.md) | 16 | 7 | 7 | 2 | 13 | 0 | 0 | 3 | 0 | 0 |
-| **Total** | **71** | **44** | **23** | **4** | **47** | **0** | **0** | **24** | **0** | **0** |
+| **Total** | **71** | **44** | **23** | **4** | **43** | **4** | **0** | **24** | **0** | **0** |
 
 ## Estados
 

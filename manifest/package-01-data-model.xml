@@ -3,19 +3,25 @@
     <types>
         <members>Account.ETC_Cliente_Desde__c</members>
         <members>Account.ETC_Estatus_KYC__c</members>
+        <members>Account.ETC_Fecha_Perfilamiento__c</members>
         <members>Account.ETC_Fecha_Revision_KYC__c</members>
+        <members>Account.ETC_Frecuencia_Revision__c</members>
         <members>Account.ETC_Nivel_Riesgo__c</members>
         <members>Account.ETC_Observaciones__c</members>
+        <members>Account.ETC_Perfil_Inversionista__c</members>
+        <members>Account.ETC_Proxima_Revision__c</members>
         <members>Account.ETC_RFC__c</members>
         <members>Account.ETC_Regimen_Fiscal__c</members>
         <members>Account.ETC_Segmento__c</members>
         <members>Account.ETC_Tipo_Cliente__c</members>
-        <members>Case.ETC_Cuenta_Financiera__c</members>
         <members>Case.ETC_Dictamen__c</members>
         <members>Case.ETC_Fecha_Compromiso__c</members>
         <members>Case.ETC_Folio_Externo__c</members>
-        <members>Case.ETC_Monto_Reclamado__c</members>
+        <members>Case.ETC_Poliza__c</members>
         <members>Case.ETC_Resolucion__c</members>
+        <members>Claim.ETC_Coaseguro_Aplicado__c</members>
+        <members>Claim.ETC_Deducible_Aplicado__c</members>
+        <members>Claim.ETC_Numero_Siniestro_Aseguradora__c</members>
         <members>Contact.ETC_Autoriza_Comunicaciones__c</members>
         <members>Contact.ETC_CURP__c</members>
         <members>Contact.ETC_Canal_Preferido__c</members>
@@ -30,10 +36,11 @@
         <members>ETC_Configuracion_FSC__mdt.Dias_Compromiso_Aclaracion__c</members>
         <members>ETC_Configuracion_FSC__mdt.Dias_Compromiso_General__c</members>
         <members>ETC_Configuracion_FSC__mdt.Dias_Vigencia_KYC__c</members>
-        <members>FinancialAccount.ETC_CLABE__c</members>
-        <members>FinancialAccount.ETC_Canal_Apertura__c</members>
-        <members>FinancialAccount.ETC_Moneda__c</members>
-        <members>FinancialAccount.ETC_Nivel_Cuenta__c</members>
+        <members>FinancialGoal.ETC_Horizonte__c</members>
+        <members>InsurancePolicy.ETC_Aseguradora__c</members>
+        <members>InsurancePolicy.ETC_Conducto_Cobro__c</members>
+        <members>InsurancePolicy.ETC_Moneda__c</members>
+        <members>InsurancePolicy.ETC_Ramo__c</members>
         <members>Lead.ETC_Motivo_Descalificacion__c</members>
         <members>Lead.ETC_Producto_Interes__c</members>
         <members>Lead.ETC_RFC__c</members>

@@ -27,7 +27,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 | BNK-009 | Procesos | Configuración de onboarding y apertura de cuentas | Humano con apoyo de IA | Validado en org | Humano valida compliance e integración. |
 | BNK-010 | Sales | Configuración de oportunidades de productos bancarios | Claude Code (con aprobación) | Pendiente | Humano valida reglas comerciales. |
 | BNK-011 | Servicio | Configuración de casos y aclaraciones bancarias | Claude Code (con aprobación) | Validado en org | Humano valida taxonomía y SLA. |
-| BNK-012 | Servicio | Configuración de enrutamiento por sucursal/producto | Claude Code (con aprobación) | Pendiente | Humano valida operación. |
+| BNK-012 | Servicio | Configuración de enrutamiento por sucursal/producto | Claude Code (con aprobación) | En construcción | Humano valida operación. |
 | BNK-013 | Reportes | Configuración de indicadores comerciales y de servicio | Claude Code (con aprobación) | Pendiente | Humano valida cifras y definiciones. |
 
 ## Detalle
@@ -111,7 +111,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** Proceso KYC, documentos, sistemas externos y criterios de aprobación.
 - **Qué puede hacer Claude Code:** Puede automatizar tareas y estados; validación de identidad, screening y decisiones de riesgo requieren sistemas/personas autorizadas.
 - **Validación humana:** Humano valida compliance e integración.
-- **Componentes:** `CustomField:FinancialAccount.ETC_Canal_Apertura__c`
+- **Componentes:** `ActionPlanTemplate:ETC_Apertura_Cuenta`, `CustomField:FinancialAccount.ETC_Canal_Apertura__c`
 
 ### BNK-010 · Configuración de oportunidades de productos bancarios
 
@@ -138,7 +138,7 @@ Cuentas financieras, titulares, movimientos, tarjetas y sucursales.
 - **Prerrequisitos:** Matriz de asignación y usuarios/equipos.
 - **Qué puede hacer Claude Code:** Automatizable con reglas/flows; validar excepciones y balanceo.
 - **Validación humana:** Humano valida operación.
-- **Componentes:** Pendiente
+- **Componentes:** `Queue:ETC_Servicio_Banca`
 
 ### BNK-013 · Configuración de indicadores comerciales y de servicio
 

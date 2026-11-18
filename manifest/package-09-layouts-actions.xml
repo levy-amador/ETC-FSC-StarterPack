@@ -3,8 +3,10 @@
     <types>
         <members>Account-ETC_Empresa_Layout</members>
         <members>Case-ETC_Caso_Layout</members>
+        <members>Claim-ETC_Siniestro_Layout</members>
         <members>Contact-ETC_Contacto_Layout</members>
-        <members>FinancialAccount-ETC_Cuenta_Financiera_Layout</members>
+        <members>FinancialGoal-ETC_Objetivo_Layout</members>
+        <members>InsurancePolicy-ETC_Poliza_Layout</members>
         <members>Lead-ETC_Prospecto_Layout</members>
         <members>Opportunity-ETC_Oportunidad_Layout</members>
         <members>PersonAccount-ETC_Persona_Layout</members>

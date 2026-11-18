@@ -25,7 +25,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 | INS-005 | Procesos | Configuración del ciclo de vida de pólizas | Claude Code (con aprobación) | Validado en org | Humano valida escenarios y excepciones. |
 | INS-006 | Procesos | Configuración del ciclo de vida de siniestros | Claude Code (con aprobación) | Validado en org | Humano valida controles y aprobaciones. |
 | INS-007 | Procesos | Configuración de renovaciones y vencimientos | Claude Code (con aprobación) | Pendiente | Humano valida calendario y mensajes. |
-| INS-008 | Procesos | Configuración de asignación a agentes y ajustadores | Claude Code (con aprobación) | Pendiente | Humano valida distribución. |
+| INS-008 | Procesos | Configuración de asignación a agentes y ajustadores | Claude Code (con aprobación) | En construcción | Humano valida distribución. |
 | INS-009 | Sales | Configuración de productos y oportunidades de seguros | Claude Code (con aprobación) | Pendiente | Humano valida catálogo y reglas. |
 | INS-010 | Servicio | Configuración de casos relacionados con pólizas y siniestros | Claude Code (con aprobación) | Validado en org | Humano valida proceso y acceso. |
 | INS-011 | Servicio | Configuración de escalamiento de reclamaciones | Humano con apoyo de IA | Pendiente | Humano aprueba matriz. |
@@ -85,7 +85,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Flujo operativo y matriz de autorizaciones.
 - **Qué puede hacer Claude Code:** Puede construir automatizaciones; decisiones de cobertura, reservas y pago no deben delegarse al agente.
 - **Validación humana:** Humano valida controles y aprobaciones.
-- **Componentes:** `CustomField:Claim.ETC_Coaseguro_Aplicado__c`, `CustomField:Claim.ETC_Deducible_Aplicado__c`, `ValidationRule:Claim.ETC_Fecha_Siniestro_No_Futura`, `ValidationRule:Claim.ETC_Montos_No_Negativos`
+- **Componentes:** `ActionPlanTemplate:ETC_Atencion_Siniestro`, `CustomField:Claim.ETC_Coaseguro_Aplicado__c`, `CustomField:Claim.ETC_Deducible_Aplicado__c`, `ValidationRule:Claim.ETC_Fecha_Siniestro_No_Futura`, `ValidationRule:Claim.ETC_Montos_No_Negativos`
 
 ### INS-007 · Configuración de renovaciones y vencimientos
 
@@ -103,7 +103,7 @@ Pólizas, coberturas, participantes, bienes asegurados, siniestros y productores
 - **Prerrequisitos:** Matriz de territorios, capacidad y especialidades.
 - **Qué puede hacer Claude Code:** Reglas y colas pueden configurarse; criterios operativos requieren aprobación.
 - **Validación humana:** Humano valida distribución.
-- **Componentes:** Pendiente
+- **Componentes:** `Queue:ETC_Siniestros`
 
 ### INS-009 · Configuración de productos y oportunidades de seguros
 

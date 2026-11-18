@@ -187,7 +187,7 @@ function writeObject(file, elements) {
   uniq.sort((a, b) => (a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0));
   fs.writeFileSync(file, `<?xml version="1.0" encoding="UTF-8"?>\n<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">\n${uniq.map((e) => e.xml).join('')}</CustomObject>\n`);
 }
-const MDAPI_DIRS = { roles: ['Role', '.role'], sharingRules: ['SharingRules', '.sharingRules'], flexipages: ['FlexiPage', '.flexipage'], flows: ['Flow', '.flow'], layouts: ['Layout', '.layout'], applications: ['CustomApplication', '.app'], permissionsets: ['PermissionSet', '.permissionset'], permissionsetgroups: ['PermissionSetGroup', '.permissionsetgroup'], profiles: ['Profile', '.profile'], pathAssistants: ['PathAssistant', '.pathAssistant'], duplicateRules: ['DuplicateRule', '.duplicateRule'] };
+const MDAPI_DIRS = { roles: ['Role', '.role'], assignmentRules: ['AssignmentRules', '.assignmentRules'], settings: ['Settings', '.settings'], sharingRules: ['SharingRules', '.sharingRules'], flexipages: ['FlexiPage', '.flexipage'], flows: ['Flow', '.flow'], layouts: ['Layout', '.layout'], applications: ['CustomApplication', '.app'], permissionsets: ['PermissionSet', '.permissionset'], permissionsetgroups: ['PermissionSetGroup', '.permissionsetgroup'], profiles: ['Profile', '.profile'], pathAssistants: ['PathAssistant', '.pathAssistant'], duplicateRules: ['DuplicateRule', '.duplicateRule'] };
 function componentFromMdapi(relPath) {
   const [dir, ...rest] = relPath.split('/');
   if (dir === 'reports' || dir === 'dashboards') {
@@ -249,11 +249,12 @@ function orgCheck(org, stageArg) {
   const owdPending = (summary.stages.find((s) => s.id === '06-sharing-model')?.components || 0) > 0;
   const pending = [];
   const { count } = mergePackages(ids, outDir, (id, type, member) => {
-    const skip = owdPending && (id === '06-sharing-model' || type === 'Role' || /^Sharing(Rules|OwnerRule|CriteriaRule)$/.test(type));
+    const skip = (owdPending && (id === '06-sharing-model' || type === 'Role' || /^Sharing(Rules|OwnerRule|CriteriaRule)$/.test(type))) ||
+      (summary.caseSettingsPending && (type === 'AssignmentRules' || type === 'AssignmentRule' || (type === 'Settings' && member === 'Case')));
     if (skip) pending.push(`${type}:${member}`);
     return skip;
   });
-  if (pending.length) console.log(c.yellow(`⚠ ${pending.length} componentes (OWD, roles y reglas de colaboración) quedan pendientes: se validan en su etapa durante npm run deploy, después de aplicar el OWD.`));
+  if (pending.length) console.log(c.yellow(`⚠ ${pending.length} componentes quedan pendientes (OWD, roles y colaboración, o configuración de casos y regla de asignación): se validan en su etapa durante npm run deploy.`));
   console.log(`\nValidación check-only en ${c.bold(org)} · base común + ${labelOf(summary.verticals || [])} (${count} componentes)...`);
   if (!count) return { success: true, components: 0, failures: [], note: 'Sin componentes que validar' };
   const res = sf(['project', 'deploy', 'start', '--dry-run', '--metadata-dir', outDir, '--target-org', org, '--test-level', 'NoTestRun', '--wait', '60'], { allowFail: true });

@@ -48,3 +48,15 @@ Los flows programados corren a diario (07:00 UTC). Para verificarlos sin esperar
 ## Integraciones y cargas de datos
 
 Las reglas de duplicados alertan en pantalla, pero por API **rechazan** el registro duplicado. Las integraciones, migraciones y cargas con Data Loader deben decidir explícitamente si permiten duplicados (`DuplicateRuleHeader.allowSave = true`) o limpiarlos antes.
+
+## Configuración de casos y asignación
+
+La regla de asignación `ETC_Asignacion_Casos` reparte los casos entre colas: Aclaraciones y quejas, Servicio general y, según la vertical, Siniestros (Seguros) o Servicio a cuentas (Banca). Las colas tienen como miembros al rol Supervisor de servicio y sus subordinados.
+
+Salesforce exige definir antes el **propietario predeterminado** y el **usuario automatizado** de casos. Si la org no los tiene, `npm run build` los agrega con la cola ETC Servicio general y el usuario que despliega; se pueden cambiar en Setup › Configuración de casos.
+
+## Etapas, Path y Action Plans
+
+- Las etapas de oportunidad y los estados de prospecto de la base ETC reemplazan a los estándar. Los anteriores quedan inactivos, no se borran.
+- Path guía cada etapa con los campos clave.
+- Las plantillas de Action Plans (onboarding de cliente y, según la vertical, apertura de cuenta, atención de siniestro o revisión de cartera) requieren que los usuarios tengan la licencia Action Plans.

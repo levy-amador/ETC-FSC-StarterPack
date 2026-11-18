@@ -9,7 +9,7 @@
 //   - genera el cambio de OWD sobre la definición actual de cada objeto (sin alterar otras propiedades).
 const fs = require('fs');
 const path = require('path');
-const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, query, targetOrg, listFiles, moduleSrc, syncDuplicates } = require('../lib/common');
+const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, query, orgIdentity, targetOrg, listFiles, moduleSrc, syncDuplicates } = require('../lib/common');
 const { resolveVerticals, activeModules, labelOf } = require('../lib/vertical');
 const { STAGES, componentOf } = require('./stages');
 
@@ -166,7 +166,29 @@ function sequenceDuplicateRules(stageDir) {
   return report;
 }
 
+// ---------- Case Settings: la regla de asignación de casos exige propietario predeterminado y usuario automatizado.
+// Son datos de la org (un usuario), así que no viven en el repo: si faltan, se definen con la cola
+// ETC_Servicio_General y el usuario que despliega (se pueden cambiar después en Setup › Configuración de casos).
+function caseSettings(stageDir) {
+  if (!ASSIGNMENT_RULES) return [];
+  const { found } = retrieve({ Settings: new Set(['Case']) }, path.join(SNAP, 'settings'));
+  const cur = found['Case.settings'] ? fs.readFileSync(found['Case.settings'], 'utf8') : '';
+  const hasUser = /<defaultCaseUser>[^<]+<\/defaultCaseUser>/.test(cur);
+  const hasOwner = /<defaultCaseOwner>[^<]+<\/defaultCaseOwner>/.test(cur);
+  if (hasUser && hasOwner) return ['Case Settings: la org ya tiene propietario y usuario automatizado de casos; no se modifican'];
+  const user = orgIdentity(ORG).username;
+  const parts = [];
+  if (!hasOwner) parts.push('    <defaultCaseOwner>ETC_Servicio_General</defaultCaseOwner>\n    <defaultCaseOwnerType>Queue</defaultCaseOwnerType>');
+  if (!hasUser) parts.push(`    <defaultCaseUser>${user}</defaultCaseUser>`);
+  fs.mkdirSync(path.join(stageDir, 'settings'), { recursive: true });
+  fs.writeFileSync(path.join(stageDir, 'settings', 'Case.settings'), `<?xml version="1.0" encoding="UTF-8"?>\n<CaseSettings xmlns="http://soap.sforce.com/2006/04/metadata">\n${parts.join('\n')}\n</CaseSettings>\n`);
+  const pkg = path.join(stageDir, 'package.xml');
+  fs.writeFileSync(pkg, fs.readFileSync(pkg, 'utf8').replace('    <version>', '    <types>\n        <members>Case</members>\n        <name>Settings</name>\n    </types>\n    <version>'));
+  return [`Case Settings: ${!hasOwner ? 'propietario predeterminado = cola ETC_Servicio_General; ' : ''}${!hasUser ? `usuario automatizado = ${user}` : ''} (ajustable en Setup)`];
+}
+
 let ORG;
+let ASSIGNMENT_RULES = false;
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const dups = syncDuplicates(['modules', 'config']);
@@ -202,6 +224,11 @@ async function main() {
     if (s.dynamic === 'standardValueSets' && s.components.length) {
       if (ORG) entry.notes.push(...mergeStandardValueSets(stageDir));
       else entry.notes.push('Sin org: los Standard Value Sets se construyen sin combinar con los valores existentes.');
+    }
+    if (s.id === '08-queues-routing' && s.components.length) {
+      ASSIGNMENT_RULES = stages.some((x) => x.id === '08b-assignment-rules' && x.components.length);
+      if (ORG) { const n = caseSettings(stageDir); entry.notes.push(...n); summary.caseSettingsPending = n.some((x) => !x.includes('no se modifican')); }
+      else entry.notes.push('Sin org: la configuración de casos (propietario y usuario automatizado) se resuelve al construir contra la org.');
     }
     if (s.id === '05-duplicate-rules' && s.components.length) {
       if (ORG) entry.notes.push(...sequenceDuplicateRules(stageDir));

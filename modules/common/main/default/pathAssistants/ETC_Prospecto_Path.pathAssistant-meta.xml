@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Lead</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>ETC Prospecto</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>LeadSource</fieldNames>
+        <fieldNames>ETC_Producto_Interes__c</fieldNames>
+        <info>&lt;p&gt;Revisa el origen y contacta al prospecto en menos de 24 horas.&lt;/p&gt;</info>
+        <picklistValueName>Nuevo</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Phone</fieldNames>
+        <fieldNames>Email</fieldNames>
+        <fieldNames>ETC_Producto_Interes__c</fieldNames>
+        <info>&lt;p&gt;Registra la llamada o reunión y confirma el producto de interés.&lt;/p&gt;</info>
+        <picklistValueName>Contactado</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>ETC_Segmento__c</fieldNames>
+        <fieldNames>ETC_RFC__c</fieldNames>
+        <fieldNames>Industry</fieldNames>
+        <info>&lt;p&gt;Valida perfil, segmento y datos fiscales antes de convertir.&lt;/p&gt;</info>
+        <picklistValueName>En calificación</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>ETC_Segmento__c</fieldNames>
+        <fieldNames>ETC_RFC__c</fieldNames>
+        <info>&lt;p&gt;Convierte el prospecto en cliente y oportunidad.&lt;/p&gt;</info>
+        <picklistValueName>Calificado</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>ETC_Motivo_Descalificacion__c</fieldNames>
+        <info>&lt;p&gt;Registra el motivo de descalificación.&lt;/p&gt;</info>
+        <picklistValueName>No calificado</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

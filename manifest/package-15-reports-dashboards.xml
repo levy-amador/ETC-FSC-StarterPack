@@ -2,25 +2,29 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>ETC_Dashboards_FSC</members>
-        <members>ETC_Dashboards_FSC/ETC_Banca</members>
         <members>ETC_Dashboards_FSC/ETC_Operacion_FSC</members>
+        <members>ETC_Dashboards_FSC/ETC_Patrimonial</members>
+        <members>ETC_Dashboards_FSC/ETC_Seguros</members>
         <name>Dashboard</name>
     </types>
     <types>
         <members>ETC_Reportes_FSC</members>
         <members>ETC_Reportes_FSC/ETC_Aclaraciones_Por_Dictamen</members>
-        <members>ETC_Reportes_FSC/ETC_Aperturas_Por_Canal</members>
         <members>ETC_Reportes_FSC/ETC_Casos_Abiertos_Por_Tipo</members>
         <members>ETC_Reportes_FSC/ETC_Casos_Por_Canal</members>
         <members>ETC_Reportes_FSC/ETC_Clientes_Por_Estatus_KYC</members>
+        <members>ETC_Reportes_FSC/ETC_Clientes_Por_Perfil</members>
         <members>ETC_Reportes_FSC/ETC_Clientes_Por_Segmento</members>
-        <members>ETC_Reportes_FSC/ETC_Cuentas_Por_Tipo</members>
         <members>ETC_Reportes_FSC/ETC_Oportunidades_Por_Etapa</members>
+        <members>ETC_Reportes_FSC/ETC_Polizas_Por_Ramo</members>
+        <members>ETC_Reportes_FSC/ETC_Polizas_Por_Vencer</members>
         <members>ETC_Reportes_FSC/ETC_Prospectos_Por_Origen</members>
+        <members>ETC_Reportes_FSC/ETC_Siniestros_Por_Estado</members>
         <name>Report</name>
     </types>
     <types>
-        <members>ETC_Cuentas_Financieras</members>
+        <members>ETC_Polizas</members>
+        <members>ETC_Siniestros</members>
         <name>ReportType</name>
     </types>
     <version>68.0</version>

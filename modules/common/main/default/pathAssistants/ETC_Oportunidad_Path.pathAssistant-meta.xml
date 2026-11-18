@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>ETC Oportunidad</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Type</fieldNames>
+        <fieldNames>ETC_Producto_Interes__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;p&gt;Confirma que el cliente tiene una necesidad real y que hablas con quien decide.&lt;/p&gt;</info>
+        <picklistValueName>Calificación</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>ETC_Producto_Interes__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>NextStep</fieldNames>
+        <info>&lt;p&gt;Documenta la situación financiera y los objetivos del cliente. Estima el monto.&lt;/p&gt;</info>
+        <picklistValueName>Análisis de necesidades</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>NextStep</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;p&gt;Presenta la propuesta de producto con condiciones. Registra el próximo paso con fecha.&lt;/p&gt;</info>
+        <picklistValueName>Propuesta</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>NextStep</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;p&gt;Acuerda condiciones. Verifica que el expediente KYC del cliente esté aprobado antes de formalizar.&lt;/p&gt;</info>
+        <picklistValueName>Negociación</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;p&gt;Firma de contrato y alta del producto. Confirma documentos completos.&lt;/p&gt;</info>
+        <picklistValueName>Formalización</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;p&gt;Producto contratado. Da seguimiento al onboarding del cliente.&lt;/p&gt;</info>
+        <picklistValueName>Cerrada ganada</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>ETC_Motivo_Perdida__c</fieldNames>
+        <info>&lt;p&gt;Registra el motivo de pérdida para mejorar la oferta.&lt;/p&gt;</info>
+        <picklistValueName>Cerrada perdida</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

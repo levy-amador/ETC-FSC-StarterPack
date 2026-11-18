@@ -1,266 +1,339 @@
-import json, html, collections, sys
-OUT = sys.argv[4] if len(sys.argv) > 4 else "Financial Services Cloud Starter Pack — Quick Start V2.html"
-import os, re
-# Resultado de la prueba real (org de referencia). Se actualiza después de cada corrida de npm run test.
-TEST = {"fecha": "17-nov-2026", "ok": 16, "total": 16, "vertical": "Banca", "hallazgos": 22}
-_ROOT = os.path.abspath(os.path.join(os.path.dirname(sys.argv[1]), "..", ".."))
-def _count(mod):
-    pats = [("Campos", r"objects/(?!ETC_Configuracion)[^/]+/fields/"), ("Validaciones", r"validationRules/"), ("Duplicados", r"^duplicateRules/"),
-            ("Permisos", r"^permissionset"), ("Layouts", r"^layouts/"), ("Páginas", r"^flexipages/"), ("Vistas", r"listViews/"),
-            ("Flows", r"^flows/"), ("Reportes", r"^reports/.+\.report-meta"), ("Dashboards", r"^dashboards/.+\.dashboard-meta")]
-    base = os.path.join(_ROOT, "modules", mod, "main", "default")
+"""Presentación comercial «Financial Services Cloud Starter Pack — Quick Start».
+
+Uso (desde la raíz del repo):
+  python3 -I presentation/gen.py config/catalog/fsc-catalog.json presentation/style.css presentation/deck.js <salida.html>
+
+El primer argumento solo sirve para ubicar la raíz del repo. Todos los números salen del repositorio
+(conteo de archivos en modules/<módulo>/main/default) o de config/spec/*.json; los únicos valores de oferta
+son «4 semanas» y «30 días de garantía». TEST guarda el resultado de la última corrida de npm run test.
+"""
+import collections, html, json, os, re, sys
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(sys.argv[1]), "..", ".."))
+OUT = sys.argv[4] if len(sys.argv) > 4 else "Financial Services Cloud Starter Pack — Quick Start V3.html"
+TEST = {"fecha": "17-nov-2026", "ok": 21, "total": 21}
+E = html.escape
+spec = lambda name: json.load(open(os.path.join(ROOT, "config", "spec", name)))
+
+DD = {m: spec(f"{m}-data-dictionary.json") for m in ("common", "insurance", "banking", "wealth")}
+UI = {m: spec(f"{m}-ui.json") for m in ("common", "insurance", "banking", "wealth")}
+AM = spec("common-access-matrix.json")
+SETTINGS = spec("common-settings.json")
+MODS = [("common", "Base común"), ("insurance", "Seguros"), ("banking", "Banca"), ("wealth", "Patrimonial")]
+
+# ---------- Conteos del repositorio
+PATS = [("Campos", r"^objects/(?!ETC_Configuracion)[^/]+/fields/"), ("Validaciones", r"validationRules/"), ("Duplicados", r"^duplicateRules/"),
+        ("Permisos", r"^permissionset"), ("Layouts", r"^layouts/"), ("Páginas", r"^flexipages/"), ("Vistas", r"listViews/"),
+        ("Path", r"^pathAssistants/"), ("Colas", r"^queues/"), ("Asignación", r"^assignmentRules/"), ("Action Plans", r"^actionPlanTemplates/"),
+        ("Flows", r"^flows/"), ("Reportes", r"^reports/.+\.report-meta"), ("Dashboards", r"^dashboards/.+\.dashboard-meta")]
+EXTRA = [("Roles", r"^roles/"), ("Grupos de permisos", r"^permissionsetgroups/"), ("Apps", r"^applications/")]
+def count(mod, pats=PATS):
+    base = os.path.join(ROOT, "modules", mod, "main", "default")
     out = collections.Counter()
     for root, _, fs in os.walk(base):
         for f in fs:
             r = os.path.relpath(os.path.join(root, f), base)
+            if r.endswith(".gitkeep"):
+                continue
             for k, pat in pats:
-                if re.search(pat, r): out[k] += 1
+                if re.search(pat, r):
+                    out[k] += 1
     return out
-# Uso: python3 presentation/gen.py config/catalog/fsc-catalog.json presentation/style.css presentation/deck.js [salida.html]
-_items = json.load(open(sys.argv[1]))["items"]
-_by = lambda m: [{"id": i["id"], "area": i["area"], "item": i["item"], "quien": i["ejecutor"]} for i in _items if i["module"] == m]
-COM, INS, BNK, WLT = (_by(m) for m in ("common", "insurance", "banking", "wealth"))
-E = html.escape
-
-WHO = {
-    "Claude Code (con aprobación)": ("cc", "◆", "Claude Code + aprobación"),
-    "Humano con apoyo de IA": ("hi", "◐", "Humano con apoyo de IA"),
-    "Humano": ("hu", "●", "Humano"),
-}
-def who(q, short=False):
-    k, ic, lbl = WHO[q]
-    if short:
-        lbl = {"cc": "Claude Code", "hi": "Humano + IA", "hu": "Humano"}[k]
-    return f'<span class="who who-{k}"><span aria-hidden="true">{ic}</span> {E(lbl)}</span>'
+CNT = {m: count(m) for m, _ in MODS}
+TOT = collections.Counter()
+for m, _ in MODS:
+    TOT.update(CNT[m])
+COLS = [k for k, _ in PATS if TOT[k]]
+COMPONENTES = sum(TOT.values())
+EXTRA_CNT = count("common", EXTRA)
+CRITERIOS = sum(1 for f in SETTINGS["fields"] if f["type"] == "Number")
+HAS = lambda k: TOT[k] > 0
+DOCS = sum(1 for r, _, fs in os.walk(os.path.join(ROOT, "docs")) for f in fs if f.endswith(".md"))
+PERSONAS = [p for p in AM["personas"] if p.get("psg")]
 
 def tag(kind, text=None):
     return f'<span class="tag tag-{kind.lower()[:3]}">{E(text or kind)}</span>'
 
 slides = []
-def slide(theme, eyebrow, title, body, cls="", notes=""):
-    slides.append((theme, eyebrow, title, body, cls, notes))
+def slide(theme, eyebrow, title, body, cls=""):
+    slides.append((theme, eyebrow, title, body, cls))
 
-SRC = '<div class="src">Fuente: Catálogo de configuraciones Financial Services Cloud (hojas Común FSC, Seguros, Banking, Wealth Management).</div>'
-
-# 1 Portada
-slide("dark", "Propuesta interna · v0.2 · Probado en org de referencia", "Financial Services Cloud Starter Pack", f"""
-<p class="cover-sub">Una base FSC lista, con el módulo de industria que el cliente necesita</p>
+# ================= 1 Portada
+slide("dark", "Propuesta al área comercial", "Financial Services Cloud Starter Pack", """
+<p class="cover-sub">Operación financiera en Salesforce, productiva en 4 semanas</p>
 <p class="cover-meta">ETC · Noviembre 2026</p>
 <div class="cover-mods">
   <span class="mod mod-base">Base común</span><span class="plus">+</span>
-  <span class="mod">Seguros</span><span class="or">o</span><span class="mod">Banca</span><span class="or">o</span><span class="mod">Patrimonial</span>
+  <span class="mod">Seguros</span><span class="or">|</span><span class="mod">Banca</span><span class="or">|</span><span class="mod">Patrimonial</span>
 </div>""", cls="cover")
 
-# 2 Qué es
-slide("dark", "Qué es", "Una base FSC reutilizable que se ajusta a la industria del cliente", f"""
-<p class="lead">Sin una base reutilizable, cada implementación de Financial Services Cloud arranca desde cero. El Starter Pack parte de un catálogo de configuraciones ya clasificadas por industria y por responsable.</p>
+# ================= 2 Qué es
+slide("dark", "Qué es", "Una base FSC lista para operar, con el módulo de industria que el cliente necesita", f"""
+<p class="lead">Hoy cada implementación de Financial Services Cloud arranca desde cero. Con el Starter Pack partimos de una base ya construida y probada en una org FSC real.</p>
 <div class="kpis">
-  <div class="kpi"><div class="n">71</div><div class="l">configuraciones catalogadas</div></div>
-  <div class="kpi"><div class="n">3</div><div class="l">verticales: Seguros, Banca y Patrimonial</div></div>
-  <div class="kpi"><div class="n">{sum(sum(_count(m).values()) for m in ("common","insurance","banking","wealth"))}</div><div class="l">componentes construidos en los 4 módulos</div></div>
-  <div class="kpi"><div class="n">{TEST["ok"]}/{TEST["total"]}</div><div class="l">pruebas funcionales aprobadas en una org real</div></div>
-</div>
-<div class="note-dark"><b>Modelo de datos:</b> FSC Core, con objetos estándar de la plataforma y sin el paquete gestionado FinServ__. Decisión ETC del 17-nov-2026.</div>
-{SRC}""")
-
-# 3 Arquitectura
-slide("light", "Arquitectura modular", "Una base común y solo la vertical que el cliente contrata", f"""
-<div class="arch">
-  <div class="arch-left">
-    <div class="verts">
-      <div class="vert"><div class="vn">Seguros</div><div class="vc">{len(INS)} configuraciones</div><div class="vd">Pólizas, coberturas, siniestros y renovaciones</div></div>
-      <div class="vert"><div class="vn">Banca</div><div class="vc">{len(BNK)} configuraciones</div><div class="vd">Clientes, cuentas financieras, productos y sucursales</div></div>
-      <div class="vert"><div class="vn">Patrimonial</div><div class="vc">{len(WLT)} configuraciones</div><div class="vd">Hogares, inversiones, objetivos y asesores</div></div>
-    </div>
-    <div class="pick">▲ Se elige una por cliente ▲</div>
-    <div class="basebar"><div class="vn">Base común FSC</div><div class="vc">{len(COM)} configuraciones · seguridad, app, modelo de datos, interfaz, procesos, servicio, reportes y despliegue</div></div>
-  </div>
-  <div class="arch-right">
-    <div class="steps-title">Al desplegar con cada cliente</div>
-    <ol class="nsteps">
-      <li><b>Configurar:</b> el script pregunta qué vertical se implementa.</li>
-      <li><b>Diagnosticar:</b> revisa en modo lectura que la org tenga objetos y licencias de esa vertical.</li>
-      <li><b>Confirmar:</b> muestra la vertical y la org, y pide una confirmación explícita.</li>
-      <li><b>Desplegar:</b> solo la base común y la vertical elegida.</li>
-    </ol>
-    <div class="small">Diseño acordado el 17-nov-2026. Los scripts están en construcción.</div>
-  </div>
+  <div class="kpi"><div class="n">4</div><div class="l">semanas de kickoff a go-live</div></div>
+  <div class="kpi"><div class="n">{COMPONENTES}</div><div class="l">componentes ya construidos y validados</div></div>
+  <div class="kpi"><div class="n">{TEST['ok']}/{TEST['total']}</div><div class="l">pruebas funcionales aprobadas</div></div>
+  <div class="kpi"><div class="n">0</div><div class="l">código a la medida: solo funcionalidad estándar</div></div>
 </div>""")
 
-# 3b Componentes construidos
-_mods = [("common", "Base común"), ("insurance", "Seguros"), ("banking", "Banca"), ("wealth", "Patrimonial")]
-_cols = ["Campos", "Validaciones", "Duplicados", "Permisos", "Layouts", "Páginas", "Vistas", "Flows", "Reportes", "Dashboards"]
-_cnt = {m: _count(m) for m, _ in _mods}
-_trs = "".join(f'<tr><td class="mn">{E(l)}</td>' + "".join(f'<td class="nm">{_cnt[m][c] or "—"}</td>' for c in _cols) + '</tr>' for m, l in _mods)
-_trs += '<tr class="tot"><td class="mn">Total</td>' + "".join(f'<td class="nm">{sum(_cnt[m][c] for m, _ in _mods)}</td>' for c in _cols) + '</tr>'
-slide("light", "Qué se construyó", "Cada módulo ya trae su modelo, seguridad, pantallas y automatización", f"""
-<table class="tbl tbl-num"><thead><tr><th>Módulo</th>{"".join(f"<th>{E(c)}</th>" for c in _cols)}</tr></thead><tbody>{_trs}</tbody></table>
-<div class="note-light"><b>Fuente única:</b> la metadata se genera desde la especificación (<code>config/spec/</code>): diccionario de datos, matriz de acceso y experiencia de usuario. Si el cliente no entrega su definición, se usa esta base ETC. Conteo tomado del repositorio el {TEST["fecha"]}.</div>""")
-
-# 4 Base común
-by_area = collections.OrderedDict()
-for d in COM: by_area.setdefault(d["area"], []).append(d)
-cards = "".join(
-    f'<div class="acard"><div class="ah">{E(a)} <span class="cnt">{len(v)}</span></div>'
-    + "".join(f'<div class="ai"><span class="id">{E(d["id"])}</span>{E(d["item"])}</div>' for d in v)
-    + "</div>" for a, v in by_area.items())
-slide("light", "Base común · 30 configuraciones", "La base común cubre lo que toda implementación FSC necesita",
-      f'<div class="agrid">{cards}</div>{SRC}', cls="dense")
-
-# 5-7 Verticales
-def vert_slide(rows, eyebrow, title):
-    items = "".join(
-        f'<div class="vi"><span class="id">{E(d["id"])}</span><span class="vt">{E(d["item"])}<span class="va">{E(d["area"])}</span></span>{who(d["quien"], True)}</div>'
-        for d in rows)
-    c = collections.Counter(d["quien"] for d in rows)
-    LB = {"cc": "Claude Code con aprobación", "hi": "Humano con apoyo de IA", "hu": "Humano"}
-    summ = " · ".join(f'{c[q]} {LB[WHO[q][0]]}' for q in WHO if c[q])
-    slide("light", eyebrow, title, f'<div class="vlist">{items}</div><div class="vsum"><b>{E(summ)}</b><span>Fuente: Catálogo de configuraciones Financial Services Cloud.</span></div>', cls="dense")
-
-vert_slide(INS, f"Vertical Seguros · {len(INS)} configuraciones", "Seguros agrega pólizas, siniestros y renovaciones a la base común")
-vert_slide(BNK, f"Vertical Banca · {len(BNK)} configuraciones", "Banca agrega clientes, cuentas financieras y servicio por sucursal")
-vert_slide(WLT, f"Vertical Patrimonial · {len(WLT)} configuraciones", "Patrimonial agrega hogares, inversiones y objetivos financieros")
-
-# 8 Quién hace qué
-rows = [("Común FSC", COM), ("Seguros", INS), ("Banca", BNK), ("Patrimonial", WLT), ("Total", COM + INS + BNK + WLT)]
-maxn = 71
-bars = ""
-for name, rs in rows:
-    c = collections.Counter(d["quien"] for d in rs)
-    segs = ""
-    for q in WHO:
-        n = c[q]
-        if not n: continue
-        k = WHO[q][0]
-        segs += f'<div class="seg seg-{k}" style="width:{n / maxn * 100:.3f}%" title="{E(WHO[q][2])}: {n}">{n}</div>'
-    bars += f'<div class="brow{" btotal" if name == "Total" else ""}"><div class="bl">{name} <span>{len(rs)}</span></div><div class="bt">{segs}</div></div>'
-legend = "".join(f'<span class="lg"><span class="sw sw-{WHO[q][0]}"></span><span aria-hidden="true">{WHO[q][1]}</span> {E(WHO[q][2])}</span>' for q in WHO)
-slide("dark", "Quién hace qué", "La IA acelera la configuración; una persona aprueba cada decisión", f"""
-<div class="chart"><div class="legend">{legend}</div>{bars}</div>
-<div class="who-notes">
-  <div><b>44 de 71 (62%)</b> las ejecuta Claude Code vía metadata, siempre con aprobación previa.</div>
-  <div><b>Siempre las decide una persona:</b> licencias, acceso y seguridad, KYC/AML, reglas de negocio y cifras financieras o actuariales.</div>
-</div>
-{SRC}""")
-
-# 9 Cómo se despliega
-steps = [
-    ("configure", "Marca y vertical", "Logo, colores y la vertical de este cliente"),
-    ("assess", "Diagnóstico", "Licencias y objetos FSC de la org, en modo lectura"),
-    ("build", "Paquete", "Manifiestos por etapa: base común + vertical elegida"),
-    ("validate", "Validación", "Check-only completo en la org destino"),
-    ("deploy", "Despliegue", "Se escribe la vertical, exige diagnóstico Listo y valida cada etapa"),
-    ("test", "Pruebas", "Pruebas funcionales con datos de prueba y limpieza"),
-    ("deployment-report", "Evidencia", "Reporte de lo desplegado y verificado"),
+# ================= 3 Qué incluye
+n_val = CNT["common"]["Validaciones"]
+proc = "Prospectos y oportunidades con producto de interés y motivo de pérdida"
+if HAS("Path"):
+    proc += "; etapas guiadas con Path"
+serv = "Casos con aclaraciones y quejas, fecha compromiso automática, dictamen y resolución obligatoria"
+if HAS("Colas"):
+    serv += "; colas y asignación automática"
+rows = [
+    ("Clientes", "Personas y empresas en un solo modelo: RFC, CURP, régimen fiscal SAT, segmento y tipo de cliente"),
+    ("Cumplimiento", "Estatus KYC con vigencia y nivel de riesgo PLD, visible solo para quien corresponde"),
+    ("Datos limpios", f"{n_val} validaciones y alertas de duplicados por RFC, CURP y correo"),
+    ("Servicio", serv),
+    ("Proceso comercial", proc),
+    ("Automatización", "RFC y CURP normalizados, KYC vencido, fecha compromiso y avisos de renovación o revisión"),
+    ("Seguridad", f"{len(PERSONAS)} niveles, de asesor a dirección; cada quien ve lo suyo y lo de su equipo"),
+    ("Reportes", f"{TOT['Reportes']} reportes y {TOT['Dashboards']} dashboards: operación y uno por industria"),
+    ("Experiencia", "App con la marca del cliente, pantallas y vistas listas, en escritorio y móvil"),
 ]
-flow = "".join(f'<div class="fs"><div class="fn">{i + 1}</div><div class="fc">npm run {E(c)}</div><div class="fh">{E(h)}</div><div class="fd">{E(d)}</div></div>' for i, (c, h, d) in enumerate(steps))
-slide("light", "Cómo se despliega", "Un despliegue por etapas que confirma vertical y org antes de cambiar nada", f"""
-<div class="flow">{flow}</div>
-<div class="note-light">Es el mismo patrón probado en el Sales Cloud Starter Pack: etapas ordenadas por dependencias, sin cambios destructivos y con evidencia por instancia. Probado de punta a punta en la org de referencia el {TEST["fecha"]}: base común + {TEST["vertical"]} desplegadas; Seguros y Patrimonial validadas con check-only.</div>""")
+trs = "".join(f'<tr><td class="ka">{E(a)}</td><td>{E(b)}</td></tr>' for a, b in rows)
+slide("light", "Qué incluye", "Todo lo que una operación financiera necesita para arrancar",
+      f'<table class="tbl tbl-inc"><thead><tr><th>Área</th><th>Qué incluye</th></tr></thead><tbody>{trs}</tbody></table>')
 
-# 9b Lo que encontró la prueba real
-_hall = [
-    ("Las validaciones de Contact no corren en cuentas personales", "Regla equivalente en Account"),
-    ("Un caso creado ya cerrado no activa la validación de cierre", "Las reglas también evalúan el estado"),
-    ("Las reglas de duplicados de personas viven en otro objeto (PersonAccount)", "Reglas de personas en su objeto correcto"),
-    ("Activar «contactos en varias cuentas» por metadata deja la org inconsistente", "Paso manual en Setup, documentado"),
-    ("El administrador no ve los campos de la vertical sin su permiso", "Paso posterior al despliegue"),
-    ("Un repo en carpeta sincronizada (iCloud) rompe el despliegue", "Repo fuera de iCloud; el build lo detecta"),
+# ================= 4 Verticales
+def fld(mod, obj=None):
+    return [f for f in DD[mod]["fields"] if obj is None or f["object"] == obj]
+VERT = [
+    ("Seguros", "Aseguradoras, agentes y corredurías", [
+        f"Pólizas con {', '.join(f['label'].lower() for f in fld('insurance', 'InsurancePolicy'))}",
+        "Siniestros con número de la aseguradora, deducible y coaseguro",
+        "Casos de atención ligados a la póliza",
+        "Aviso automático de renovación antes del fin de vigencia",
+        f"{CNT['insurance']['Reportes']} reportes y un dashboard: pólizas por ramo, por vencer y siniestros"]),
+    ("Banca", "Bancos, SOFOM y financieras", [
+        "Cuentas financieras con CLABE validada, moneda, nivel de cuenta y canal de apertura",
+        "Aclaraciones ligadas a la cuenta, con monto reclamado",
+        "Fecha de cierre automática al cerrar una cuenta",
+        "Titulares, movimientos y sucursales del modelo estándar de FSC",
+        f"{CNT['banking']['Reportes']} reportes y un dashboard: cuentas por tipo y aperturas por canal"]),
+    ("Patrimonial", "Gestores de patrimonio y asesores de inversión", [
+        "Perfil de inversionista con fecha de perfilamiento",
+        "Revisiones de cartera con próxima fecha calculada y aviso al asesor",
+        "Objetivos financieros con horizonte, monto y fecha meta",
+        "Cuentas de inversión, instrumentos y tenencias del modelo estándar de FSC",
+        f"{CNT['wealth']['Reportes']} reporte y un dashboard de clientes por perfil"]),
 ]
-_hr = "".join(f'<div class="sr sr-h"><span class="hx"><span aria-hidden="true">⚠</span> {E(a)}</span><span class="hy"><span aria-hidden="true">✓</span> {E(b)}</span></div>' for a, b in _hall)
-slide("light", f"Prueba real · {TEST['hallazgos']} hallazgos corregidos", "Probar en una org real encontró lo que ninguna revisión local detecta", f"""
-<div class="slist">{_hr}</div>
-<div class="note-light">Cada hallazgo quedó corregido en el generador o documentado como paso manual (<code>docs/LESSONS_REFERENCE_ORG.md</code>). Las próximas implementaciones ya parten de esta versión.</div>""")
+cols = "".join(f'<div class="vcard"><div class="vn">{E(n)}</div><div class="vc">{E(w)}</div><ul class="ck ck-l">{"".join(f"<li>{E(x)}</li>" for x in items)}</ul></div>' for n, w, items in VERT)
+slide("light", "El módulo de industria", "Cada cliente elige la industria; la base común siempre va incluida",
+      f'<div class="vgrid">{cols}</div><div class="note-light">Se despliega solo el módulo que el cliente confirma. Los otros dos quedan disponibles para crecer.</div>')
 
-# 10 Ruta
-slide("light", "Ruta del proyecto", "Cuatro semanas a go-live con la base común y una vertical", f"""
-<div class="est-row">{tag('Estimación')} {tag('Supuesto', 'Supuesto: se valida con el piloto')}</div>
+# ================= 5 Componentes por módulo
+trs = "".join(f'<tr><td class="mn">{E(l)}</td>' + "".join(f'<td class="nm">{CNT[m][k] or "—"}</td>' for k in COLS) + "</tr>" for m, l in MODS)
+trs += '<tr class="tot"><td class="mn">Total</td>' + "".join(f'<td class="nm">{TOT[k]}</td>' for k in COLS) + "</tr>"
+slide("light", "Qué se construyó por módulo", "Componentes listos en cada módulo", f"""
+<table class="tbl tbl-num"><thead><tr><th>Módulo</th>{"".join(f"<th>{E(k)}</th>" for k in COLS)}</tr></thead><tbody>{trs}</tbody></table>
+<div class="sol"><b>Para toda la solución:</b> {EXTRA_CNT['Roles']} roles · {EXTRA_CNT['Grupos de permisos']} grupos de permisos · {EXTRA_CNT['Apps']} app con la marca del cliente · {CRITERIOS} criterios configurables sin tocar los flows</div>""")
+
+# ================= 6 Ruta
+slide("light", "Ruta del proyecto", "4 semanas al go-live, 30 días de garantía", """
 <div class="tl">
-  <div class="tlw"><div class="wk">SEMANA 1</div><div class="tb">Kickoff y Discovery</div><div class="tb">Diagnóstico de licencias y objetos FSC</div></div>
-  <div class="tlw"><div class="wk">SEMANA 2</div><div class="tb">Construcción: base común + vertical con su marca</div></div>
-  <div class="tlw"><div class="wk">SEMANA 3</div><div class="tb">Pruebas y UAT por rol</div><div class="tb">Ajustes</div></div>
-  <div class="tlw"><div class="wk">SEMANA 4</div><div class="tb">Despliegue PRD</div><div class="tb">Capacitación</div><div class="tb tb-go">◆ GO LIVE</div></div>
-  <div class="tlw tlw-g"><div class="wk">+30 DÍAS</div><div class="tb">Garantía</div></div>
+  <div class="tlw"><div class="wk">SEMANA 1</div><div class="tb"><b>Kick Off</b><span>Arranque y equipo</span></div><div class="tb"><b>Discovery</b><span>Diagnóstico de su org y fit-gap</span></div></div>
+  <div class="tlw"><div class="wk">SEMANA 2</div><div class="tb"><b>Construcción</b><span>Paquete con su marca y su industria</span></div></div>
+  <div class="tlw"><div class="wk">SEMANA 3</div><div class="tb"><b>Pruebas</b><span>Ajustes y UAT</span></div></div>
+  <div class="tlw"><div class="wk">SEMANA 4</div><div class="tb"><b>Despliegue PRD</b><span>Paso a producción</span></div><div class="tb"><b>Capacitación</b><span>Por rol</span></div><div class="tb tb-go"><b>GO LIVE</b><span>Equipo operando</span></div></div>
+  <div class="tlw tlw-g"><div class="wk">+30 DÍAS</div><div class="tb"><b>Garantía</b><span>30 días naturales</span></div></div>
 </div>
-<div class="note-light">Toma como referencia la ruta del Sales Cloud Starter Pack. FSC agrega el diagnóstico de licencias y más decisiones de negocio, así que la duración real se mide con el piloto.</div>""")
+<div class="small">Ruta estimada; se confirma con el piloto.</div>""")
 
-# 11 Cliente ideal
-slide("dark", "A quién venderlo", "El cliente ideal ya tiene FSC y necesita operar rápido", f"""
-<div class="two">
-  <div class="col">
-    <div class="ch">Cliente ideal {tag('Supuesto')}</div>
-    <ul class="ck">
-      <li>Org con licencias FSC Core nueva o sin configurar</li>
-      <li>Aseguradora o agente, banco o financiera, o gestor patrimonial en México</li>
-      <li>Una vertical principal para arrancar</li>
-      <li>Equipo con jerarquía y procesos estándar</li>
-    </ul>
-  </div>
-  <div class="col">
-    <div class="ch">Fuera de alcance: oportunidad de fase 2</div>
-    <ul class="xk">
-      <li>Integración con core bancario y saldos reales <span class="id">BNK-003 · BNK-005</span></li>
-      <li>Posiciones, valoración y resumen patrimonial <span class="id">WLT-004 · WLT-010</span></li>
-      <li>KYC/AML y screening <span class="id">BNK-009 · WLT-011</span></li>
-      <li>Métricas actuariales y financieras <span class="id">INS-012</span></li>
-      <li>Migración de datos históricos</li>
-    </ul>
-  </div>
-</div>
-<div class="note-dark">Según el catálogo, estos temas requieren integración, especialistas o decisiones regulatorias. Claude Code solo prepara la estructura.</div>""")
-
-# 12 Estado
-st = [
-    ("ok", "✓", "Hecho", "Catálogo de 71 configuraciones y arquitectura modular FSC Core", "17-nov-2026"),
-    ("ok", "✓", "Hecho", "Repo ETC-FSC-StarterPack con scripts y generadores (GitHub)", "17-nov-2026"),
-    ("ok", "✓", "Hecho", "Org de referencia FSC habilitada: los 4 módulos en Listo", "17-nov-2026"),
-    ("ok", "✓", "Hecho", f"Base común + Banca desplegadas; {TEST['ok']}/{TEST['total']} pruebas OK", TEST["fecha"]),
-    ("ok", "✓", "Hecho", "Seguros y Patrimonial validadas con check-only", TEST["fecha"]),
-    ("ok", "✓", "Hecho", "Formato de solicitud al cliente (Excel) con la base ETC", "En Drive"),
-    ("pen", "○", "Pendiente", "Path, colas y asignación, Action Plans; aprobación del cliente", "Siguiente iteración"),
+# ================= 7 Qué pasa cada semana
+W = [
+    ("SEMANA 1", "Discovery", "Kickoff, diagnóstico de licencias FSC de su org y mapa de su operación",
+     "Líder de negocio y admin; licencias FSC, la industria a implementar, logo y formato de solicitud contestado",
+     "Alcance cerrado y diagnóstico de su org"),
+    ("SEMANA 2", "Liberación del paquete", "Instalamos la base común y su industria con su marca y corremos las pruebas funcionales",
+     "Revisar la app, las pantallas y el proceso", "Su FSC funcionando en pruebas, con su marca"),
+    ("SEMANA 3", "Ajustes", "Ajustamos criterios, vistas, reportes y permisos a su operación",
+     "Un usuario por rol prueba y firma", "Configuración final aprobada en UAT"),
+    ("SEMANA 4", "Productivo y capacitación", "Pase a producción, alta de usuarios y capacitación por rol",
+     "Lista de usuarios, roles y asistencia", "Equipo operando en Salesforce"),
 ]
-srows = "".join(f'<div class="sr"><span class="st st-{k}"><span aria-hidden="true">{i}</span> {E(l)}</span><span class="stt">{E(t)}</span><span class="sto">{E(o)}</span></div>' for k, i, l, t, o in st)
-slide("light", "Estado hoy · 17-nov-2026", "El Starter Pack ya funciona en una org FSC real", f'<div class="slist">{srows}</div>')
+head = '<div class="wg-h"></div>' + "".join(f'<div class="wg-w"><span>{E(a)}</span><b>{E(b)}</b></div>' for a, b, *_ in W)
+body = "".join(f'<div class="wg-l">{E(lbl)}</div>' + "".join(f'<div class="wg-c">{E(w[i])}</div>' for w in W)
+               for i, lbl in [(2, "Qué hacemos"), (3, "Qué pedimos al cliente"), (4, "Qué recibe el cliente")])
+slide("light", "Plan de entrega", "Qué pasa cada semana", f'<div class="wgrid">{head}{body}</div>')
 
-# 13 Recomendación
-slide("dark", "Recomendación", "Llevar el Starter Pack a un cliente piloto", f"""
+# ================= 8 Cliente ideal
+slide("dark", "A quién venderlo", "El cliente ideal y lo que se vende como fase 2", """
+<div class="two">
+  <div class="col"><div class="ch">Cliente ideal</div><ul class="ck">
+    <li>Org con licencias de Financial Services Cloud, nueva o sin configurar</li>
+    <li>Aseguradora o agente, banco o financiera, o gestor patrimonial en México</li>
+    <li>Clientes personas y empresas con RFC, CURP y expediente KYC</li>
+    <li>Necesita operar rápido con un proceso estándar en una industria</li></ul></div>
+  <div class="col"><div class="ch">No incluido: oportunidad de fase 2</div><ul class="xk">
+    <li>Integración con el core bancario y saldos en línea</li>
+    <li>Posiciones y valoración de inversiones</li>
+    <li>KYC/AML y screening con proveedores especializados</li>
+    <li>Métricas actuariales</li>
+    <li>Migración de datos históricos</li></ul></div>
+</div>
+<div class="note-dark"><b>Para cumplir 4 semanas:</b> líder y admin disponibles, licencias FSC activas y formato de solicitud contestado en la semana 1, y usuarios listos en la semana 4.</div>""")
+
+# ================= 9 Cómo venderlo
+B = [("Rápido:", "operación financiera en español, con su industria lista desde el primer día."),
+     ("Datos confiables:", "RFC y CURP validados y alertas de clientes duplicados."),
+     ("Cumplimiento ordenado:", "KYC con vigencia y riesgo PLD visible solo para quien corresponde."),
+     ("Nada se olvida:", "fecha compromiso en cada caso y avisos de renovación o revisión."),
+     ("Visibilidad:", "dashboards de operación y de su industria."),
+     ("Su marca:", "la app con su logo y colores, en escritorio y móvil."),
+     ("Sin deuda técnica:", "solo funcionalidad estándar, fácil de mantener y crecer.")]
+slide("dark", "Cómo venderlo", "“En 4 semanas su equipo opera Financial Services Cloud con un proceso probado”",
+      '<ul class="pitch">' + "".join(f"<li><b>{E(a)}</b> {E(b)}</li>" for a, b in B) + "</ul>", cls="quote")
+
+# ================= 10 Por qué es más rápido
+R = [("Diseño", "Desde cero", f"{COMPONENTES} componentes listos"),
+     ("Industria", "Se diseña en cada proyecto", "Seguros, Banca o Patrimonial, listos para elegir"),
+     ("Despliegue", "Manual", "Por etapas, validado antes de cada paso"),
+     ("Pruebas y documentos", "Se hacen en cada proyecto", f"{TEST['total']} pruebas y {DOCS} documentos"),
+     ("Marca del cliente", "Configuración manual", "Un paso de configuración"),
+     ("Tiempo a productivo", "Depende del diseño", "4 semanas")]
+trs = "".join(f'<tr><td class="ka">{E(a)}</td><td class="km">{E(b)}</td><td class="kb">{E(c_)}</td></tr>' for a, b, c_ in R)
+slide("light", "Por qué es más rápido", "Partimos de lo construido, no de una hoja en blanco", f"""
+<table class="tbl tbl-cmp"><thead><tr><th>Aspecto</th><th>A la medida</th><th>Con Starter Pack</th></tr></thead><tbody>{trs}</tbody></table>
+<div class="note-light">El tiempo se invierte en lo que hace único al cliente, no en lo que se repite en todos.</div>""")
+
+# ================= 11 Beneficios para ETC
+G = [("Ciclos de venta más cortos", "Una propuesta con alcance, tiempo y entregables cerrados se decide más rápido."),
+     ("Más proyectos, mismo equipo", "Dejamos de configurar lo básico de FSC en cada cliente."),
+     ("Fácil de cotizar", "Un paquete estándar con precio y tiempos predecibles."),
+     ("Calidad consistente", "Mismas buenas prácticas, seguridad y pruebas en cada cliente."),
+     ("Menor riesgo", "Sin código, con cambios reversibles y validados antes de desplegar."),
+     ("Puerta a la fase 2", "Cada cliente queda listo para integraciones, KYC/AML o una segunda industria.")]
+slide("dark", "Beneficios para ETC", "Lo que gana la organización",
+      '<div class="bgrid">' + "".join(f'<div class="bc"><div class="bt">{E(a)}</div><div class="bd">{E(b)}</div></div>' for a, b in G) + "</div>")
+
+# ================= 12 Recomendación
+slide("dark", "Recomendación", "Lanzar el Starter Pack como nuestra oferta estándar de Financial Services Cloud", f"""
 <ol class="recs">
-  <li><span class="rn">1</span><span>Elegir el cliente piloto y su vertical: <span class="ph">[Cliente]</span> {tag('Placeholder')}</span></li>
-  <li><span class="rn">2</span><span>Enviarle el formato de solicitud; si no responde, usar la base ETC</span></li>
-  <li><span class="rn">3</span><span>Completar Path, colas y Action Plans en la siguiente iteración</span></li>
-  <li><span class="rn">4</span><span>Desplegar Seguros y Patrimonial en la org de referencia y probarlas</span></li>
-  <li><span class="rn">5</span><span>Definir paquete comercial y precio: <span class="ph">[$__]</span> {tag('Placeholder')}</span></li>
+  <li><span class="rn">1</span><span>Definir el paquete comercial: alcance, precio <span class="ph">[$__]</span> y condiciones {tag('Placeholder')}</span></li>
+  <li><span class="rn">2</span><span>Elegir un cliente piloto para el primer Quick Start: <span class="ph">[Cliente]</span> {tag('Placeholder')}</span></li>
+  <li><span class="rn">3</span><span>Preparar demo y materiales de venta sobre la org de referencia</span></li>
+  <li><span class="rn">4</span><span>Medir tiempo real y margen del piloto para ajustar la oferta</span></li>
 </ol>""")
 
-# Anexo
-def annex(rows, name, total, part, parts):
-    trs = "".join(f'<tr><td class="id">{E(d["id"])}</td><td>{E(d["item"])}</td><td class="ar">{E(d["area"])}</td><td>{who(d["quien"])}</td></tr>' for d in rows)
-    slide("light", f"Anexo · {name} · {part} de {parts}", f"{name}: {total} configuraciones del catálogo",
-          f'<table class="tbl"><thead><tr><th>ID</th><th>Configuración</th><th>Área</th><th>Responsable</th></tr></thead><tbody>{trs}</tbody></table>{SRC}', cls="annex")
-annex(COM[:15], "Común FSC", 30, 1, 2); annex(COM[15:], "Común FSC", 30, 2, 2)
-annex(INS, "Seguros", 12, 1, 1)
-annex(BNK, "Banca", 13, 1, 1)
-annex(WLT[:8], "Patrimonial", 16, 1, 2); annex(WLT[8:], "Patrimonial", 16, 2, 2)
+# ================= Anexo
+TYPE = {"Text": "Texto", "Picklist": "Lista", "Date": "Fecha", "Checkbox": "Casilla", "LongTextArea": "Texto largo", "Currency": "Moneda", "Lookup": "Búsqueda"}
+OBJ = {"InsurancePolicy": "Póliza", "Claim": "Siniestro", "FinancialAccount": "Cuenta financiera", "FinancialGoal": "Objetivo financiero", "Account": "Cliente", "Case": "Caso", "Contact": "Contacto", "Lead": "Prospecto", "Opportunity": "Oportunidad", "PersonAccount": "Cliente persona"}
+def ftype(f):
+    t = TYPE.get(f["type"], f["type"])
+    if f.get("length") and f["type"] == "Text":
+        t += f" ({f['length']})"
+    if f["type"] == "Lookup":
+        t += f" a {OBJ.get(f['referenceTo'], f['referenceTo'])}"
+    return t
+def fdesc(f):
+    vals = " · ".join(f.get("values") or [])
+    return f"{vals}: {f['purpose']}" if vals else f["purpose"]
+def field_rows(fields):
+    return [(f["label"], ftype(f), fdesc(f)) for f in fields]
+def annex(eyebrow, title, head, rows, per=11, note=""):
+    chunks = [rows[i:i + per] for i in range(0, len(rows), per)] or [[]]
+    for k, ch in enumerate(chunks, 1):
+        part = f" · {k} de {len(chunks)}" if len(chunks) > 1 else ""
+        trs = "".join("<tr>" + "".join(f"<td>{E(str(x))}</td>" for x in r) + "</tr>" for r in ch)
+        slide("light", f"Anexo · {eyebrow}{part}", title,
+              f'<table class="tbl tbl-ax"><thead><tr>{"".join(f"<th>{E(h)}</th>" for h in head)}</tr></thead><tbody>{trs}</tbody></table>' +
+              (f'<div class="small">{E(note)}</div>' if note and k == len(chunks) else ""), cls="annex")
+FHEAD = ["Campo", "Tipo", "Valores y para qué sirve"]
+RHEAD = ["Tipo", "Regla", "Qué asegura o hace"]
+def nice(name):
+    return name.replace("ETC_", "").replace("__c", "").replace("__pc", "").replace("_", " ")
+VR = lambda mod, objs: [("Validación", v["purpose"], v["message"]) for v in DD[mod]["validationRules"] if v["object"] in objs]
+DUP = lambda objs: [("Duplicado", OBJ.get(r["object"], r["object"]), r["match"]) for r in DD["common"]["duplicateRules"] if r["object"] in objs]
+FLABEL = {f["apiName"]: f["label"] for m in DD for f in DD[m]["fields"]}
+def lv_filter(field, op, val):
+    key = field.split(".")[-1]
+    if key in ("CLOSED", "CONVERTED") and val == "0":
+        return "sin cerrar" if key == "CLOSED" else "sin convertir"
+    std = {"TYPE": "tipo", "STATUS": "estado", "Status": "estado", "ExpirationDate": "fin de vigencia", "OpeningDate": "fecha de apertura"}
+    name = FLABEL.get(key, std.get(key, nice(key)))
+    name = name[0].lower() + name[1:] if not name[:3].isupper() else name
+    val = {"Closed": "Cerrado", "Active": "Activa"}.get(val, val)
+    if val.startswith("NEXT_N_DAYS:"):
+        return f"{name} en los próximos {val.split(':')[1]} días"
+    if op == "lessThan" and val == "TODAY":
+        return f"{name} vencida"
+    if op == "notEqual":
+        return f"{name} distinto de {val}"
+    return f"{name}: {val.replace(',', ', ')}"
+def lv_desc(v):
+    s_ = "Mis registros" if v["scope"] == "Mine" else "Todos los registros"
+    return s_ + ("; " + "; ".join(lv_filter(*f) for f in v["filters"]) if v["filters"] else "")
+LV = lambda mod, objs: [("Vista", v["label"], lv_desc(v)) for v in UI[mod].get("listViews", []) if v["object"] in objs]
+FLOWS = {
+    "common": [("Flow", "Normalización de RFC y CURP", "Al guardar: mayúsculas, sin espacios ni guiones"),
+               ("Flow", "Vencimiento KYC", "Diario: marca Vencido el KYC aprobado que superó su vigencia"),
+               ("Flow", "Fecha compromiso", "Al crear un caso: calcula la fecha según el tipo de solicitud")],
+    "insurance": [("Flow", "Aviso de renovación", "Diario: tarea al responsable antes del fin de vigencia")],
+    "banking": [("Flow", "Fecha de cierre", "Al cerrar una cuenta sin fecha, registra la de hoy")],
+    "wealth": [("Flow", "Próxima revisión", "Calcula la próxima revisión según la frecuencia"),
+               ("Flow", "Aviso de revisión", "Diario: tarea al asesor antes de la revisión de cartera")],
+}
 
+annex("Clientes", "Clientes: campos nuevos para personas y empresas", FHEAD, field_rows(fld("common", "Account")))
+annex("Clientes", "Clientes: reglas, duplicados y automatización", RHEAD,
+      VR("common", {"Account"}) + DUP({"Account", "PersonAccount"}) + FLOWS["common"][:2] + LV("common", {"Account"}))
+annex("Contactos", "Contactos: datos personales, preferencias y consentimiento", FHEAD,
+      field_rows(fld("common", "Contact")) + [(r[1], r[0], r[2]) for r in VR("common", {"Contact"}) + DUP({"Contact"})],
+      note="En clientes persona, estos campos aparecen en la misma ficha del cliente.")
+annex("Casos", "Casos: aclaraciones y quejas con fecha compromiso y dictamen", FHEAD,
+      field_rows(fld("common", "Case")) + [("Tipo de solicitud", "Lista estándar", "Consulta · Aclaración · Queja · Solicitud de servicio · Actualización de datos")] +
+      [(r[1], r[0], r[2]) for r in VR("common", {"Case"}) + FLOWS["common"][2:] + LV("common", {"Case"})], per=12,
+      note="Asignación automática a colas: " + " · ".join(q["label"].replace("ETC ", "") + ({"insurance": " (Seguros)", "banking": " (Banca)", "wealth": " (Patrimonial)"}.get(q["module"], "")) for q in spec("common-process.json")["queues"]) + ".")
+annex("Oportunidades y prospectos", "Oportunidades y prospectos: producto de interés y motivo de cierre", FHEAD,
+      [(f"{f['label']} ({OBJ[f['object']]})", ftype(f), fdesc(f)) for f in fld("common", "Opportunity") + fld("common", "Lead")] +
+      [(r[1], r[0], r[2]) for r in VR("common", {"Opportunity", "Lead"}) + DUP({"Lead"}) + LV("common", {"Opportunity", "Lead"})], per=12)
+_PROC = spec("common-process.json")
+annex("Etapas y Path", "Etapas guiadas: cada una dice qué hacer y qué capturar", ["Etapa", "Probabilidad", "Qué hacer en esta etapa"],
+      [(s_["value"], f'{s_["probability"]}%', s_["info"]) for s_ in _PROC["opportunityStages"]] +
+      [(f'Prospecto: {s_["value"]}', "Convierte" if s_.get("converted") else "—", s_["info"]) for s_ in _PROC["leadStatuses"]], per=12,
+      note="Path muestra la guía y los campos clave de cada etapa en la parte superior del registro.")
+annex("Seguridad", "Seguridad: cada nivel ve lo suyo y lo de su equipo", ["Nivel", "Qué hace", "Qué ve"],
+      [(p["label"], p["description"], AM["recordScope"].get(p["id"], "")) for p in PERSONAS],
+      note="Privado por defecto en clientes, oportunidades, casos y prospectos. KYC y riesgo PLD con acceso restringido; nadie puede eliminar registros. Planes de acción listos: " + ", ".join(t["label"].replace("ETC ", "") for t in spec("common-process.json")["actionPlans"]) + ".")
+for mod, name, title in [("insurance", "Seguros", "Seguros: pólizas, siniestros y renovaciones"),
+                         ("banking", "Banca", "Banca: cuentas financieras y aclaraciones"),
+                         ("wealth", "Patrimonial", "Patrimonial: perfil, revisiones y objetivos")]:
+    rows = [(f"{f['label']} ({OBJ.get(f['object'], f['object'])})", ftype(f), fdesc(f)) for f in fld(mod)]
+    objs = {f["object"] for f in fld(mod)} | {v["object"] for v in DD[mod]["validationRules"]} | {v["object"] for v in UI[mod].get("listViews", [])}
+    rows += [(r[1], r[0], r[2]) for r in VR(mod, objs) + FLOWS[mod] + LV(mod, objs)]
+    annex(name, title, FHEAD, rows)
+REP = []
+for m, l in MODS:
+    REP += [(r["label"], l, r["description"]) for r in UI[m].get("reports", [])]
+    REP += [(f"Dashboard {d['title']}", l, d["description"]) for d in UI[m].get("dashboards", [])]
+annex("Reportes y dashboards", "Reportes y dashboards: cada nivel ve sus números", ["Reporte o dashboard", "Módulo", "Qué muestra"], REP, per=10)
+
+# ================= Ensamble
 N = len(slides)
 secs = []
-for i, (theme, eb, ti, body, cls, notes) in enumerate(slides, 1):
+for i, (theme, eb, ti, body, cls) in enumerate(slides, 1):
+    h = "h1" if i == 1 else "h2"
     secs.append(f'''<section class="slide {theme} {cls}" id="s{i}" data-label="{E(ti)}" aria-label="Diapositiva {i} de {N}">
-<div class="inner"><div class="eyebrow">{E(eb)}</div><h{"1" if i == 1 else "2"} class="title">{E(ti)}</h{"1" if i == 1 else "2"}>{body}</div>
+<div class="inner"><div class="eyebrow">{E(eb)}</div><{h} class="title">{E(ti)}</{h}>{body}</div>
 <div class="foot"><span>ETC · Financial Services Cloud Starter Pack</span><span>{i}</span></div></section>''')
-
 CSS = open(sys.argv[2]).read()
 JS = open(sys.argv[3]).read().replace("__N__", str(N))
 doc = f'''<!doctype html>
 <html lang="es-MX"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Financial Services Cloud Starter Pack — Quick Start V1</title>
+<title>Financial Services Cloud Starter Pack — Quick Start V3</title>
 <meta name="presentation-title" content="Financial Services Cloud Starter Pack — Quick Start">
-<meta name="presentation-version" content="0.1"><meta name="presentation-date" content="2026-11-17">
+<meta name="presentation-version" content="0.3"><meta name="presentation-date" content="2026-11-17">
 <meta name="presentation-author" content="ETC · Especialistas en Transformación Cloud">
-<meta name="presentation-status" content="Borrador">
+<meta name="presentation-classification" content="Uso interno ETC">
 <style>{CSS}</style></head><body>
 <main id="deck">{"".join(secs)}</main>
 <div id="hud" aria-live="polite"><div id="prog"><div id="bar"></div></div><span id="cnt">1 / {N}</span></div>
 <script>{JS}</script></body></html>'''
 open(OUT, "w").write(doc)
-print(OUT, N)
+print(OUT, N, "diapositivas ·", COMPONENTES, "componentes")

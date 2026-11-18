@@ -21,8 +21,26 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>hideUpdateButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>variant</name>
+                    <value>linear</value>
+                </componentInstanceProperties>
+                <componentName>runtime_sales_pathassistant:pathAssistant</componentName>
+                <identifier>runtime_sales_pathassistant_pathAssistant_2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>subheader</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>force:detailPanel</componentName>
-                <identifier>force_detailPanel_2</identifier>
+                <identifier>force_detailPanel_3</identifier>
             </componentInstance>
         </itemInstances>
         <name>detailTabContent</name>
@@ -32,7 +50,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:relatedListContainer</componentName>
-                <identifier>force_relatedListContainer_3</identifier>
+                <identifier>force_relatedListContainer_4</identifier>
             </componentInstance>
         </itemInstances>
         <name>relatedTabContent</name>
@@ -106,7 +124,7 @@
     <masterLabel>ETC Prospecto</masterLabel>
     <sobjectType>Lead</sobjectType>
     <template>
-        <name>flexipage:recordHomeTemplateDesktop</name>
+        <name>flexipage:recordHomeWithSubheaderTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
 </FlexiPage>

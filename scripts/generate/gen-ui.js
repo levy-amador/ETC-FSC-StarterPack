@@ -48,7 +48,8 @@ function layoutXml(l, extra) {
   // Algunos objetos FSC (p. ej. FinancialGoal) no admiten CreatedById/LastModifiedById en el layout: system: false
   return `<Layout ${NS}>\n${[...l.sections, ...extra, ...(l.system === false ? [] : [SYSTEM])].map(section).join('')}` +
     l.related.map((r) => `    <relatedLists>\n        <relatedList>${r}</relatedList>\n    </relatedLists>\n`).join('') +
-    `    <showEmailCheckbox>false</showEmailCheckbox>\n    <showHighlightsPanel>false</showHighlightsPanel>\n    <showInteractionLogPanel>false</showInteractionLogPanel>\n    <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>\n    <showSubmitAndAttachButton>false</showSubmitAndAttachButton>\n</Layout>\n`;
+    (l.runAssignmentRules ? '    <runAssignmentRulesDefault>true</runAssignmentRulesDefault>\n' : '') +
+    `    <showEmailCheckbox>false</showEmailCheckbox>\n    <showHighlightsPanel>false</showHighlightsPanel>\n    <showInteractionLogPanel>false</showInteractionLogPanel>\n    <showRunAssignmentRulesCheckbox>${!!l.runAssignmentRules}</showRunAssignmentRulesCheckbox>\n    <showSubmitAndAttachButton>false</showSubmitAndAttachButton>\n</Layout>\n`;
 }
 
 // ---------- Lightning Record Pages (mismo patrón probado en Sales Cloud)
@@ -65,6 +66,7 @@ const CONTENT = {
 function pageXml(p) {
   uid = 0;
   const regions = [region('header', 'Region', [comp('force:highlightsPanel', { collapsed: 'false', numVisibleActions: '4' })])];
+  if (p.path) regions.push(region('subheader', 'Region', [comp('runtime_sales_pathassistant:pathAssistant', { hideUpdateButton: 'false', variant: 'linear' })]));
   const tabItems = [];
   p.tabs.forEach(([key, title, content], i) => {
     regions.push(region(`${key}TabContent`, 'Facet', CONTENT[content]()));
@@ -75,7 +77,7 @@ function pageXml(p) {
   regions.push(region('maintabs', 'Facet', tabItems));
   regions.push(region('main', 'Region', [comp('flexipage:tabset', { tabs: 'maintabs' }, 'mainTabset')]));
   regions.push(region('sidebar', 'Region', [comp('runtime_sales_activities:activityPanel', { showLegacyActivityComposer: 'false' }, 'sidebarActivity')]));
-  return `<FlexiPage ${NS}>\n${regions.join('')}    <description>${X(`Página de registro ETC para ${p.object}. Actividad en la columna lateral.`)}</description>\n    <masterLabel>${X(p.label)}</masterLabel>\n    <sobjectType>${p.object}</sobjectType>\n    <template>\n        <name>flexipage:recordHomeTemplateDesktop</name>\n    </template>\n    <type>RecordPage</type>\n</FlexiPage>\n`;
+  return `<FlexiPage ${NS}>\n${regions.join('')}    <description>${X(`Página de registro ETC para ${p.object}. Actividad en la columna lateral.`)}</description>\n    <masterLabel>${X(p.label)}</masterLabel>\n    <sobjectType>${p.object}</sobjectType>\n    <template>\n        <name>${p.path ? 'flexipage:recordHomeWithSubheaderTemplateDesktop' : 'flexipage:recordHomeTemplateDesktop'}</name>\n    </template>\n    <type>RecordPage</type>\n</FlexiPage>\n`;
 }
 
 // ---------- List Views

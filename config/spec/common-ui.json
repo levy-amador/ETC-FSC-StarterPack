@@ -474,7 +474,8 @@
         "RelatedHistoryList",
         "RelatedCommentsList",
         "RelatedAttachmentList"
-      ]
+      ],
+      "runAssignmentRules": true
     },
     {
       "object": "Opportunity",
@@ -719,7 +720,8 @@
           "Relacionados",
           "related"
         ]
-      ]
+      ],
+      "path": true
     },
     {
       "object": "Lead",
@@ -736,7 +738,8 @@
           "Relacionados",
           "related"
         ]
-      ]
+      ],
+      "path": true
     }
   ],
   "listViews": [

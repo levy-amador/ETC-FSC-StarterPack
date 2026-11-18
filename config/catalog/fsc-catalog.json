@@ -272,9 +272,14 @@
         "CustomField:Account.ETC_Segmento__c",
         "CustomField:Account.ETC_Tipo_Cliente__c",
         "CustomField:Lead.ETC_Segmento__c",
+        "PathAssistant:ETC_Oportunidad_Path",
+        "PathAssistant:ETC_Prospecto_Path",
         "RecordType:Account.ETC_Empresa",
+        "Settings:PathAssistant",
         "StandardValueSet:CaseType",
         "StandardValueSet:LeadSource",
+        "StandardValueSet:LeadStatus",
+        "StandardValueSet:OpportunityStage",
         "StandardValueSet:OpportunityType"
       ],
       "nota": "Record type de empresa (persona moral); prerrequisito de Person Accounts. Desplegado en la org de referencia el 2026-11-17.",
@@ -418,8 +423,10 @@
       "prerequisitos": "Disponibilidad de Action Plans en la org/licencia y diseño de proceso.",
       "capacidadClaude": "Puede ayudar a preparar configuración y metadata si el componente está expuesto; ciertas plantillas/relaciones pueden requerir Setup o UI.",
       "validacionHumana": "Humano valida ejecución end-to-end.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "ActionPlanTemplate:ETC_Onboarding_Cliente"
+      ]
     },
     {
       "id": "COM-023",
@@ -453,8 +460,12 @@
       "prerequisitos": "Equipos, criterios, usuarios y modelo de operación.",
       "capacidadClaude": "Puede generar metadata soportada; probar distribución real y fallback.",
       "validacionHumana": "Humano valida ownership y SLA.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "AssignmentRules:Case",
+        "Queue:ETC_Aclaraciones_Quejas",
+        "Queue:ETC_Servicio_General"
+      ]
     },
     {
       "id": "COM-025",
@@ -671,6 +682,7 @@
       "validacionHumana": "Humano valida controles y aprobaciones.",
       "estado": "Validado en org",
       "componentes": [
+        "ActionPlanTemplate:ETC_Atencion_Siniestro",
         "CustomField:Claim.ETC_Coaseguro_Aplicado__c",
         "CustomField:Claim.ETC_Deducible_Aplicado__c",
         "ValidationRule:Claim.ETC_Fecha_Siniestro_No_Futura",
@@ -705,8 +717,10 @@
       "prerequisitos": "Matriz de territorios, capacidad y especialidades.",
       "capacidadClaude": "Reglas y colas pueden configurarse; criterios operativos requieren aprobación.",
       "validacionHumana": "Humano valida distribución.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "Queue:ETC_Siniestros"
+      ]
     },
     {
       "id": "INS-009",
@@ -915,6 +929,7 @@
       "validacionHumana": "Humano valida compliance e integración.",
       "estado": "Validado en org",
       "componentes": [
+        "ActionPlanTemplate:ETC_Apertura_Cuenta",
         "CustomField:FinancialAccount.ETC_Canal_Apertura__c"
       ],
       "evidencia": "Desplegado en la org de referencia y cubierto por pruebas funcionales (2026-11-17)."
@@ -966,8 +981,10 @@
       "prerequisitos": "Matriz de asignación y usuarios/equipos.",
       "capacidadClaude": "Automatizable con reglas/flows; validar excepciones y balanceo.",
       "validacionHumana": "Humano valida operación.",
-      "estado": "Pendiente",
-      "componentes": []
+      "estado": "En construcción",
+      "componentes": [
+        "Queue:ETC_Servicio_Banca"
+      ]
     },
     {
       "id": "BNK-013",
@@ -1168,6 +1185,7 @@
       "validacionHumana": "Humano valida política de asesoría.",
       "estado": "Validado en org",
       "componentes": [
+        "ActionPlanTemplate:ETC_Revision_Cartera",
         "CustomField:Account.ETC_Frecuencia_Revision__c",
         "CustomField:Account.ETC_Proxima_Revision__c"
       ],

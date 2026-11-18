@@ -39,9 +39,9 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 | COM-019 | Procesos | Configuración de reglas de validación | Claude Code (con aprobación) | Validado en org | Humano aprueba reglas y excepciones. |
 | COM-020 | Procesos | Configuración de aprobación | Humano con apoyo de IA | Pendiente | Humano define delegaciones, SLA y segregación. |
 | COM-021 | Procesos | Configuración de tareas, eventos y actividades | Claude Code (con aprobación) | Pendiente | Humano valida experiencia y reporting. |
-| COM-022 | Procesos | Configuración de Action Plans / plantillas de planes de acción | Humano con apoyo de IA | Pendiente | Humano valida ejecución end-to-end. |
+| COM-022 | Procesos | Configuración de Action Plans / plantillas de planes de acción | Humano con apoyo de IA | En construcción | Humano valida ejecución end-to-end. |
 | COM-023 | Servicio | Configuración de Case Management | Claude Code (con aprobación) | Validado en org | Humano aprueba proceso de atención. |
-| COM-024 | Servicio | Configuración de colas y asignación de casos | Claude Code (con aprobación) | Pendiente | Humano valida ownership y SLA. |
+| COM-024 | Servicio | Configuración de colas y asignación de casos | Claude Code (con aprobación) | En construcción | Humano valida ownership y SLA. |
 | COM-025 | Servicio | Configuración de escalamiento y entitlements | Humano con apoyo de IA | Validado en org | Humano define SLA y valida calendario. |
 | COM-026 | Reportes | Creación de report types, reportes y dashboards | Claude Code (con aprobación) | Pendiente | Humano valida fórmulas, filtros y métricas. |
 | COM-027 | Calidad de datos | Configuración de duplicate/matching rules | Claude Code (con aprobación) | Validado en org | Humano valida falsos positivos/negativos. |
@@ -166,7 +166,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Procesos y valores de negocio definidos.
 - **Qué puede hacer Claude Code:** Automatizable vía metadata; requiere consistencia entre procesos, layouts y automatizaciones.
 - **Validación humana:** Humano valida catálogos y escenarios.
-- **Componentes:** `CustomField:Account.ETC_Segmento__c`, `CustomField:Account.ETC_Tipo_Cliente__c`, `CustomField:Lead.ETC_Segmento__c`, `RecordType:Account.ETC_Empresa`, `StandardValueSet:CaseType`, `StandardValueSet:LeadSource`, `StandardValueSet:OpportunityType`
+- **Componentes:** `CustomField:Account.ETC_Segmento__c`, `CustomField:Account.ETC_Tipo_Cliente__c`, `CustomField:Lead.ETC_Segmento__c`, `PathAssistant:ETC_Oportunidad_Path`, `PathAssistant:ETC_Prospecto_Path`, `RecordType:Account.ETC_Empresa`, `Settings:PathAssistant`, `StandardValueSet:CaseType`, `StandardValueSet:LeadSource`, `StandardValueSet:LeadStatus`, `StandardValueSet:OpportunityStage`, `StandardValueSet:OpportunityType`
 
 ### COM-014 · Configuración de Lightning Record Pages
 
@@ -247,7 +247,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Disponibilidad de Action Plans en la org/licencia y diseño de proceso.
 - **Qué puede hacer Claude Code:** Puede ayudar a preparar configuración y metadata si el componente está expuesto; ciertas plantillas/relaciones pueden requerir Setup o UI.
 - **Validación humana:** Humano valida ejecución end-to-end.
-- **Componentes:** Pendiente
+- **Componentes:** `ActionPlanTemplate:ETC_Onboarding_Cliente`
 
 ### COM-023 · Configuración de Case Management
 
@@ -265,7 +265,7 @@ Clientes, relaciones y hogares, seguridad, app, casos, calidad de datos y report
 - **Prerrequisitos:** Equipos, criterios, usuarios y modelo de operación.
 - **Qué puede hacer Claude Code:** Puede generar metadata soportada; probar distribución real y fallback.
 - **Validación humana:** Humano valida ownership y SLA.
-- **Componentes:** Pendiente
+- **Componentes:** `AssignmentRules:Case`, `Queue:ETC_Aclaraciones_Quejas`, `Queue:ETC_Servicio_General`
 
 ### COM-025 · Configuración de escalamiento y entitlements
 

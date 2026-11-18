@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>ETC_Asignacion_Casos</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>ETC_Aclaraciones_Quejas</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(ISPICKVAL(Type, &quot;Aclaración&quot;), ISPICKVAL(Type, &quot;Queja&quot;))</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>ETC_Servicio_General</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>true</formula>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

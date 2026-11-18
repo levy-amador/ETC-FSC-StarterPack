@@ -7,6 +7,8 @@
     <types>
         <members>CaseType</members>
         <members>LeadSource</members>
+        <members>LeadStatus</members>
+        <members>OpportunityStage</members>
         <members>OpportunityType</members>
         <name>StandardValueSet</name>
     </types>

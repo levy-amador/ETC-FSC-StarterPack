@@ -142,7 +142,7 @@ Cuentas de inversión, instrumentos, tenencias, objetivos financieros y activos/
 - **Prerrequisitos:** Frecuencia, segmentos y responsables.
 - **Qué puede hacer Claude Code:** Automatizable con Flow/tareas; recomendaciones de inversión no deben generarse sin marco aprobado.
 - **Validación humana:** Humano valida política de asesoría.
-- **Componentes:** `CustomField:Account.ETC_Frecuencia_Revision__c`, `CustomField:Account.ETC_Proxima_Revision__c`
+- **Componentes:** `ActionPlanTemplate:ETC_Revision_Cartera`, `CustomField:Account.ETC_Frecuencia_Revision__c`, `CustomField:Account.ETC_Proxima_Revision__c`
 
 ### WLT-013 · Configuración de eventos de vida
 

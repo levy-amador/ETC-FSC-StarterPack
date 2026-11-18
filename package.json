@@ -14,7 +14,7 @@
     "deploy": "node scripts/deploy/deploy.js",
     "deployment-report": "node scripts/deploy/deployment-report.js",
     "test": "node scripts/test/run-tests.js",
-    "generate": "node scripts/generate/gen-module.js common && node scripts/generate/gen-module.js insurance && node scripts/generate/gen-module.js banking && node scripts/generate/gen-module.js wealth && node scripts/generate/gen-flows.js && node scripts/generate/gen-ui.js && node scripts/generate/gen-reports.js",
+    "generate": "node scripts/generate/gen-module.js common && node scripts/generate/gen-module.js insurance && node scripts/generate/gen-module.js banking && node scripts/generate/gen-module.js wealth && node scripts/generate/gen-flows.js && node scripts/generate/gen-process.js && node scripts/generate/gen-ui.js && node scripts/generate/gen-reports.js",
     "docs": "node scripts/generate/gen-docs.js && node scripts/generate/gen-spec-docs.js"
   }
 }

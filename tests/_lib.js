@@ -28,3 +28,20 @@ function recordTypeId(ctx, sobject, developerName) {
 
 const stamp = () => `ETC TEST ${Date.now().toString(36).toUpperCase()}`;
 module.exports = { create, expectReject, expectAccept, recordTypeId, stamp };
+
+// Crea un registro por REST con el encabezado que activa las reglas de asignación (como la UI o Email-to-Case).
+const { spawnSync } = require('child_process');
+function createAutoAssign(ctx, sobject, values) {
+  const api = require('../sfdx-project.json').sourceApiVersion;
+  const r = spawnSync('sf', ['api', 'request', 'rest', `/services/data/v${api}/sobjects/${sobject}`, '-X', 'POST', '-H', 'Sforce-Auto-Assign:TRUE', '-H', 'Content-Type:application/json', '--body', JSON.stringify(values), '--target-org', ctx.org], { encoding: 'utf8' });
+  const m = (r.stdout || '').match(/"id"\s*:\s*"(\w+)"/);
+  if (m) ctx.created.push({ sobject, id: m[1] });
+  return { ok: !!m, id: m && m[1], message: m ? '' : (r.stdout || r.stderr).slice(-200) };
+}
+function ownerQueue(ctx, sobject, id) {
+  const row = ctx.query(`SELECT OwnerId FROM ${sobject} WHERE Id = '${id}'`)[0];
+  const q = (ctx.query(`SELECT DeveloperName FROM Group WHERE Id = '${row.OwnerId}'`) || [])[0];
+  return q ? q.DeveloperName : `usuario ${row.OwnerId}`;
+}
+module.exports.createAutoAssign = createAutoAssign;
+module.exports.ownerQueue = ownerQueue;

@@ -538,10 +538,10 @@
       "object": "Lead",
       "name": "ETC_Motivo_Descalificacion",
       "purpose": "Prospecto descalificado requiere motivo",
-      "formula": "AND(ISPICKVAL(Status, \"Unqualified\"), ISBLANK(TEXT(ETC_Motivo_Descalificacion__c)))",
+      "formula": "AND(ISPICKVAL(Status, \"No calificado\"), ISBLANK(TEXT(ETC_Motivo_Descalificacion__c)))",
       "message": "Indica el motivo de descalificación.",
       "catalog": "COM-019",
-      "note": "Usa el estado estándar Unqualified (API). Se ajusta si el cliente define otros estados de prospecto."
+      "note": "Usa el estado No calificado de la base ETC (common-process.json)."
     }
   ],
   "duplicateRules": [
