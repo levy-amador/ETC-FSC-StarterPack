@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>Claim</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>ETC | ETC Siniestros: una fila por registro.</description>
+    <label>ETC Siniestros</label>
+    <sections>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>ClaimType</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Status</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>LossDate</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>EstimatedAmount</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>ApprovedAmount</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Claim</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Numero_Siniestro_Aseguradora__c</field>
+            <table>Claim</table>
+        </columns>
+        <masterLabel>ETC Siniestros</masterLabel>
+    </sections>
+</ReportType>

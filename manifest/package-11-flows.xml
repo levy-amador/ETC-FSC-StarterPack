@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>ETC_Caso_Fecha_Compromiso</members>
+        <members>ETC_Cuenta_Financiera_Cierre</members>
+        <members>ETC_Cuenta_KYC_Vencimiento</members>
+        <members>ETC_Cuenta_Normalizacion</members>
+        <members>ETC_Prospecto_Normalizacion</members>
+        <name>Flow</name>
+    </types>
+    <version>68.0</version>
+</Package>

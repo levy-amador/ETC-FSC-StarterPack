@@ -106,11 +106,18 @@ function listFiles(dir, filter = () => true) {
   return out;
 }
 
+// Copias " 2" que crean iCloud/Dropbox al reescribir archivos: rompen el despliegue.
+function syncDuplicates(dirs) {
+  const out = [];
+  for (const d of dirs) for (const f of listFiles(path.join(ROOT, d))) if (/ 2(\.[^/\\]*)?$/.test(path.basename(f))) out.push(path.relative(ROOT, f));
+  return out;
+}
+
 function timestamp() {
   return new Date().toISOString().replace(/[:.]/g, '-');
 }
 
 module.exports = {
   ROOT, SRC, MODULES_DIR, BRANDING_FILE, MODULES_FILE, IMPLEMENTATION_FILE, CATALOG_FILE,
-  c, fail, parseArgs, readJson, writeJson, sf, query, orgIdentity, targetOrg, listFiles, timestamp, moduleSrc
+  c, fail, parseArgs, readJson, writeJson, sf, query, orgIdentity, targetOrg, listFiles, timestamp, moduleSrc, syncDuplicates
 };

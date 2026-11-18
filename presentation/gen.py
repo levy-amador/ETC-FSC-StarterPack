@@ -1,5 +1,21 @@
 import json, html, collections, sys
-OUT = sys.argv[4] if len(sys.argv) > 4 else "Financial Services Cloud Starter Pack — Quick Start V1.html"
+OUT = sys.argv[4] if len(sys.argv) > 4 else "Financial Services Cloud Starter Pack — Quick Start V2.html"
+import os, re
+# Resultado de la prueba real (org de referencia). Se actualiza después de cada corrida de npm run test.
+TEST = {"fecha": "17-nov-2026", "ok": 16, "total": 16, "vertical": "Banca", "hallazgos": 22}
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(sys.argv[1]), "..", ".."))
+def _count(mod):
+    pats = [("Campos", r"objects/(?!ETC_Configuracion)[^/]+/fields/"), ("Validaciones", r"validationRules/"), ("Duplicados", r"^duplicateRules/"),
+            ("Permisos", r"^permissionset"), ("Layouts", r"^layouts/"), ("Páginas", r"^flexipages/"), ("Vistas", r"listViews/"),
+            ("Flows", r"^flows/"), ("Reportes", r"^reports/.+\.report-meta"), ("Dashboards", r"^dashboards/.+\.dashboard-meta")]
+    base = os.path.join(_ROOT, "modules", mod, "main", "default")
+    out = collections.Counter()
+    for root, _, fs in os.walk(base):
+        for f in fs:
+            r = os.path.relpath(os.path.join(root, f), base)
+            for k, pat in pats:
+                if re.search(pat, r): out[k] += 1
+    return out
 # Uso: python3 presentation/gen.py config/catalog/fsc-catalog.json presentation/style.css presentation/deck.js [salida.html]
 _items = json.load(open(sys.argv[1]))["items"]
 _by = lambda m: [{"id": i["id"], "area": i["area"], "item": i["item"], "quien": i["ejecutor"]} for i in _items if i["module"] == m]
@@ -27,7 +43,7 @@ def slide(theme, eyebrow, title, body, cls="", notes=""):
 SRC = '<div class="src">Fuente: Catálogo de configuraciones Financial Services Cloud (hojas Común FSC, Seguros, Banking, Wealth Management).</div>'
 
 # 1 Portada
-slide("dark", "Propuesta interna · Borrador v0.1", "Financial Services Cloud Starter Pack", f"""
+slide("dark", "Propuesta interna · v0.2 · Probado en org de referencia", "Financial Services Cloud Starter Pack", f"""
 <p class="cover-sub">Una base FSC lista, con el módulo de industria que el cliente necesita</p>
 <p class="cover-meta">ETC · Noviembre 2026</p>
 <div class="cover-mods">
@@ -41,8 +57,8 @@ slide("dark", "Qué es", "Una base FSC reutilizable que se ajusta a la industria
 <div class="kpis">
   <div class="kpi"><div class="n">71</div><div class="l">configuraciones catalogadas</div></div>
   <div class="kpi"><div class="n">3</div><div class="l">verticales: Seguros, Banca y Patrimonial</div></div>
-  <div class="kpi"><div class="n">44</div><div class="l">ejecutables por Claude Code, con aprobación humana</div></div>
-  <div class="kpi"><div class="n">0</div><div class="l">código a la medida como principio {tag('Recomendación')}</div></div>
+  <div class="kpi"><div class="n">{sum(sum(_count(m).values()) for m in ("common","insurance","banking","wealth"))}</div><div class="l">componentes construidos en los 4 módulos</div></div>
+  <div class="kpi"><div class="n">{TEST["ok"]}/{TEST["total"]}</div><div class="l">pruebas funcionales aprobadas en una org real</div></div>
 </div>
 <div class="note-dark"><b>Modelo de datos:</b> FSC Core, con objetos estándar de la plataforma y sin el paquete gestionado FinServ__. Decisión ETC del 17-nov-2026.</div>
 {SRC}""")
@@ -70,6 +86,16 @@ slide("light", "Arquitectura modular", "Una base común y solo la vertical que e
     <div class="small">Diseño acordado el 17-nov-2026. Los scripts están en construcción.</div>
   </div>
 </div>""")
+
+# 3b Componentes construidos
+_mods = [("common", "Base común"), ("insurance", "Seguros"), ("banking", "Banca"), ("wealth", "Patrimonial")]
+_cols = ["Campos", "Validaciones", "Duplicados", "Permisos", "Layouts", "Páginas", "Vistas", "Flows", "Reportes", "Dashboards"]
+_cnt = {m: _count(m) for m, _ in _mods}
+_trs = "".join(f'<tr><td class="mn">{E(l)}</td>' + "".join(f'<td class="nm">{_cnt[m][c] or "—"}</td>' for c in _cols) + '</tr>' for m, l in _mods)
+_trs += '<tr class="tot"><td class="mn">Total</td>' + "".join(f'<td class="nm">{sum(_cnt[m][c] for m, _ in _mods)}</td>' for c in _cols) + '</tr>'
+slide("light", "Qué se construyó", "Cada módulo ya trae su modelo, seguridad, pantallas y automatización", f"""
+<table class="tbl tbl-num"><thead><tr><th>Módulo</th>{"".join(f"<th>{E(c)}</th>" for c in _cols)}</tr></thead><tbody>{_trs}</tbody></table>
+<div class="note-light"><b>Fuente única:</b> la metadata se genera desde la especificación (<code>config/spec/</code>): diccionario de datos, matriz de acceso y experiencia de usuario. Si el cliente no entrega su definición, se usa esta base ETC. Conteo tomado del repositorio el {TEST["fecha"]}.</div>""")
 
 # 4 Base común
 by_area = collections.OrderedDict()
@@ -130,7 +156,21 @@ steps = [
 flow = "".join(f'<div class="fs"><div class="fn">{i + 1}</div><div class="fc">npm run {E(c)}</div><div class="fh">{E(h)}</div><div class="fd">{E(d)}</div></div>' for i, (c, h, d) in enumerate(steps))
 slide("light", "Cómo se despliega", "Un despliegue por etapas que confirma vertical y org antes de cambiar nada", f"""
 <div class="flow">{flow}</div>
-<div class="note-light">Es el mismo patrón probado en el Sales Cloud Starter Pack: etapas ordenadas por dependencias, sin cambios destructivos y con evidencia por instancia. Scripts implementados y probados en local; falta la primera ejecución en una org FSC.</div>""")
+<div class="note-light">Es el mismo patrón probado en el Sales Cloud Starter Pack: etapas ordenadas por dependencias, sin cambios destructivos y con evidencia por instancia. Probado de punta a punta en la org de referencia el {TEST["fecha"]}: base común + {TEST["vertical"]} desplegadas; Seguros y Patrimonial validadas con check-only.</div>""")
+
+# 9b Lo que encontró la prueba real
+_hall = [
+    ("Las validaciones de Contact no corren en cuentas personales", "Regla equivalente en Account"),
+    ("Un caso creado ya cerrado no activa la validación de cierre", "Las reglas también evalúan el estado"),
+    ("Las reglas de duplicados de personas viven en otro objeto (PersonAccount)", "Reglas de personas en su objeto correcto"),
+    ("Activar «contactos en varias cuentas» por metadata deja la org inconsistente", "Paso manual en Setup, documentado"),
+    ("El administrador no ve los campos de la vertical sin su permiso", "Paso posterior al despliegue"),
+    ("Un repo en carpeta sincronizada (iCloud) rompe el despliegue", "Repo fuera de iCloud; el build lo detecta"),
+]
+_hr = "".join(f'<div class="sr sr-h"><span class="hx"><span aria-hidden="true">⚠</span> {E(a)}</span><span class="hy"><span aria-hidden="true">✓</span> {E(b)}</span></div>' for a, b in _hall)
+slide("light", f"Prueba real · {TEST['hallazgos']} hallazgos corregidos", "Probar en una org real encontró lo que ninguna revisión local detecta", f"""
+<div class="slist">{_hr}</div>
+<div class="note-light">Cada hallazgo quedó corregido en el generador o documentado como paso manual (<code>docs/LESSONS_REFERENCE_ORG.md</code>). Las próximas implementaciones ya parten de esta versión.</div>""")
 
 # 10 Ruta
 slide("light", "Ruta del proyecto", "Cuatro semanas a go-live con la base común y una vertical", f"""
@@ -171,23 +211,24 @@ slide("dark", "A quién venderlo", "El cliente ideal ya tiene FSC y necesita ope
 
 # 12 Estado
 st = [
-    ("ok", "✓", "Hecho", "Catálogo de 71 configuraciones con responsable", "Equipo ETC"),
-    ("ok", "✓", "Hecho", "Arquitectura modular y modelo FSC Core acordados", "17-nov-2026"),
-    ("ok", "✓", "Hecho", "Repo privado ETC-FSC-StarterPack: scripts modulares, aún sin metadata", "17-nov-2026"),
-    ("wip", "◐", "En curso", "Org FSC de pruebas", "La gestiona el equipo"),
-    ("pen", "○", "Pendiente", "Diccionario de campos, reglas y reportes por vertical", "Por definir"),
-    ("pen", "○", "Pendiente", "Primer despliegue y pruebas en la org FSC", "Depende de la org"),
+    ("ok", "✓", "Hecho", "Catálogo de 71 configuraciones y arquitectura modular FSC Core", "17-nov-2026"),
+    ("ok", "✓", "Hecho", "Repo ETC-FSC-StarterPack con scripts y generadores (GitHub)", "17-nov-2026"),
+    ("ok", "✓", "Hecho", "Org de referencia FSC habilitada: los 4 módulos en Listo", "17-nov-2026"),
+    ("ok", "✓", "Hecho", f"Base común + Banca desplegadas; {TEST['ok']}/{TEST['total']} pruebas OK", TEST["fecha"]),
+    ("ok", "✓", "Hecho", "Seguros y Patrimonial validadas con check-only", TEST["fecha"]),
+    ("ok", "✓", "Hecho", "Formato de solicitud al cliente (Excel) con la base ETC", "En Drive"),
+    ("pen", "○", "Pendiente", "Path, colas y asignación, Action Plans; aprobación del cliente", "Siguiente iteración"),
 ]
 srows = "".join(f'<div class="sr"><span class="st st-{k}"><span aria-hidden="true">{i}</span> {E(l)}</span><span class="stt">{E(t)}</span><span class="sto">{E(o)}</span></div>' for k, i, l, t, o in st)
-slide("light", "Estado hoy · 17-nov-2026", "Catálogo, arquitectura y repo listos; falta la org de pruebas", f'<div class="slist">{srows}</div>')
+slide("light", "Estado hoy · 17-nov-2026", "El Starter Pack ya funciona en una org FSC real", f'<div class="slist">{srows}</div>')
 
 # 13 Recomendación
-slide("dark", "Recomendación", "Definir campos y conseguir la org para construir la base común", f"""
+slide("dark", "Recomendación", "Llevar el Starter Pack a un cliente piloto", f"""
 <ol class="recs">
-  <li><span class="rn">1</span><span>Aprobar el alcance de la base común: 30 configuraciones</span></li>
-  <li><span class="rn">2</span><span>Definir el diccionario de campos, reglas y reportes de cada vertical</span></li>
-  <li><span class="rn">3</span><span>Conseguir la org FSC y correr el diagnóstico de licencias</span></li>
-  <li><span class="rn">4</span><span>Elegir el cliente piloto: <span class="ph">[Cliente]</span> {tag('Placeholder')}</span></li>
+  <li><span class="rn">1</span><span>Elegir el cliente piloto y su vertical: <span class="ph">[Cliente]</span> {tag('Placeholder')}</span></li>
+  <li><span class="rn">2</span><span>Enviarle el formato de solicitud; si no responde, usar la base ETC</span></li>
+  <li><span class="rn">3</span><span>Completar Path, colas y Action Plans en la siguiente iteración</span></li>
+  <li><span class="rn">4</span><span>Desplegar Seguros y Patrimonial en la org de referencia y probarlas</span></li>
   <li><span class="rn">5</span><span>Definir paquete comercial y precio: <span class="ph">[$__]</span> {tag('Placeholder')}</span></li>
 </ol>""")
 

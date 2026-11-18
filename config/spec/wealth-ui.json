@@ -1,0 +1,241 @@
+{
+  "extendLayouts": [
+    {
+      "layout": "PersonAccount-ETC_Persona_Layout",
+      "sections": [
+        {
+          "label": "Perfil patrimonial",
+          "left": [
+            [
+              "ETC_Perfil_Inversionista__c"
+            ],
+            [
+              "ETC_Fecha_Perfilamiento__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Frecuencia_Revision__c"
+            ],
+            [
+              "ETC_Proxima_Revision__c"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "layout": "Account-ETC_Empresa_Layout",
+      "sections": [
+        {
+          "label": "Perfil patrimonial",
+          "left": [
+            [
+              "ETC_Perfil_Inversionista__c"
+            ],
+            [
+              "ETC_Fecha_Perfilamiento__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Frecuencia_Revision__c"
+            ],
+            [
+              "ETC_Proxima_Revision__c"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "object": "FinancialGoal",
+      "name": "ETC_Objetivo_Layout",
+      "label": "ETC Objetivo financiero",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Objetivo",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "Type",
+              "Required"
+            ],
+            [
+              "Status",
+              "Required"
+            ],
+            [
+              "Priority",
+              "Required"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Horizonte__c"
+            ],
+            [
+              "StartDate",
+              "Required"
+            ],
+            [
+              "TargetDate",
+              "Required"
+            ],
+            [
+              "OwnerId",
+              "Required"
+            ]
+          ]
+        },
+        {
+          "label": "Montos",
+          "left": [
+            [
+              "InitialAmount"
+            ],
+            [
+              "TargetAmount",
+              "Required"
+            ]
+          ],
+          "right": [
+            [
+              "ActualAmount"
+            ],
+            [
+              "EstimatedSuccessPercent"
+            ]
+          ]
+        },
+        {
+          "label": "Descripción",
+          "left": [
+            [
+              "Description"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [],
+      "system": false
+    }
+  ],
+  "recordPages": [
+    {
+      "object": "FinancialGoal",
+      "name": "ETC_Objetivo_Record_Page",
+      "label": "ETC Objetivo financiero",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    }
+  ],
+  "listViews": [
+    {
+      "object": "FinancialGoal",
+      "name": "ETC_Mis_Objetivos",
+      "label": "Mis objetivos financieros",
+      "scope": "Mine",
+      "columns": [
+        "Name",
+        "Type",
+        "Status",
+        "TargetAmount",
+        "TargetDate"
+      ],
+      "filters": []
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Revisiones_Proximas",
+      "label": "Revisiones de cartera (30 días)",
+      "scope": "Mine",
+      "columns": [
+        "ACCOUNT.NAME",
+        "ETC_Perfil_Inversionista__c",
+        "ETC_Frecuencia_Revision__c",
+        "ETC_Proxima_Revision__c"
+      ],
+      "filters": [
+        [
+          "ETC_Proxima_Revision__c",
+          "equals",
+          "NEXT_N_DAYS:30"
+        ]
+      ]
+    }
+  ],
+  "reportTypes": [],
+  "reports": [
+    {
+      "name": "ETC_Clientes_Por_Perfil",
+      "label": "Clientes por perfil de inversionista",
+      "description": "Cuentas agrupadas por perfil de inversionista.",
+      "type": "AccountList",
+      "scope": "organization",
+      "columns": [
+        "ACCOUNT.NAME",
+        "Account.ETC_Fecha_Perfilamiento__c",
+        "Account.ETC_Proxima_Revision__c",
+        "USERS.NAME"
+      ],
+      "groups": [
+        "Account.ETC_Perfil_Inversionista__c"
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "Donut",
+        "Account.ETC_Perfil_Inversionista__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "WLT-016"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "ETC_Patrimonial",
+      "title": "Patrimonial",
+      "description": "Clientes por perfil de inversionista y próximas revisiones de cartera.",
+      "metrics": [
+        {
+          "title": "Clientes perfilados",
+          "report": "ETC_Clientes_Por_Perfil",
+          "col": "RowCount"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Clientes por perfil",
+          "report": "ETC_Clientes_Por_Perfil",
+          "type": "Donut"
+        }
+      ]
+    }
+  ],
+  "reportNote": "FinancialGoal no admite Custom Report Types (validado en la org de referencia); los objetivos se consultan con la vista de lista."
+}

@@ -98,7 +98,7 @@ Se usa tal cual cuando el cliente aún no entrega su definición. Si el cliente 
 | Contact | `ETC_CURP_Formato` | CURP de 18 caracteres con estructura oficial | La CURP no tiene un formato válido (18 caracteres en mayúsculas). | COM-028 |
 | Account | `ETC_CURP_Formato_Persona` | CURP de 18 caracteres en cuentas personales | La CURP no tiene un formato válido (18 caracteres en mayúsculas). | COM-028 |
 | Account | `ETC_KYC_Fecha_Revision` | Un expediente Aprobado debe tener fecha de revisión | Captura la fecha de revisión KYC para marcar el expediente como Aprobado. | COM-028 |
-| Account | `ETC_Cliente_Activo_Requiere_KYC` | Un cliente activo debe tener KYC aprobado | Un cliente activo requiere estatus KYC Aprobado. | COM-028 |
+| Account | `ETC_Cliente_Activo_Requiere_KYC` | Un cliente pasa a activo solo con KYC aprobado (al crear o al cambiar el tipo de cliente) | Un cliente activo requiere estatus KYC Aprobado. | COM-028 |
 | Contact | `ETC_Consentimiento_Fecha` | Si autoriza comunicaciones debe existir aceptación del aviso de privacidad | Registra la fecha de aceptación del aviso de privacidad antes de autorizar comunicaciones. | COM-028 |
 | Case | `ETC_Resolucion_Al_Cerrar` | No se cierra un caso sin resolución | Captura la resolución antes de cerrar el caso. | COM-019 |
 | Case | `ETC_Dictamen_Aclaracion` | Aclaraciones y quejas cerradas requieren dictamen | Las aclaraciones y quejas requieren dictamen al cerrarse. | COM-019 |

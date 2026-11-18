@@ -18,7 +18,8 @@ A cada cliente se le despliega una **base común** más **una vertical**, que se
 - ✔ Objetos FSC Core por módulo, tomados de la documentación oficial ([config/modules.json](config/modules.json)).
 - ✔ Metadata inicial generada desde `config/spec/` para la base común y las 3 verticales (`npm run generate`).
 - ✔ Prueba real en la org de referencia (2026-11-17): base común + Banca **desplegadas**, 13/13 pruebas funcionales OK; Seguros y Patrimonial **validadas con check-only**. Lecciones en [LESSONS_REFERENCE_ORG](docs/LESSONS_REFERENCE_ORG.md).
-- ○ Pendiente: layouts, Lightning pages, list views, flows y reportes; aprobación del cliente de la base ETC.
+- ✔ Experiencia de usuario y automatización: layouts, Lightning Record Pages, list views, 8 flows con umbrales en Custom Metadata, 3 tipos de reporte, 13 reportes y 4 dashboards (`config/spec/*-ui.json`, `common-settings.json`).
+- ○ Pendiente: aprobación del cliente de la base ETC; Path, colas y reglas de asignación, Action Plans.
 - ✔ Org FSC de referencia habilitada: base común y las 3 verticales en **Listo** (`npm run assess`, 2026-11-17 · [docs/REFERENCE_ORG.md](docs/REFERENCE_ORG.md)).
 
 ## Uso rápido
@@ -32,7 +33,7 @@ npm run validate -- --target-org ETC_FSC              # validaciones locales + c
 npm run deploy   -- --target-org ETC_FSC              # confirma vertical y despliegue
 npm run test     -- --target-org ETC_FSC --allow-data --cleanup
 npm run deployment-report -- --target-org ETC_FSC
-npm run generate                                      # metadata desde config/spec/
+npm run generate                                      # metadata desde config/spec/ (modelo, flows, UI, reportes)
 npm run docs                                          # regenera docs del catálogo y de la especificación
 ```
 

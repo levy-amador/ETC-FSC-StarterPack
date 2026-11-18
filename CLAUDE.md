@@ -35,3 +35,7 @@ Español de México. No inventes avances, cifras, licencias ni resultados: usa l
 - `config/spec/<módulo>-data-dictionary.json` y `config/spec/<módulo>-access-matrix.json` son la fuente de los campos, las validaciones, los duplicados, los roles, los permisos y la seguridad de campo.
 - Si el cliente entrega su definición, ajusta la especificación y deja el origen documentado. Si no la entrega, se usa la base ETC predeterminada.
 - La metadata se genera desde la especificación; no se escribe a mano por separado. `npm run validate` revisa la consistencia entre diccionario, matriz y catálogo.
+
+## Regla 6 · Ubicación del proyecto
+- El repo vive en `~/Proyectos/ETC-FSC-StarterPack`, **fuera de iCloud o Dropbox**. Las carpetas sincronizadas crean copias " 2" de los archivos que reescriben los generadores y el build, y eso rompe el despliegue (pasó el 2026-11-17).
+- `npm run validate` y `npm run build` fallan si encuentran copias " 2".

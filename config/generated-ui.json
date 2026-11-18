@@ -1,0 +1,4 @@
+{
+  "description": "Vertical(es) para la que se generaron las piezas de la base común que dependen de ella (secciones de layouts, perfiles y app). npm run build exige que coincida con la vertical del build.",
+  "verticals": []
+}

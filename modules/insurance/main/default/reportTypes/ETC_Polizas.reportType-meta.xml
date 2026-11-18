@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>InsurancePolicy</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>ETC | ETC Pólizas: una fila por registro.</description>
+    <label>ETC Pólizas</label>
+    <sections>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>PolicyName</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>PolicyType</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Status</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>EffectiveDate</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>ExpirationDate</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PremiumAmount</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Ramo__c</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Aseguradora__c</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Moneda__c</field>
+            <table>InsurancePolicy</table>
+        </columns>
+        <masterLabel>ETC Pólizas</masterLabel>
+    </sections>
+</ReportType>

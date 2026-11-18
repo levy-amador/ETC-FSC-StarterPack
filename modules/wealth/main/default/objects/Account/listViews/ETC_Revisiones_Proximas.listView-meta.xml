@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Revisiones_Proximas</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ETC_Perfil_Inversionista__c</columns>
+    <columns>ETC_Frecuencia_Revision__c</columns>
+    <columns>ETC_Proxima_Revision__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>ETC_Proxima_Revision__c</field>
+        <operation>equals</operation>
+        <value>NEXT_N_DAYS:30</value>
+    </filters>
+    <label>Revisiones de cartera (30 días)</label>
+</ListView>

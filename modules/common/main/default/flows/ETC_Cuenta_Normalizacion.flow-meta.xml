@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>68.0</apiVersion>
+    <assignments>
+        <name>Normalizar</name>
+        <label>Normalizar RFC y CURP</label>
+        <locationX>0</locationX>
+        <locationY>150</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ETC_RFC__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fxRFC</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.ETC_CURP__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fxCURP</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Before-save: normaliza RFC (Account) y CURP (cuentas personales) a mayúsculas sin espacios ni guiones, para validaciones y reglas de duplicados.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fxCURP</name>
+        <dataType>String</dataType>
+        <expression>UPPER(SUBSTITUTE(SUBSTITUTE(TRIM({!$Record.ETC_CURP__pc}), &quot; &quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>fxRFC</name>
+        <dataType>String</dataType>
+        <expression>UPPER(SUBSTITUTE(SUBSTITUTE(TRIM({!$Record.ETC_RFC__c}), &quot; &quot;, &quot;&quot;), &quot;-&quot;, &quot;&quot;))</expression>
+    </formulas>
+    <interviewLabel>ETC Cuenta · normalización {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ETC Cuenta · normalización</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Normalizar</targetReference>
+        </connector>
+        <filterFormula>OR(NOT(ISBLANK({!$Record.ETC_RFC__c})), NOT(ISBLANK({!$Record.ETC_CURP__pc})))</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

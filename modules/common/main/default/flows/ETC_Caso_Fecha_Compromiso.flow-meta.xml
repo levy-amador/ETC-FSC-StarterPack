@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>68.0</apiVersion>
+    <assignments>
+        <name>Asignar_Fecha</name>
+        <label>Asignar fecha compromiso</label>
+        <locationX>0</locationX>
+        <locationY>450</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ETC_Fecha_Compromiso__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fxFecha</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Hay_Config</name>
+        <label>¿Hay configuración?</label>
+        <locationX>0</locationX>
+        <locationY>300</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Hay_Config_Si</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Config</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asignar_Fecha</targetReference>
+            </connector>
+            <label>Sí</label>
+        </rules>
+    </decisions>
+    <description>Before-save al crear: si el caso no tiene fecha compromiso, la calcula con los días configurados (aclaración/queja o general) en ETC_Configuracion_FSC__mdt.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fxFecha</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + IF(OR(ISPICKVAL({!$Record.Type}, &quot;Aclaración&quot;), ISPICKVAL({!$Record.Type}, &quot;Queja&quot;)), BLANKVALUE({!Get_Config.Dias_Compromiso_Aclaracion__c}, 30), BLANKVALUE({!Get_Config.Dias_Compromiso_General__c}, 5))</expression>
+    </formulas>
+    <interviewLabel>ETC Caso · fecha compromiso {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ETC Caso · fecha compromiso</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Config</name>
+        <label>Obtener configuración FSC</label>
+        <locationX>0</locationX>
+        <locationY>150</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Hay_Config</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Default</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Activo__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ETC_Configuracion_FSC__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Config</targetReference>
+        </connector>
+        <filterFormula>ISBLANK({!$Record.ETC_Fecha_Compromiso__c})</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

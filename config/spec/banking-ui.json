@@ -1,0 +1,256 @@
+{
+  "extendLayouts": [
+    {
+      "layout": "Case-ETC_Caso_Layout",
+      "sections": [
+        {
+          "label": "Banca",
+          "left": [
+            [
+              "ETC_Cuenta_Financiera__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Monto_Reclamado__c"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Cuenta_Financiera_Layout",
+      "label": "ETC Cuenta financiera",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información de la cuenta",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "FinancialAccountNumber",
+              "Required"
+            ],
+            [
+              "Type",
+              "Required"
+            ],
+            [
+              "Status"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_CLABE__c"
+            ],
+            [
+              "ETC_Moneda__c"
+            ],
+            [
+              "ETC_Nivel_Cuenta__c"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Ciclo de vida",
+          "left": [
+            [
+              "OpeningDate"
+            ],
+            [
+              "ClosingDate"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Canal_Apertura__c"
+            ],
+            [
+              "BranchUnitId"
+            ]
+          ]
+        }
+      ],
+      "related": [
+        "FinancialAccountParties",
+        "FinancialAccountTransactions",
+        "FinancialAccountBalances",
+        "IssuedCards",
+        "Case.ETC_Cuenta_Financiera__c",
+        "RelatedActivityList",
+        "RelatedNoteList"
+      ]
+    }
+  ],
+  "recordPages": [
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Cuenta_Financiera_Record_Page",
+      "label": "ETC Cuenta financiera",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    }
+  ],
+  "listViews": [
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Mis_Cuentas_Financieras",
+      "label": "Mis cuentas financieras",
+      "scope": "Mine",
+      "columns": [
+        "Name",
+        "FinancialAccountNumber",
+        "Type",
+        "Status",
+        "ETC_Moneda__c"
+      ],
+      "filters": []
+    },
+    {
+      "object": "FinancialAccount",
+      "name": "ETC_Cuentas_Activas",
+      "label": "Cuentas activas",
+      "scope": "Everything",
+      "columns": [
+        "Name",
+        "FinancialAccountNumber",
+        "Type",
+        "ETC_Moneda__c",
+        "OpeningDate"
+      ],
+      "filters": [
+        [
+          "Status",
+          "equals",
+          "Active"
+        ]
+      ]
+    }
+  ],
+  "reportTypes": [
+    {
+      "name": "ETC_Cuentas_Financieras",
+      "label": "ETC Cuentas financieras",
+      "baseObject": "FinancialAccount",
+      "fields": [
+        "Name",
+        "FinancialAccountNumber",
+        "Type",
+        "Status",
+        "OpeningDate",
+        "ClosingDate",
+        "CreatedDate",
+        "ETC_Moneda__c",
+        "ETC_Nivel_Cuenta__c",
+        "ETC_Canal_Apertura__c"
+      ],
+      "catalog": "BNK-013"
+    }
+  ],
+  "reports": [
+    {
+      "name": "ETC_Cuentas_Por_Tipo",
+      "label": "Cuentas financieras por tipo",
+      "description": "Cuentas financieras agrupadas por tipo.",
+      "type": "ETC_Cuentas_Financieras__c",
+      "scope": "organization",
+      "columns": [
+        "FinancialAccount$Name",
+        "FinancialAccount$FinancialAccountNumber",
+        "FinancialAccount$Status",
+        "FinancialAccount$ETC_Moneda__c",
+        "FinancialAccount$OpeningDate"
+      ],
+      "groups": [
+        "FinancialAccount$Type"
+      ],
+      "time": [
+        "FinancialAccount$CreatedDate"
+      ],
+      "chart": [
+        "Donut",
+        "FinancialAccount$Type",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "BNK-013"
+    },
+    {
+      "name": "ETC_Aperturas_Por_Canal",
+      "label": "Aperturas por canal",
+      "description": "Cuentas abiertas en el año por canal de apertura.",
+      "type": "ETC_Cuentas_Financieras__c",
+      "scope": "organization",
+      "columns": [
+        "FinancialAccount$Name",
+        "FinancialAccount$Type",
+        "FinancialAccount$OpeningDate"
+      ],
+      "groups": [
+        "FinancialAccount$ETC_Canal_Apertura__c"
+      ],
+      "time": [
+        "FinancialAccount$OpeningDate",
+        "INTERVAL_CURY"
+      ],
+      "chart": [
+        "HorizontalBar",
+        "FinancialAccount$ETC_Canal_Apertura__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "BNK-013"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "ETC_Banca",
+      "title": "Banca",
+      "description": "Cuentas financieras por tipo y aperturas por canal.",
+      "metrics": [
+        {
+          "title": "Cuentas financieras",
+          "report": "ETC_Cuentas_Por_Tipo",
+          "col": "RowCount"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Cuentas por tipo",
+          "report": "ETC_Cuentas_Por_Tipo",
+          "type": "Donut"
+        },
+        {
+          "title": "Aperturas por canal (año)",
+          "report": "ETC_Aperturas_Por_Canal",
+          "type": "Bar"
+        }
+      ]
+    }
+  ]
+}

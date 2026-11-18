@@ -368,6 +368,9 @@ async function main() {
   };
   writeJson(BRANDING_FILE, branding);
 
+  // Regenera la metadata: las secciones de layouts, perfiles y páginas de la app dependen de la vertical.
+  const gen = spawnSync('npm', ['run', '-s', 'generate'], { cwd: ROOT, encoding: 'utf8' });
+  if (gen.status !== 0) fail(`npm run generate falló:\n${gen.stdout}${gen.stderr}`);
   console.log(c.green('✔ Configuración lista'));
   console.log(`  Cliente:    ${client || '(sin nombre)'}`);
   console.log(`  Vertical:   base común + ${labelOf(verticals)}  (config/implementation.json)`);

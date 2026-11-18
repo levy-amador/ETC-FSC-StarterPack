@@ -24,6 +24,12 @@
         <members>Contact.ETC_Nacionalidad__c</members>
         <members>Contact.ETC_Ocupacion__c</members>
         <members>Contact.ETC_Rol_Contacto__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Activo__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Dias_Aviso_Renovacion__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Dias_Aviso_Revision__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Dias_Compromiso_Aclaracion__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Dias_Compromiso_General__c</members>
+        <members>ETC_Configuracion_FSC__mdt.Dias_Vigencia_KYC__c</members>
         <members>FinancialAccount.ETC_CLABE__c</members>
         <members>FinancialAccount.ETC_Canal_Apertura__c</members>
         <members>FinancialAccount.ETC_Moneda__c</members>
@@ -35,6 +41,14 @@
         <members>Opportunity.ETC_Motivo_Perdida__c</members>
         <members>Opportunity.ETC_Producto_Interes__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>ETC_Configuracion_FSC.Default</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>ETC_Configuracion_FSC__mdt</members>
+        <name>CustomObject</name>
     </types>
     <version>68.0</version>
 </Package>

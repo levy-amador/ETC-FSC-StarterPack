@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ETC_Cierre_Requiere_Fecha</fullName>
-    <active>true</active>
-    <description>Una cuenta cerrada requiere fecha de cierre</description>
-    <errorConditionFormula>AND(ISPICKVAL(Status, &quot;Closed&quot;), ISBLANK(ClosingDate))</errorConditionFormula>
-    <errorMessage>Captura la fecha de cierre de la cuenta.</errorMessage>
-</ValidationRule>

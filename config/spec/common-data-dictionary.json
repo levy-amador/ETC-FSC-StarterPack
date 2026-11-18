@@ -486,11 +486,12 @@
     {
       "object": "Account",
       "name": "ETC_Cliente_Activo_Requiere_KYC",
-      "purpose": "Un cliente activo debe tener KYC aprobado",
-      "formula": "AND(ISPICKVAL(ETC_Tipo_Cliente__c, \"Cliente activo\"), NOT(ISPICKVAL(ETC_Estatus_KYC__c, \"Aprobado\")))",
+      "purpose": "Un cliente pasa a activo solo con KYC aprobado (al crear o al cambiar el tipo de cliente)",
+      "formula": "AND(ISPICKVAL(ETC_Tipo_Cliente__c, \"Cliente activo\"), NOT(ISPICKVAL(ETC_Estatus_KYC__c, \"Aprobado\")), OR(ISNEW(), ISCHANGED(ETC_Tipo_Cliente__c)))",
       "message": "Un cliente activo requiere estatus KYC Aprobado.",
       "catalog": "COM-028",
-      "askClient": "¿Se puede operar con un cliente cuyo KYC está en revisión?"
+      "askClient": "¿Se puede operar con un cliente cuyo KYC está en revisión?",
+      "note": "No bloquea que el flow de vencimiento marque como Vencido el KYC de un cliente ya activo."
     },
     {
       "object": "Contact",

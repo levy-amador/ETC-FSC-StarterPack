@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>68.0</apiVersion>
+    <assignments>
+        <name>Asignar_Revision</name>
+        <label>Asignar próxima revisión</label>
+        <locationX>0</locationX>
+        <locationY>150</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ETC_Proxima_Revision__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fxProxima</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Before-save: calcula la próxima revisión de cartera según la frecuencia (trimestral 90, semestral 180, anual 365 días) cuando se define o cambia la frecuencia (WLT-012).</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fxProxima</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + CASE(TEXT({!$Record.ETC_Frecuencia_Revision__c}), &quot;Trimestral&quot;, 90, &quot;Semestral&quot;, 180, 365)</expression>
+    </formulas>
+    <interviewLabel>ETC Cuenta · próxima revisión de cartera {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ETC Cuenta · próxima revisión de cartera</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Asignar_Revision</targetReference>
+        </connector>
+        <filterFormula>AND(NOT(ISBLANK(TEXT({!$Record.ETC_Frecuencia_Revision__c}))), OR(ISBLANK({!$Record.ETC_Proxima_Revision__c}), ISCHANGED({!$Record.ETC_Frecuencia_Revision__c})))</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

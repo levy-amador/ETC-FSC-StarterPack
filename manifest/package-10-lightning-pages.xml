@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>ETC_Caso_Record_Page</members>
+        <members>ETC_Contacto_Record_Page</members>
+        <members>ETC_Cuenta_Financiera_Record_Page</members>
+        <members>ETC_Cuenta_Record_Page</members>
+        <members>ETC_Oportunidad_Record_Page</members>
+        <members>ETC_Prospecto_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Account.ETC_Clientes_Activos</members>
+        <members>Account.ETC_KYC_Por_Atender</members>
+        <members>Account.ETC_Mis_Clientes</members>
+        <members>Case.ETC_Aclaraciones_Quejas</members>
+        <members>Case.ETC_Casos_Vencidos</members>
+        <members>Case.ETC_Mis_Casos_Abiertos</members>
+        <members>FinancialAccount.ETC_Cuentas_Activas</members>
+        <members>FinancialAccount.ETC_Mis_Cuentas_Financieras</members>
+        <members>Lead.ETC_Mis_Prospectos</members>
+        <members>Opportunity.ETC_Mis_Oportunidades_Abiertas</members>
+        <name>ListView</name>
+    </types>
+    <version>68.0</version>
+</Package>

@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ETC_Cliente_Activo_Requiere_KYC</fullName>
     <active>true</active>
-    <description>Un cliente activo debe tener KYC aprobado</description>
-    <errorConditionFormula>AND(ISPICKVAL(ETC_Tipo_Cliente__c, &quot;Cliente activo&quot;), NOT(ISPICKVAL(ETC_Estatus_KYC__c, &quot;Aprobado&quot;)))</errorConditionFormula>
+    <description>Un cliente pasa a activo solo con KYC aprobado (al crear o al cambiar el tipo de cliente)</description>
+    <errorConditionFormula>AND(ISPICKVAL(ETC_Tipo_Cliente__c, &quot;Cliente activo&quot;), NOT(ISPICKVAL(ETC_Estatus_KYC__c, &quot;Aprobado&quot;)), OR(ISNEW(), ISCHANGED(ETC_Tipo_Cliente__c)))</errorConditionFormula>
     <errorMessage>Un cliente activo requiere estatus KYC Aprobado.</errorMessage>
 </ValidationRule>

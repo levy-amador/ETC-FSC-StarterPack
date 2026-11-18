@@ -29,3 +29,22 @@
 3. Asignar a los administradores `ETC_FSC_<Vertical>_Administracion`: el perfil Administrador solo da acceso de campo a la base común.
 4. Asignar las **licencias FSC** (PSL) correspondientes: FSC Sales, FSC Service, FSC Insurance, etc.
 5. Cargar o integrar los datos maestros (sucursales, productos) que correspondan a la vertical.
+
+## Experiencia por vertical
+
+Los layouts de la base común reciben secciones de la vertical activa (por ejemplo, Banca agrega "Cuenta financiera" al layout de casos). También dependen de la vertical la asignación de layouts en los perfiles y las páginas en la app. `npm run configure` regenera todo (`npm run generate`) y deja la marca en `config/generated-ui.json`; `npm run build` se detiene si la marca no coincide con la vertical del build.
+
+## Umbrales de los flows
+
+Los días de vigencia KYC, la fecha compromiso de casos y los avisos de renovación y revisión están en Custom Metadata `ETC_Configuracion_FSC__mdt` (registro `Default`). Los valores iniciales están en `config/spec/common-settings.json` (Supuesto: se confirman con el cliente y no son plazos regulatorios).
+
+## Verificación manual de flows programados
+
+Los flows programados corren a diario (07:00 UTC). Para verificarlos sin esperar: Setup › Flows › abrir el flow › Depurar, con un registro que cumpla la condición.
+- `ETC_Cuenta_KYC_Vencimiento`: cuenta con KYC Aprobado y fecha de revisión anterior a la vigencia.
+- `ETC_Poliza_Aviso_Renovacion` (Seguros): póliza que vence en los días de aviso.
+- `ETC_Revision_Cartera_Aviso` (Patrimonial): cuenta con próxima revisión en los días de aviso.
+
+## Integraciones y cargas de datos
+
+Las reglas de duplicados alertan en pantalla, pero por API **rechazan** el registro duplicado. Las integraciones, migraciones y cargas con Data Loader deben decidir explícitamente si permiten duplicados (`DuplicateRuleHeader.allowSave = true`) o limpiarlos antes.

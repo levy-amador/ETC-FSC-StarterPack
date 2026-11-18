@@ -9,7 +9,7 @@
 //   - genera el cambio de OWD sobre la definición actual de cada objeto (sin alterar otras propiedades).
 const fs = require('fs');
 const path = require('path');
-const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, query, targetOrg, listFiles, moduleSrc } = require('../lib/common');
+const { ROOT, c, fail, parseArgs, readJson, writeJson, sf, query, targetOrg, listFiles, moduleSrc, syncDuplicates } = require('../lib/common');
 const { resolveVerticals, activeModules, labelOf } = require('../lib/vertical');
 const { STAGES, componentOf } = require('./stages');
 
@@ -169,8 +169,14 @@ function sequenceDuplicateRules(stageDir) {
 let ORG;
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  const dups = syncDuplicates(['modules', 'config']);
+  if (dups.length) fail(`Hay ${dups.length} copias " 2" (sincronización de iCloud/Dropbox). Mueve el proyecto fuera de carpetas sincronizadas y bórralas:\n  ${dups.slice(0, 10).join('\n  ')}`);
   const selected = await resolveVerticals(args, { interactive: true });
   const mods = activeModules(selected);
+  const ui = readJson(path.join(ROOT, 'config', 'generated-ui.json'), { verticals: [] });
+  if ([...ui.verticals].sort().join(',') !== [...selected].sort().join(',')) {
+    fail(`La interfaz (layouts, perfiles y app) se generó para "${ui.verticals.join(',') || 'sin vertical'}" y el build es para "${selected.join(',')}". Ejecuta npm run configure (o node scripts/generate/gen-ui.js --vertical ${selected.join(',')}).`);
+  }
   ORG = args['skip-org'] ? null : targetOrg(args);
   console.log(c.bold(`Build · base común + ${labelOf(selected)}${ORG ? ` · org ${ORG}` : ' · sin org'}`));
   const stages = collect(mods);

@@ -1,0 +1,477 @@
+{
+  "extendLayouts": [
+    {
+      "layout": "Case-ETC_Caso_Layout",
+      "sections": [
+        {
+          "label": "Seguros",
+          "left": [
+            [
+              "ETC_Poliza__c"
+            ]
+          ],
+          "right": null
+        }
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Poliza_Layout",
+      "label": "ETC Póliza",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información de la póliza",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "PolicyName"
+            ],
+            [
+              "NameInsuredId",
+              "Required"
+            ],
+            [
+              "PolicyType"
+            ],
+            [
+              "ETC_Ramo__c"
+            ]
+          ],
+          "right": [
+            [
+              "Status"
+            ],
+            [
+              "ETC_Aseguradora__c"
+            ],
+            [
+              "ProducerId"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Vigencia",
+          "left": [
+            [
+              "EffectiveDate"
+            ],
+            [
+              "ExpirationDate"
+            ]
+          ],
+          "right": [
+            [
+              "RenewalDate"
+            ],
+            [
+              "CancellationDate"
+            ]
+          ]
+        },
+        {
+          "label": "Prima y cobro",
+          "left": [
+            [
+              "PremiumAmount"
+            ],
+            [
+              "PremiumFrequency"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Moneda__c"
+            ],
+            [
+              "ETC_Conducto_Cobro__c"
+            ]
+          ]
+        },
+        {
+          "label": "Descripción",
+          "left": [
+            [
+              "PolicyDescription"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "InsurancePolicyCoverages",
+        "InsurancePolicyParticipants",
+        "InsurancePolicyAssets",
+        "Claims",
+        "Case.ETC_Poliza__c",
+        "RelatedActivityList",
+        "RelatedNoteList"
+      ]
+    },
+    {
+      "object": "Claim",
+      "name": "ETC_Siniestro_Layout",
+      "label": "ETC Siniestro",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información del siniestro",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "PolicyNumberId"
+            ],
+            [
+              "AccountId"
+            ],
+            [
+              "ClaimType"
+            ]
+          ],
+          "right": [
+            [
+              "Status"
+            ],
+            [
+              "Severity"
+            ],
+            [
+              "ETC_Numero_Siniestro_Aseguradora__c"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Fechas",
+          "left": [
+            [
+              "LossDate"
+            ],
+            [
+              "InitiationDate"
+            ]
+          ],
+          "right": [
+            [
+              "AssessmentDate"
+            ],
+            [
+              "FinalizedDate"
+            ]
+          ]
+        },
+        {
+          "label": "Montos",
+          "left": [
+            [
+              "EstimatedAmount"
+            ],
+            [
+              "ApprovedAmount"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Deducible_Aplicado__c"
+            ],
+            [
+              "ETC_Coaseguro_Aplicado__c"
+            ]
+          ]
+        },
+        {
+          "label": "Descripción",
+          "left": [
+            [
+              "Summary"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "ClaimParticipants",
+        "ClaimItems",
+        "RelatedActivityList",
+        "RelatedNoteList"
+      ]
+    }
+  ],
+  "recordPages": [
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Poliza_Record_Page",
+      "label": "ETC Póliza",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    },
+    {
+      "object": "Claim",
+      "name": "ETC_Siniestro_Record_Page",
+      "label": "ETC Siniestro",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    }
+  ],
+  "listViews": [
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Mis_Polizas",
+      "label": "Mis pólizas",
+      "scope": "Mine",
+      "columns": [
+        "Name",
+        "PolicyName",
+        "ETC_Ramo__c",
+        "Status",
+        "ExpirationDate"
+      ],
+      "filters": []
+    },
+    {
+      "object": "InsurancePolicy",
+      "name": "ETC_Polizas_Por_Vencer",
+      "label": "Pólizas por vencer (30 días)",
+      "scope": "Everything",
+      "columns": [
+        "Name",
+        "PolicyName",
+        "ETC_Ramo__c",
+        "ExpirationDate",
+        "ETC_Aseguradora__c"
+      ],
+      "filters": [
+        [
+          "ExpirationDate",
+          "equals",
+          "NEXT_N_DAYS:30"
+        ]
+      ]
+    },
+    {
+      "object": "Claim",
+      "name": "ETC_Siniestros_Abiertos",
+      "label": "Siniestros abiertos",
+      "scope": "Everything",
+      "columns": [
+        "Name",
+        "ClaimType",
+        "Status",
+        "LossDate",
+        "EstimatedAmount"
+      ],
+      "filters": [
+        [
+          "Status",
+          "notEqual",
+          "Closed"
+        ]
+      ]
+    }
+  ],
+  "reportTypes": [
+    {
+      "name": "ETC_Polizas",
+      "label": "ETC Pólizas",
+      "baseObject": "InsurancePolicy",
+      "fields": [
+        "Name",
+        "PolicyName",
+        "PolicyType",
+        "Status",
+        "EffectiveDate",
+        "ExpirationDate",
+        "PremiumAmount",
+        "CreatedDate",
+        "ETC_Ramo__c",
+        "ETC_Aseguradora__c",
+        "ETC_Moneda__c"
+      ],
+      "catalog": "INS-012"
+    },
+    {
+      "name": "ETC_Siniestros",
+      "label": "ETC Siniestros",
+      "baseObject": "Claim",
+      "fields": [
+        "Name",
+        "ClaimType",
+        "Status",
+        "LossDate",
+        "EstimatedAmount",
+        "ApprovedAmount",
+        "CreatedDate",
+        "ETC_Numero_Siniestro_Aseguradora__c"
+      ],
+      "catalog": "INS-012"
+    }
+  ],
+  "reports": [
+    {
+      "name": "ETC_Polizas_Por_Ramo",
+      "label": "Pólizas por ramo",
+      "description": "Pólizas agrupadas por ramo con prima total.",
+      "type": "ETC_Polizas__c",
+      "scope": "organization",
+      "columns": [
+        "InsurancePolicy$Name",
+        "InsurancePolicy$PolicyName",
+        "InsurancePolicy$Status",
+        [
+          "InsurancePolicy$PremiumAmount",
+          "Sum"
+        ],
+        "InsurancePolicy$ExpirationDate"
+      ],
+      "groups": [
+        "InsurancePolicy$ETC_Ramo__c"
+      ],
+      "time": [
+        "InsurancePolicy$CreatedDate"
+      ],
+      "chart": [
+        "Donut",
+        "InsurancePolicy$ETC_Ramo__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "INS-012"
+    },
+    {
+      "name": "ETC_Polizas_Por_Vencer",
+      "label": "Pólizas por vencer (30 días)",
+      "description": "Pólizas con fin de vigencia en los próximos 30 días.",
+      "type": "ETC_Polizas__c",
+      "scope": "organization",
+      "columns": [
+        "InsurancePolicy$Name",
+        "InsurancePolicy$PolicyName",
+        "InsurancePolicy$ETC_Ramo__c",
+        "InsurancePolicy$ExpirationDate"
+      ],
+      "groups": [
+        "InsurancePolicy$ETC_Aseguradora__c"
+      ],
+      "time": [
+        "InsurancePolicy$ExpirationDate",
+        "INTERVAL_NEXT30"
+      ],
+      "chart": [
+        "HorizontalBar",
+        "InsurancePolicy$ETC_Aseguradora__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "INS-007"
+    },
+    {
+      "name": "ETC_Siniestros_Por_Estado",
+      "label": "Siniestros por estado",
+      "description": "Siniestros agrupados por estado con monto estimado.",
+      "type": "ETC_Siniestros__c",
+      "scope": "organization",
+      "columns": [
+        "Claim$Name",
+        "Claim$ClaimType",
+        "Claim$LossDate",
+        [
+          "Claim$EstimatedAmount",
+          "Sum"
+        ]
+      ],
+      "groups": [
+        "Claim$Status"
+      ],
+      "time": [
+        "Claim$CreatedDate"
+      ],
+      "chart": [
+        "Donut",
+        "Claim$Status",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "INS-012"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "ETC_Seguros",
+      "title": "Seguros",
+      "description": "Pólizas por ramo, vencimientos próximos y siniestros.",
+      "metrics": [
+        {
+          "title": "Pólizas",
+          "report": "ETC_Polizas_Por_Ramo",
+          "col": "RowCount"
+        },
+        {
+          "title": "Por vencer (30 días)",
+          "report": "ETC_Polizas_Por_Vencer",
+          "col": "RowCount"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Pólizas por ramo",
+          "report": "ETC_Polizas_Por_Ramo",
+          "type": "Donut"
+        },
+        {
+          "title": "Por vencer por aseguradora",
+          "report": "ETC_Polizas_Por_Vencer",
+          "type": "Bar"
+        },
+        {
+          "title": "Siniestros por estado",
+          "report": "ETC_Siniestros_Por_Estado",
+          "type": "Donut"
+        }
+      ]
+    }
+  ]
+}

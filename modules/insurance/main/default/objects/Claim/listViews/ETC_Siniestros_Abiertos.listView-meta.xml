@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Siniestros_Abiertos</fullName>
+    <columns>Name</columns>
+    <columns>ClaimType</columns>
+    <columns>Status</columns>
+    <columns>LossDate</columns>
+    <columns>EstimatedAmount</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status</field>
+        <operation>notEqual</operation>
+        <value>Closed</value>
+    </filters>
+    <label>Siniestros abiertos</label>
+</ListView>

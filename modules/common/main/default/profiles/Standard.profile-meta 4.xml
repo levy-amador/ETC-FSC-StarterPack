@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>false</custom>
+    <layoutAssignments>
+        <layout>Account-ETC_Empresa_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-ETC_Empresa_Layout</layout>
+        <recordType>Account.ETC_Empresa</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-ETC_Caso_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-ETC_Contacto_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FinancialAccount-ETC_Cuenta_Financiera_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-ETC_Prospecto_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-ETC_Oportunidad_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PersonAccount-ETC_Persona_Layout</layout>
+        <recordType>PersonAccount.PersonAccount</recordType>
+    </layoutAssignments>
+</Profile>

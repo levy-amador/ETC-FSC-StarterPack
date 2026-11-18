@@ -22,6 +22,7 @@ for (const m of summary.modules) {
   const src = moduleSrc(m);
   for (const f of listFiles(src)) {
     const comp = componentOf(path.relative(src, f).split(path.sep).join('/'));
+    if (comp && comp[0] === 'CustomField' && comp[1].split('.')[0].endsWith('__mdt')) continue; // campos de Custom Metadata (sin prefijo ETC_)
     if (comp && comp[0] === 'MatchingRules') { local.MatchingRules = (local.MatchingRules || 0) + (fs.readFileSync(f, 'utf8').match(/<matchingRules>/g) || []).length; continue; }
     if (comp && !(comp[0] === 'Report' && f.endsWith('.reportFolder-meta.xml')) && !(comp[0] === 'Dashboard' && f.endsWith('.dashboardFolder-meta.xml'))) local[comp[0]] = (local[comp[0]] || 0) + 1;
   }
@@ -37,6 +38,7 @@ const CHECKS = {
   DuplicateRule: () => n("SELECT Id FROM DuplicateRule WHERE DeveloperName LIKE 'ETC_%' AND IsActive = true"),
   Flow: () => n("SELECT Id FROM FlowDefinitionView WHERE ApiName LIKE 'ETC_%' AND IsActive = true"),
   FlexiPage: () => n("SELECT Id FROM FlexiPage WHERE DeveloperName LIKE 'ETC_%'", true),
+  Layout: () => n("SELECT Id FROM Layout WHERE Name LIKE 'ETC%'", true),
   ListView: () => n("SELECT Id FROM ListView WHERE DeveloperName LIKE 'ETC_%'"),
   PermissionSet: () => n("SELECT Id FROM PermissionSet WHERE Name LIKE 'ETC_%' AND Type = 'Regular'"),
   PermissionSetGroup: () => n("SELECT Id FROM PermissionSetGroup WHERE DeveloperName LIKE 'ETC_%' AND Status = 'Updated'"),

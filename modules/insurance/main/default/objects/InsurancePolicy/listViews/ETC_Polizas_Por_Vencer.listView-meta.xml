@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Polizas_Por_Vencer</fullName>
+    <columns>Name</columns>
+    <columns>PolicyName</columns>
+    <columns>ETC_Ramo__c</columns>
+    <columns>ExpirationDate</columns>
+    <columns>ETC_Aseguradora__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ExpirationDate</field>
+        <operation>equals</operation>
+        <value>NEXT_N_DAYS:30</value>
+    </filters>
+    <label>Pólizas por vencer (30 días)</label>
+</ListView>

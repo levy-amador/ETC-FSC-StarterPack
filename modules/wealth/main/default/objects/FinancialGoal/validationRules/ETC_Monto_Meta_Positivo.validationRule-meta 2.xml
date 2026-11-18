@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ETC_Monto_Meta_Positivo</fullName>
-    <active>true</active>
-    <description>El monto meta debe ser mayor a cero</description>
-    <errorConditionFormula>AND(NOT(ISBLANK(TargetAmount)), TargetAmount &lt;= 0)</errorConditionFormula>
-    <errorMessage>El monto meta debe ser mayor a cero.</errorMessage>
-</ValidationRule>

@@ -1,0 +1,53 @@
+{
+  "description": "Valores predeterminados de ETC_Configuracion_FSC__mdt (registro Default). Se ajustan por cliente sin modificar los flows.",
+  "status": "Base ETC predeterminada (Supuesto: plazos a confirmar con el cliente; no representan plazos regulatorios)",
+  "fields": [
+    {
+      "apiName": "Activo__c",
+      "label": "Activo",
+      "type": "Checkbox",
+      "value": true,
+      "description": "Solo el registro activo se usa en los flows."
+    },
+    {
+      "apiName": "Dias_Vigencia_KYC__c",
+      "label": "Días de vigencia KYC",
+      "type": "Number",
+      "value": 365,
+      "description": "Días después de la última revisión para marcar el KYC como Vencido.",
+      "catalog": "COM-028"
+    },
+    {
+      "apiName": "Dias_Compromiso_Aclaracion__c",
+      "label": "Días compromiso aclaración/queja",
+      "type": "Number",
+      "value": 30,
+      "description": "Plazo de respuesta para aclaraciones y quejas.",
+      "catalog": "COM-025"
+    },
+    {
+      "apiName": "Dias_Compromiso_General__c",
+      "label": "Días compromiso general",
+      "type": "Number",
+      "value": 5,
+      "description": "Plazo de respuesta para los demás casos.",
+      "catalog": "COM-025"
+    },
+    {
+      "apiName": "Dias_Aviso_Renovacion__c",
+      "label": "Días de aviso de renovación",
+      "type": "Number",
+      "value": 30,
+      "description": "Días antes del fin de vigencia para crear la tarea de renovación (Seguros).",
+      "catalog": "INS-007"
+    },
+    {
+      "apiName": "Dias_Aviso_Revision__c",
+      "label": "Días de aviso de revisión",
+      "type": "Number",
+      "value": 7,
+      "description": "Días antes de la próxima revisión de cartera para crear la tarea (Patrimonial).",
+      "catalog": "WLT-012"
+    }
+  ]
+}

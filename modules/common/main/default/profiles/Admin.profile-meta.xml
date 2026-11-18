@@ -141,6 +141,29 @@
         <field>Opportunity.ETC_Producto_Interes__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>Account-ETC_Empresa_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-ETC_Empresa_Layout</layout>
+        <recordType>Account.ETC_Empresa</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-ETC_Caso_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-ETC_Contacto_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-ETC_Prospecto_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-ETC_Oportunidad_Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PersonAccount-ETC_Persona_Layout</layout>
+        <recordType>PersonAccount.PersonAccount</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Account.ETC_Empresa</recordType>

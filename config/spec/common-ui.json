@@ -1,0 +1,1230 @@
+{
+  "layouts": [
+    {
+      "object": "Account",
+      "name": "ETC_Empresa_Layout",
+      "label": "ETC Empresa",
+      "assign": [
+        {
+          "recordType": null
+        },
+        {
+          "recordType": "Account.ETC_Empresa"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información general",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "ETC_RFC__c"
+            ],
+            [
+              "ETC_Regimen_Fiscal__c"
+            ],
+            [
+              "ParentId"
+            ]
+          ],
+          "right": [
+            [
+              "Industry"
+            ],
+            [
+              "AnnualRevenue"
+            ],
+            [
+              "NumberOfEmployees"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Segmentación",
+          "left": [
+            [
+              "ETC_Segmento__c"
+            ],
+            [
+              "ETC_Tipo_Cliente__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Cliente_Desde__c"
+            ],
+            [
+              "AccountSource"
+            ]
+          ]
+        },
+        {
+          "label": "Cumplimiento (KYC/PLD)",
+          "left": [
+            [
+              "ETC_Estatus_KYC__c"
+            ],
+            [
+              "ETC_Fecha_Revision_KYC__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Nivel_Riesgo__c"
+            ]
+          ]
+        },
+        {
+          "label": "Contacto",
+          "left": [
+            [
+              "Phone"
+            ],
+            [
+              "Website"
+            ]
+          ],
+          "right": [
+            [
+              "BillingAddress"
+            ]
+          ]
+        },
+        {
+          "label": "Información adicional",
+          "left": [
+            [
+              "Description"
+            ],
+            [
+              "ETC_Observaciones__c"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "RelatedContactList",
+        "RelatedAccountContactRelationList",
+        "RelatedOpportunityList",
+        "RelatedCaseList",
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedNoteList"
+      ]
+    },
+    {
+      "object": "PersonAccount",
+      "name": "ETC_Persona_Layout",
+      "label": "ETC Persona",
+      "assign": [
+        {
+          "recordType": "PersonAccount.PersonAccount"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información personal",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "ETC_CURP__pc"
+            ],
+            [
+              "ETC_RFC__c"
+            ],
+            [
+              "PersonBirthdate"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Estado_Civil__pc"
+            ],
+            [
+              "ETC_Ocupacion__pc"
+            ],
+            [
+              "ETC_Nacionalidad__pc"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Contacto",
+          "left": [
+            [
+              "PersonEmail"
+            ],
+            [
+              "PersonMobilePhone"
+            ],
+            [
+              "Phone"
+            ]
+          ],
+          "right": [
+            [
+              "PersonMailingAddress"
+            ],
+            [
+              "ETC_Canal_Preferido__pc"
+            ]
+          ]
+        },
+        {
+          "label": "Segmentación",
+          "left": [
+            [
+              "ETC_Segmento__c"
+            ],
+            [
+              "ETC_Tipo_Cliente__c"
+            ],
+            [
+              "ETC_Regimen_Fiscal__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Cliente_Desde__c"
+            ],
+            [
+              "AccountSource"
+            ]
+          ]
+        },
+        {
+          "label": "Cumplimiento (KYC/PLD)",
+          "left": [
+            [
+              "ETC_Estatus_KYC__c"
+            ],
+            [
+              "ETC_Fecha_Revision_KYC__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Nivel_Riesgo__c"
+            ]
+          ]
+        },
+        {
+          "label": "Privacidad y consentimiento",
+          "left": [
+            [
+              "ETC_Autoriza_Comunicaciones__pc"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Fecha_Aviso_Privacidad__pc"
+            ]
+          ]
+        },
+        {
+          "label": "Información adicional",
+          "left": [
+            [
+              "Description"
+            ],
+            [
+              "ETC_Observaciones__c"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "RelatedOpportunityList",
+        "RelatedCaseList",
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedNoteList"
+      ]
+    },
+    {
+      "object": "Contact",
+      "name": "ETC_Contacto_Layout",
+      "label": "ETC Contacto",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información del contacto",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "AccountId"
+            ],
+            [
+              "Title"
+            ],
+            [
+              "ETC_Rol_Contacto__c"
+            ]
+          ],
+          "right": [
+            [
+              "Email"
+            ],
+            [
+              "Phone"
+            ],
+            [
+              "MobilePhone"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Datos personales",
+          "left": [
+            [
+              "ETC_CURP__c"
+            ],
+            [
+              "Birthdate"
+            ],
+            [
+              "ETC_Estado_Civil__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Ocupacion__c"
+            ],
+            [
+              "ETC_Nacionalidad__c"
+            ]
+          ]
+        },
+        {
+          "label": "Preferencias y consentimiento",
+          "left": [
+            [
+              "ETC_Canal_Preferido__c"
+            ],
+            [
+              "ETC_Autoriza_Comunicaciones__c"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Fecha_Aviso_Privacidad__c"
+            ]
+          ]
+        },
+        {
+          "label": "Dirección",
+          "left": [
+            [
+              "MailingAddress"
+            ]
+          ],
+          "right": null
+        },
+        {
+          "label": "Información adicional",
+          "left": [
+            [
+              "Description"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "RelatedCaseList",
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedNoteList"
+      ]
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Caso_Layout",
+      "label": "ETC Caso",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información del caso",
+          "left": [
+            [
+              "CaseNumber",
+              "Readonly"
+            ],
+            [
+              "AccountId"
+            ],
+            [
+              "ContactId"
+            ],
+            [
+              "Subject"
+            ]
+          ],
+          "right": [
+            [
+              "Status",
+              "Required"
+            ],
+            [
+              "Priority"
+            ],
+            [
+              "Origin"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Clasificación",
+          "left": [
+            [
+              "Type"
+            ],
+            [
+              "Reason"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Folio_Externo__c"
+            ],
+            [
+              "ETC_Fecha_Compromiso__c"
+            ]
+          ]
+        },
+        {
+          "label": "Descripción",
+          "left": [
+            [
+              "Description"
+            ]
+          ],
+          "right": null
+        },
+        {
+          "label": "Remitente (web o correo)",
+          "left": [
+            [
+              "SuppliedName"
+            ],
+            [
+              "SuppliedEmail"
+            ]
+          ],
+          "right": [
+            [
+              "SuppliedPhone"
+            ],
+            [
+              "SuppliedCompany"
+            ]
+          ]
+        },
+        {
+          "label": "Resolución",
+          "left": [
+            [
+              "ETC_Dictamen__c"
+            ],
+            [
+              "ETC_Resolucion__c"
+            ]
+          ],
+          "right": [
+            [
+              "ClosedDate",
+              "Readonly"
+            ]
+          ]
+        }
+      ],
+      "related": [
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedCommentsList",
+        "RelatedAttachmentList"
+      ]
+    },
+    {
+      "object": "Opportunity",
+      "name": "ETC_Oportunidad_Layout",
+      "label": "ETC Oportunidad",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información general",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "AccountId"
+            ],
+            [
+              "Type"
+            ],
+            [
+              "ETC_Producto_Interes__c"
+            ]
+          ],
+          "right": [
+            [
+              "StageName",
+              "Required"
+            ],
+            [
+              "CloseDate",
+              "Required"
+            ],
+            [
+              "Amount"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Seguimiento",
+          "left": [
+            [
+              "NextStep"
+            ],
+            [
+              "LeadSource"
+            ]
+          ],
+          "right": [
+            [
+              "Probability"
+            ]
+          ]
+        },
+        {
+          "label": "Cierre",
+          "left": [
+            [
+              "ETC_Motivo_Perdida__c"
+            ]
+          ],
+          "right": [
+            [
+              "Description"
+            ]
+          ]
+        }
+      ],
+      "related": [
+        "RelatedContactRoleList",
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedNoteList"
+      ]
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_Prospecto_Layout",
+      "label": "ETC Prospecto",
+      "assign": [
+        {
+          "recordType": null
+        }
+      ],
+      "sections": [
+        {
+          "label": "Información del prospecto",
+          "left": [
+            [
+              "Name",
+              "Required"
+            ],
+            [
+              "Company"
+            ],
+            [
+              "Title"
+            ],
+            [
+              "ETC_RFC__c"
+            ]
+          ],
+          "right": [
+            [
+              "Status",
+              "Required"
+            ],
+            [
+              "LeadSource"
+            ],
+            [
+              "ETC_Segmento__c"
+            ],
+            [
+              "OwnerId"
+            ]
+          ]
+        },
+        {
+          "label": "Contacto",
+          "left": [
+            [
+              "Email"
+            ],
+            [
+              "Phone"
+            ]
+          ],
+          "right": [
+            [
+              "MobilePhone"
+            ],
+            [
+              "Address"
+            ]
+          ]
+        },
+        {
+          "label": "Interés",
+          "left": [
+            [
+              "ETC_Producto_Interes__c"
+            ],
+            [
+              "Industry"
+            ]
+          ],
+          "right": [
+            [
+              "ETC_Motivo_Descalificacion__c"
+            ]
+          ]
+        },
+        {
+          "label": "Información adicional",
+          "left": [
+            [
+              "Description"
+            ]
+          ],
+          "right": null
+        }
+      ],
+      "related": [
+        "RelatedActivityList",
+        "RelatedHistoryList",
+        "RelatedNoteList"
+      ]
+    }
+  ],
+  "recordPages": [
+    {
+      "object": "Account",
+      "name": "ETC_Cuenta_Record_Page",
+      "label": "ETC Cuenta",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    },
+    {
+      "object": "Contact",
+      "name": "ETC_Contacto_Record_Page",
+      "label": "ETC Contacto",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Caso_Record_Page",
+      "label": "ETC Caso",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    },
+    {
+      "object": "Opportunity",
+      "name": "ETC_Oportunidad_Record_Page",
+      "label": "ETC Oportunidad",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_Prospecto_Record_Page",
+      "label": "ETC Prospecto",
+      "tabs": [
+        [
+          "detail",
+          "Detalles",
+          "detail"
+        ],
+        [
+          "related",
+          "Relacionados",
+          "related"
+        ]
+      ]
+    }
+  ],
+  "listViews": [
+    {
+      "object": "Account",
+      "name": "ETC_Mis_Clientes",
+      "label": "Mis clientes",
+      "scope": "Mine",
+      "columns": [
+        "ACCOUNT.NAME",
+        "ETC_Segmento__c",
+        "ETC_Tipo_Cliente__c",
+        "ETC_Estatus_KYC__c",
+        "ACCOUNT.LAST_ACTIVITY",
+        "CORE.USERS.ALIAS"
+      ],
+      "filters": []
+    },
+    {
+      "object": "Account",
+      "name": "ETC_Clientes_Activos",
+      "label": "Clientes activos",
+      "scope": "Everything",
+      "columns": [
+        "ACCOUNT.NAME",
+        "ETC_Segmento__c",
+        "ETC_Estatus_KYC__c",
+        "CORE.USERS.ALIAS"
+      ],
+      "filters": [
+        [
+          "ETC_Tipo_Cliente__c",
+          "equals",
+          "Cliente activo"
+        ]
+      ]
+    },
+    {
+      "object": "Account",
+      "name": "ETC_KYC_Por_Atender",
+      "label": "KYC por atender",
+      "scope": "Everything",
+      "columns": [
+        "ACCOUNT.NAME",
+        "ETC_Tipo_Cliente__c",
+        "ETC_Estatus_KYC__c",
+        "ETC_Fecha_Revision_KYC__c",
+        "CORE.USERS.ALIAS"
+      ],
+      "filters": [
+        [
+          "ETC_Estatus_KYC__c",
+          "equals",
+          "Pendiente,En revisión,Vencido"
+        ]
+      ]
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Mis_Casos_Abiertos",
+      "label": "Mis casos abiertos",
+      "scope": "Mine",
+      "columns": [
+        "CASES.CASE_NUMBER",
+        "CASES.SUBJECT",
+        "ACCOUNT.NAME",
+        "CASES.STATUS",
+        "CASES.PRIORITY",
+        "ETC_Fecha_Compromiso__c"
+      ],
+      "filters": [
+        [
+          "CASES.CLOSED",
+          "equals",
+          "0"
+        ]
+      ]
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Aclaraciones_Quejas",
+      "label": "Aclaraciones y quejas abiertas",
+      "scope": "Everything",
+      "columns": [
+        "CASES.CASE_NUMBER",
+        "CASES.SUBJECT",
+        "ACCOUNT.NAME",
+        "CASES.TYPE",
+        "CASES.STATUS",
+        "ETC_Fecha_Compromiso__c",
+        "CORE.USERS.ALIAS"
+      ],
+      "filters": [
+        [
+          "CASES.TYPE",
+          "equals",
+          "Aclaración,Queja"
+        ],
+        [
+          "CASES.CLOSED",
+          "equals",
+          "0"
+        ]
+      ]
+    },
+    {
+      "object": "Case",
+      "name": "ETC_Casos_Vencidos",
+      "label": "Casos con compromiso vencido",
+      "scope": "Everything",
+      "columns": [
+        "CASES.CASE_NUMBER",
+        "CASES.SUBJECT",
+        "ACCOUNT.NAME",
+        "CASES.STATUS",
+        "ETC_Fecha_Compromiso__c",
+        "CORE.USERS.ALIAS"
+      ],
+      "filters": [
+        [
+          "ETC_Fecha_Compromiso__c",
+          "lessThan",
+          "TODAY"
+        ],
+        [
+          "CASES.CLOSED",
+          "equals",
+          "0"
+        ]
+      ]
+    },
+    {
+      "object": "Opportunity",
+      "name": "ETC_Mis_Oportunidades_Abiertas",
+      "label": "Mis oportunidades abiertas",
+      "scope": "Mine",
+      "columns": [
+        "OPPORTUNITY.NAME",
+        "ACCOUNT.NAME",
+        "OPPORTUNITY.STAGE_NAME",
+        "OPPORTUNITY.AMOUNT",
+        "OPPORTUNITY.CLOSE_DATE",
+        "ETC_Producto_Interes__c"
+      ],
+      "filters": [
+        [
+          "OPPORTUNITY.CLOSED",
+          "equals",
+          "0"
+        ]
+      ]
+    },
+    {
+      "object": "Lead",
+      "name": "ETC_Mis_Prospectos",
+      "label": "Mis prospectos",
+      "scope": "Mine",
+      "columns": [
+        "FULL_NAME",
+        "LEAD.COMPANY",
+        "LEAD.EMAIL",
+        "LEAD.STATUS",
+        "LEAD.LEAD_SOURCE",
+        "ETC_Producto_Interes__c",
+        "LEAD.CREATED_DATE"
+      ],
+      "filters": [
+        [
+          "LEAD.CONVERTED",
+          "equals",
+          "0"
+        ]
+      ]
+    }
+  ],
+  "reportFolder": {
+    "name": "ETC_Reportes_FSC",
+    "label": "ETC Reportes FSC",
+    "shareRole": "ETC_Direccion"
+  },
+  "dashboardFolder": {
+    "name": "ETC_Dashboards_FSC",
+    "label": "ETC Dashboards FSC",
+    "shareRole": "ETC_Direccion"
+  },
+  "reports": [
+    {
+      "name": "ETC_Clientes_Por_Segmento",
+      "label": "Clientes por segmento",
+      "description": "Cuentas agrupadas por segmento.",
+      "type": "AccountList",
+      "scope": "organization",
+      "columns": [
+        "ACCOUNT.NAME",
+        "TYPE",
+        "Account.ETC_Tipo_Cliente__c",
+        "USERS.NAME",
+        "Account.ETC_Estatus_KYC__c"
+      ],
+      "groups": [
+        "Account.ETC_Segmento__c"
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "Donut",
+        "Account.ETC_Segmento__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Clientes_Por_Estatus_KYC",
+      "label": "Clientes por estatus KYC",
+      "description": "Cuentas agrupadas por estatus del expediente KYC.",
+      "type": "AccountList",
+      "scope": "organization",
+      "columns": [
+        "ACCOUNT.NAME",
+        "TYPE",
+        "Account.ETC_Tipo_Cliente__c",
+        "USERS.NAME",
+        "Account.ETC_Fecha_Revision_KYC__c"
+      ],
+      "groups": [
+        "Account.ETC_Estatus_KYC__c"
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "Donut",
+        "Account.ETC_Estatus_KYC__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Casos_Abiertos_Por_Tipo",
+      "label": "Casos abiertos por tipo",
+      "description": "Casos abiertos agrupados por tipo de solicitud.",
+      "type": "CaseList",
+      "scope": "organization",
+      "columns": [
+        "CASE_NUMBER",
+        "SUBJECT",
+        "STATUS",
+        "PRIORITY",
+        "ACCOUNT.NAME",
+        "OWNER",
+        "AGE",
+        "Case.ETC_Fecha_Compromiso__c"
+      ],
+      "groups": [
+        "TYPE"
+      ],
+      "filters": [
+        [
+          "CLOSED",
+          "equals",
+          "False"
+        ]
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "HorizontalBar",
+        "TYPE",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Casos_Por_Canal",
+      "label": "Casos por canal",
+      "description": "Casos del año agrupados por canal de entrada.",
+      "type": "CaseList",
+      "scope": "organization",
+      "columns": [
+        "CASE_NUMBER",
+        "SUBJECT",
+        "STATUS",
+        "PRIORITY",
+        "ACCOUNT.NAME",
+        "OWNER",
+        "AGE",
+        "TYPE"
+      ],
+      "groups": [
+        "ORIGIN"
+      ],
+      "time": [
+        "CREATED_DATE",
+        "INTERVAL_CURY"
+      ],
+      "chart": [
+        "Donut",
+        "ORIGIN",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Aclaraciones_Por_Dictamen",
+      "label": "Aclaraciones y quejas por dictamen",
+      "description": "Aclaraciones y quejas cerradas agrupadas por dictamen.",
+      "type": "CaseList",
+      "scope": "organization",
+      "columns": [
+        "CASE_NUMBER",
+        "SUBJECT",
+        "STATUS",
+        "PRIORITY",
+        "ACCOUNT.NAME",
+        "OWNER",
+        "AGE",
+        "TYPE"
+      ],
+      "groups": [
+        "Case.ETC_Dictamen__c"
+      ],
+      "filters": [
+        [
+          "TYPE",
+          "equals",
+          "Aclaración,Queja"
+        ],
+        [
+          "CLOSED",
+          "equals",
+          "True"
+        ]
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "Donut",
+        "Case.ETC_Dictamen__c",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Oportunidades_Por_Etapa",
+      "label": "Oportunidades abiertas por etapa",
+      "description": "Oportunidades abiertas por etapa con monto total.",
+      "type": "Opportunity",
+      "scope": "organization",
+      "columns": [
+        "OPPORTUNITY_NAME",
+        "ACCOUNT_NAME",
+        [
+          "AMOUNT",
+          "Sum"
+        ],
+        "CLOSE_DATE",
+        "FULL_NAME",
+        "Opportunity.ETC_Producto_Interes__c"
+      ],
+      "groups": [
+        "STAGE_NAME"
+      ],
+      "params": [
+        [
+          "open",
+          "open"
+        ],
+        [
+          "probability",
+          ">0"
+        ],
+        [
+          "co",
+          "1"
+        ]
+      ],
+      "time": [
+        "CLOSE_DATE"
+      ],
+      "chart": [
+        "Funnel",
+        "STAGE_NAME",
+        {
+          "agg": "Sum",
+          "col": "AMOUNT"
+        }
+      ],
+      "catalog": "COM-026"
+    },
+    {
+      "name": "ETC_Prospectos_Por_Origen",
+      "label": "Prospectos por origen",
+      "description": "Prospectos agrupados por origen.",
+      "type": "LeadList",
+      "scope": "org",
+      "columns": [
+        "FIRST_NAME",
+        "LAST_NAME",
+        "COMPANY",
+        "EMAIL",
+        "STATUS",
+        "OWNER",
+        "CREATED_DATE"
+      ],
+      "groups": [
+        "LEAD_SOURCE"
+      ],
+      "time": [
+        "CREATED_DATE"
+      ],
+      "chart": [
+        "HorizontalBar",
+        "LEAD_SOURCE",
+        {
+          "col": "RowCount"
+        }
+      ],
+      "catalog": "COM-026"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "ETC_Operacion_FSC",
+      "title": "Operación FSC",
+      "description": "Clientes, KYC, casos y oportunidades. Muestra los datos visibles para el usuario conectado.",
+      "metrics": [
+        {
+          "title": "Clientes",
+          "report": "ETC_Clientes_Por_Segmento",
+          "col": "RowCount"
+        },
+        {
+          "title": "Casos abiertos",
+          "report": "ETC_Casos_Abiertos_Por_Tipo",
+          "col": "RowCount"
+        },
+        {
+          "title": "Pipeline abierto",
+          "report": "ETC_Oportunidades_Por_Etapa",
+          "agg": "Sum",
+          "col": "AMOUNT"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Clientes por segmento",
+          "report": "ETC_Clientes_Por_Segmento",
+          "type": "Donut"
+        },
+        {
+          "title": "Estatus KYC",
+          "report": "ETC_Clientes_Por_Estatus_KYC",
+          "type": "Donut"
+        },
+        {
+          "title": "Casos abiertos por tipo",
+          "report": "ETC_Casos_Abiertos_Por_Tipo",
+          "type": "Bar"
+        },
+        {
+          "title": "Casos por canal",
+          "report": "ETC_Casos_Por_Canal",
+          "type": "Donut"
+        },
+        {
+          "title": "Aclaraciones por dictamen",
+          "report": "ETC_Aclaraciones_Por_Dictamen",
+          "type": "Donut"
+        },
+        {
+          "title": "Oportunidades por etapa",
+          "report": "ETC_Oportunidades_Por_Etapa",
+          "type": "Funnel"
+        }
+      ]
+    }
+  ]
+}

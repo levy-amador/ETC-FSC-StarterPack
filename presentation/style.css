@@ -143,3 +143,10 @@ html,body{height:100%;background:#05080d;overflow:hidden;font-family:var(--fb)}
   .slide{display:block!important;position:relative;left:auto;top:auto;transform:none;page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   #hud{display:none}
 }
+/* v0.2: tabla de componentes y hallazgos */
+.tbl-num{font-size:24px;margin-top:40px}.tbl-num th{font-size:15px;text-align:center}.tbl-num th:first-child{text-align:left}
+.tbl-num td.nm{text-align:center;font-family:var(--fh);font-size:30px;font-weight:600;color:var(--navy);width:auto}
+.tbl-num td.mn{font-weight:600;width:220px}.tbl-num tr.tot td{border-top:2px solid var(--navy);background:rgba(240,145,63,.1)}
+.tbl-num td:last-child{width:auto}
+.sr-h{grid-template-columns:1fr 1fr}.sr-h .hx{color:var(--navy);font-size:24px}.sr-h .hy{color:#1e5c38;font-size:22px;font-weight:600}
+.sr-h{padding:11px 24px}.slist:has(.sr-h){gap:10px;margin-top:32px}

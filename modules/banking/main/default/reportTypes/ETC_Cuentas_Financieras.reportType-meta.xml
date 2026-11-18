@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>FinancialAccount</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>ETC | ETC Cuentas financieras: una fila por registro.</description>
+    <label>ETC Cuentas financieras</label>
+    <sections>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>FinancialAccountNumber</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Type</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Status</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>OpeningDate</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>ClosingDate</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Moneda__c</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Nivel_Cuenta__c</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ETC_Canal_Apertura__c</field>
+            <table>FinancialAccount</table>
+        </columns>
+        <masterLabel>ETC Cuentas financieras</masterLabel>
+    </sections>
+</ReportType>

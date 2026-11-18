@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Mis_Cuentas_Financieras</fullName>
+    <columns>Name</columns>
+    <columns>FinancialAccountNumber</columns>
+    <columns>Type</columns>
+    <columns>Status</columns>
+    <columns>ETC_Moneda__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>Mis cuentas financieras</label>
+</ListView>

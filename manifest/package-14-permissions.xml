@@ -23,6 +23,7 @@
     </types>
     <types>
         <members>Admin</members>
+        <members>Standard</members>
         <name>Profile</name>
     </types>
     <version>68.0</version>

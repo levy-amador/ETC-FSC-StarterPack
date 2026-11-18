@@ -8,7 +8,7 @@
 //    (base común + vertical seleccionada).
 const fs = require('fs');
 const path = require('path');
-const { ROOT, BRANDING_FILE, CATALOG_FILE, c, fail, parseArgs, readJson, writeJson, sf, targetOrg, listFiles, timestamp, moduleSrc } = require('../lib/common');
+const { ROOT, BRANDING_FILE, CATALOG_FILE, c, fail, parseArgs, readJson, writeJson, sf, targetOrg, listFiles, timestamp, moduleSrc, syncDuplicates } = require('../lib/common');
 const { modules, labelOf } = require('../lib/vertical');
 const { STAGES, componentOf } = require('../deploy/stages');
 const png = require('../lib/png');
@@ -40,6 +40,8 @@ function checkXml(file) {
 }
 
 function localChecks() {
+  const dups = syncDuplicates(['modules', 'config', 'build/mdapi']);
+  if (dups.length) errors.push(`${dups.length} copias " 2" de sincronización (iCloud/Dropbox): ${dups.slice(0, 5).join(', ')}…`);
   const mods = modules();
   const owner = new Map();
   const components = new Set();

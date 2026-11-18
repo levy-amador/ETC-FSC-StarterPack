@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETC_Mis_Polizas</fullName>
+    <columns>Name</columns>
+    <columns>PolicyName</columns>
+    <columns>ETC_Ramo__c</columns>
+    <columns>Status</columns>
+    <columns>ExpirationDate</columns>
+    <filterScope>Mine</filterScope>
+    <label>Mis pólizas</label>
+</ListView>
